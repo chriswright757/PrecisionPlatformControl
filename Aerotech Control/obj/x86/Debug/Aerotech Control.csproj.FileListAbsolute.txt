@@ -1,0 +1,29 @@
+C:\Users\User\Desktop\Share\Chris\TEST\Aerotech Control\Aerotech Control\obj\x86\Debug\Interop.MLApp.dll
+C:\Users\User\Desktop\Share\Chris\TEST\Aerotech Control\Aerotech Control\obj\x86\Debug\Aerotech Control.csproj.ResolveComReference.cache
+C:\Users\User\Desktop\Share\Chris\TEST\Aerotech Control\Aerotech Control\bin\x86\Debug\Aerotech Control.exe
+C:\Users\User\Desktop\Share\Chris\TEST\Aerotech Control\Aerotech Control\bin\x86\Debug\Aerotech Control.pdb
+C:\Users\User\Desktop\Share\Chris\TEST\Aerotech Control\Aerotech Control\bin\x86\Debug\Aerotech.A3200.dll
+C:\Users\User\Desktop\Share\Chris\TEST\Aerotech Control\Aerotech Control\bin\x86\Debug\Aerotech.Common.dll
+C:\Users\User\Desktop\Share\Chris\TEST\Aerotech Control\Aerotech Control\bin\x86\Debug\TIS.Imaging.ICImagingControl34.dll
+C:\Users\User\Desktop\Share\Chris\TEST\Aerotech Control\Aerotech Control\obj\x86\Debug\Aerotech_Control.Form1.resources
+C:\Users\User\Desktop\Share\Chris\TEST\Aerotech Control\Aerotech Control\obj\x86\Debug\Aerotech_Control.Properties.Resources.resources
+C:\Users\User\Desktop\Share\Chris\TEST\Aerotech Control\Aerotech Control\obj\x86\Debug\Aerotech Control.csproj.GenerateResource.Cache
+C:\Users\User\Desktop\Share\Chris\TEST\Aerotech Control\Aerotech Control\obj\x86\Debug\Aerotech Control.exe
+C:\Users\User\Desktop\Share\Chris\TEST\Aerotech Control\Aerotech Control\obj\x86\Debug\Aerotech Control.pdb
+C:\Users\User\Desktop\Share\Chris\TEST\Aerotech Control\Aerotech Control\obj\x86\Debug\Aerotech Control.csprojResolveAssemblyReference.cache
+\\CIM-UP\Share\Chris\TEST\Aerotech Control\Aerotech Control\obj\x86\Debug\Interop.MLApp.dll
+\\CIM-UP\Share\Chris\TEST\Aerotech Control\Aerotech Control\obj\x86\Debug\Aerotech Control.csproj.ResolveComReference.cache
+\\CIM-UP\Share\Chris\TEST\Aerotech Control\Aerotech Control\obj\x86\Debug\Aerotech Control.exe
+\\CIM-UP\Share\Chris\TEST\Aerotech Control\Aerotech Control\obj\x86\Debug\Aerotech Control.pdb
+\\CIM-UP\Share\Chris\TEST\Aerotech Control\Aerotech Control\bin\x86\Debug\Aerotech Control.exe
+\\CIM-UP\Share\Chris\TEST\Aerotech Control\Aerotech Control\bin\x86\Debug\Aerotech Control.pdb
+\\CIM-UP\Share\Chris\TEST\Aerotech Control\Aerotech Control\bin\x86\Debug\TIS.Imaging.ICImagingControl34.dll
+\\CIM-UP\Share\Chris\TEST\Aerotech Control\Aerotech Control\obj\x86\Debug\Aerotech Control.csprojResolveAssemblyReference.cache
+\\CIM-UP\Share\Chris\TEST\Aerotech Control\Aerotech Control\obj\x86\Debug\Aerotech_Control.Form1.resources
+\\CIM-UP\Share\Chris\TEST\Aerotech Control\Aerotech Control\obj\x86\Debug\Aerotech_Control.Properties.Resources.resources
+\\CIM-UP\Share\Chris\TEST\Aerotech Control\Aerotech Control\obj\x86\Debug\Aerotech Control.csproj.GenerateResource.Cache
+C:\Users\chris\Documents\GitHub\PrecisionPlatformControl\Aerotech Control\obj\x86\Debug\Interop.MLApp.dll
+C:\Users\chris\Documents\GitHub\PrecisionPlatformControl\Aerotech Control\obj\x86\Debug\Interop.OphirLMMeasurementLib.dll
+C:\Users\chris\Documents\GitHub\PrecisionPlatformControl\Aerotech Control\obj\x86\Debug\Aerotech Control.csproj.ResolveComReference.cache
+C:\Users\chris\Documents\GitHub\PrecisionPlatformControl\Aerotech Control\obj\x86\Debug\Aerotech Control.exe
+C:\Users\chris\Documents\GitHub\PrecisionPlatformControl\Aerotech Control\obj\x86\Debug\Aerotech Control.pdb
