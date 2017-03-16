@@ -1663,10 +1663,6 @@ namespace Aerotech_Control
 
 
         #endregion
-
-        private void AOM_MODE0_Click(object sender, EventArgs e)
-        {
-            aommode_0();
-        }
+                
     }
 }
