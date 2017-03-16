@@ -113,9 +113,9 @@ namespace Aerotech_Control
         private static AutoResetEvent CornerAlignmentEvent = new AutoResetEvent(false);
         private static AutoResetEvent LaserAlignEvent = new AutoResetEvent(false);
 
-        TextWriter CornersX = new StreamWriter("C:/Users/User/Desktop/Share/Chris/TEST/Aerotech Control/Reference Values/CornersX.txt");
-        TextWriter CornersY = new StreamWriter("C:/Users/User/Desktop/Share/Chris/TEST/Aerotech Control/Reference Values/CornersY.txt");
-        TextWriter CornersZ = new StreamWriter("C:/Users/User/Desktop/Share/Chris/TEST/Aerotech Control/Reference Values/CornersZ.txt");        
+        TextWriter CornersX = new StreamWriter("//CIM-UP/Share/Chris/TEST/Aerotech Control/Reference Values/CornersX.txt");
+        TextWriter CornersY = new StreamWriter("//CIM-UP/Share/Chris/TEST/Aerotech Control/Reference Values/CornersY.txt");
+        TextWriter CornersZ = new StreamWriter("//CIM-UP/Share/Chris/TEST/Aerotech Control/Reference Values/CornersZ.txt");
 
         #endregion
 
@@ -139,49 +139,49 @@ namespace Aerotech_Control
 
             lbl_JogValue.Text = JogValue.ToString() + " mm";
 
-            //Initialising Microscope Camera
+            ////Initialising Microscope Camera
 
-            if (!icImagingControl1.DeviceValid)
-            {
-                icImagingControl1.ShowDeviceSettingsDialog();
+            //if (!icImagingControl1.DeviceValid)
+            //{
+            //    icImagingControl1.ShowDeviceSettingsDialog();
 
-                if (!icImagingControl1.DeviceValid)
-                {
-                    MessageBox.Show("No device was selected.", "Grabbing an Image",
-                                     MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    this.Close();
-                }
-            }
-            else
-            {
-                //if (ImagingControl.DeviceFlipHorizontalAvailable)
-                //{
-                    //ImagingControl.DeviceFlipHorizontal = true;
-                //}
-                icImagingControl1.LiveStart();
-            }
+            //    if (!icImagingControl1.DeviceValid)
+            //    {
+            //        MessageBox.Show("No device was selected.", "Grabbing an Image",
+            //                         MessageBoxButtons.OK, MessageBoxIcon.Information);
+            //        this.Close();
+            //    }
+            //}
+            //else
+            //{
+            //    //if (ImagingControl.DeviceFlipHorizontalAvailable)
+            //    //{
+            //    //ImagingControl.DeviceFlipHorizontal = true;
+            //    //}
+            //    icImagingControl1.LiveStart();
+            //}
 
-            // Used for background thread process
+            //// Used for background thread process
 
-            Control.CheckForIllegalCrossThreadCalls = false;
+            //Control.CheckForIllegalCrossThreadCalls = false;
 
-            // Initialise Serial Control
+            //// Initialise Serial Control
 
-            // Talisker
+            //// Talisker
 
-            TalikserLaser.PortName = "COM18";
-            TalikserLaser.BaudRate = 115200;
+            //TalikserLaser.PortName = "COM18";
+            //TalikserLaser.BaudRate = 115200;
 
-            TalikserLaser.Close();
-            TalikserLaser.Open();
+            //TalikserLaser.Close();
+            //TalikserLaser.Open();
 
-            // Watt Pilot
+            //// Watt Pilot
 
-            WattPilot_1064.PortName = "COM6";
-            WattPilot_1064.BaudRate = 38400;
+            //WattPilot_1064.PortName = "COM6";
+            //WattPilot_1064.BaudRate = 38400;
 
-            WattPilot_1064.Close();
-            WattPilot_1064.Open();
+            //WattPilot_1064.Close();
+            //WattPilot_1064.Open();
 
             // Ophir Device
 
@@ -979,10 +979,10 @@ namespace Aerotech_Control
 
             myController.Commands.Motion.Setup.Absolute();
             MessageBox.Show(theta_hold.ToString());
-            myController.Commands.Motion.Linear("A", theta_hold , 1);
+            myController.Commands.Motion.Linear("A", theta_hold, 1);
             MessageBox.Show(phi_hold.ToString());
             myController.Commands.Motion.Linear("B", phi_hold, 1);
-        }        
+        }
 
         private void backgroundWorkerAlignCorners_DoWork(object sender, DoWorkEventArgs e)
         {
@@ -1043,7 +1043,7 @@ namespace Aerotech_Control
                 A_Xaxis = myController.Commands.Status.AxisStatus("X", AxisStatusSignal.ProgramPositionFeedback);
                 A_Yaxis = myController.Commands.Status.AxisStatus("Y", AxisStatusSignal.ProgramPositionFeedback);
                 A_Zaxis = myController.Commands.Status.AxisStatus("Z", AxisStatusSignal.ProgramPositionFeedback);
-                A_Daxis = myController.Commands.Status.AxisStatus("D", AxisStatusSignal.ProgramPositionFeedback);           
+                A_Daxis = myController.Commands.Status.AxisStatus("D", AxisStatusSignal.ProgramPositionFeedback);
             }
             else if (hold == 1)
             {
@@ -1051,7 +1051,7 @@ namespace Aerotech_Control
                 B_Xaxis = myController.Commands.Status.AxisStatus("X", AxisStatusSignal.ProgramPositionFeedback);
                 B_Yaxis = myController.Commands.Status.AxisStatus("Y", AxisStatusSignal.ProgramPositionFeedback);
                 B_Zaxis = myController.Commands.Status.AxisStatus("Z", AxisStatusSignal.ProgramPositionFeedback);
-                B_Daxis = myController.Commands.Status.AxisStatus("D", AxisStatusSignal.ProgramPositionFeedback);                
+                B_Daxis = myController.Commands.Status.AxisStatus("D", AxisStatusSignal.ProgramPositionFeedback);
             }
             else if (hold == 2)
             {
@@ -1130,8 +1130,8 @@ namespace Aerotech_Control
 
             // Find previous offset 
 
-            Offset_Xaxis = Convert.ToDouble(File.ReadAllText("C:/Users/User/Desktop/Share/Chris/TEST/Aerotech Control/Reference Values/OFFSETX.txt", Encoding.UTF8)); 
-            Offset_Yaxis = Convert.ToDouble(File.ReadAllText("C:/Users/User/Desktop/Share/Chris/TEST/Aerotech Control/Reference Values/OFFSETY.txt", Encoding.UTF8)); 
+            Offset_Xaxis = Convert.ToDouble(File.ReadAllText("C:/Users/User/Desktop/Share/Chris/TEST/Aerotech Control/Reference Values/OFFSETX.txt", Encoding.UTF8));
+            Offset_Yaxis = Convert.ToDouble(File.ReadAllText("C:/Users/User/Desktop/Share/Chris/TEST/Aerotech Control/Reference Values/OFFSETY.txt", Encoding.UTF8));
 
             // Set laser parameters
 
@@ -1234,17 +1234,17 @@ namespace Aerotech_Control
 
             for (int hold = 0; hold < 4; hold++)
             {
-                myController.Commands.Motion.Linear("X", Refined_Xaxis[hold] + MarkLength/2 - OffsetAccurate_Xaxis, 1);
-                
+                myController.Commands.Motion.Linear("X", Refined_Xaxis[hold] + MarkLength / 2 - OffsetAccurate_Xaxis, 1);
+
                 if (hold == 0)
                 {
                     myController.Commands.Motion.Linear("Y", Refined_Yaxis[hold] - 0.5 - OffsetAccurate_Yaxis, 1);
                 }
-                else if(hold == 1)
+                else if (hold == 1)
                 {
                     myController.Commands.Motion.Linear("Y", Refined_Yaxis[hold] + (Line_Spacing * Mark_Number) + 0.5 - OffsetAccurate_Yaxis, 1);
-                }    
-                else if(hold == 2)
+                }
+                else if (hold == 2)
                 {
                     myController.Commands.Motion.Linear("Y", Refined_Yaxis[hold] + (Line_Spacing * Mark_Number) + 0.5 - OffsetAccurate_Yaxis, 1);
                 }
@@ -1257,13 +1257,13 @@ namespace Aerotech_Control
                 {
                     // Change Z height
                     myController.Commands.Motion.Setup.Incremental();
-                    myController.Commands.Motion.Linear("Z", - Z_Scan_length / 2 + Z_Scan_length / Mark_Number * i, 1);
+                    myController.Commands.Motion.Linear("Z", -Z_Scan_length / 2 + Z_Scan_length / Mark_Number * i, 1);
                     myController.Commands.Motion.Linear("Y", -(Line_Spacing * hold), 1);
                     myController.Commands.PSO.Control("X", Aerotech.A3200.Commands.PsoMode.On);
                     myController.Commands.Motion.Linear("X", MarkLength, 1);
                     myController.Commands.PSO.Control("X", Aerotech.A3200.Commands.PsoMode.Off);
                     myController.Commands.Motion.Linear("X", -MarkLength, 1);
-                    myController.Commands.Motion.Setup.Absolute(); 
+                    myController.Commands.Motion.Setup.Absolute();
                 }
             }
 
@@ -1277,22 +1277,22 @@ namespace Aerotech_Control
 
                 if (hold == 0)
                 {
-                    Current_Y = Refined_Yaxis[hold] - 0.5;                     
+                    Current_Y = Refined_Yaxis[hold] - 0.5;
                 }
                 else if (hold == 1)
                 {
-                    Current_Y = Refined_Yaxis[hold] + (Line_Spacing * Mark_Number) + 0.5;                    
+                    Current_Y = Refined_Yaxis[hold] + (Line_Spacing * Mark_Number) + 0.5;
                 }
                 else if (hold == 2)
                 {
-                    Current_Y = Refined_Yaxis[hold] + (Line_Spacing * Mark_Number) + 0.5;                    
+                    Current_Y = Refined_Yaxis[hold] + (Line_Spacing * Mark_Number) + 0.5;
                 }
                 else if (hold == 3)
                 {
                     Current_Y = Refined_Yaxis[hold] - 0.5;
                 }
 
-                myController.Commands.Motion.Linear("Y", Current_Y, 1);                 
+                myController.Commands.Motion.Linear("Y", Current_Y, 1);
 
                 // Bring microscope into focus
 
@@ -1304,14 +1304,14 @@ namespace Aerotech_Control
                 {
                     myController.Commands.Motion.Setup.Incremental();
                     myController.Commands.Motion.Linear("X", -MarkLength / 2, 1);
-                    myController.Commands.Motion.Linear("Y", -(Line_Spacing * hold), 1);                    
+                    myController.Commands.Motion.Linear("Y", -(Line_Spacing * hold), 1);
                     DialogResult Focus_Result = MessageBox.Show("Is this result larger than the previous result?", "Important Question", MessageBoxButtons.YesNo);
                     if (Focus_Result == DialogResult.Yes)
                     {
                         // Recording position of focus point
                         LaserFocus_Xaxis[pos_count] = Current_X - MarkLength / 2;
-                        LaserFocus_Yaxis[pos_count] = Current_Y - (Line_Spacing * (hold-1));
-                        LaserFocus_Zaxis[pos_count] = ablation_focus - Z_Scan_length / 2 + Z_Scan_length / Mark_Number * (i-1);
+                        LaserFocus_Yaxis[pos_count] = Current_Y - (Line_Spacing * (hold - 1));
+                        LaserFocus_Zaxis[pos_count] = ablation_focus - Z_Scan_length / 2 + Z_Scan_length / Mark_Number * (i - 1);
                         pos_count++;
                     }
                     myController.Commands.Motion.Setup.Absolute();
@@ -1355,7 +1355,7 @@ namespace Aerotech_Control
                 {
                     myController.Commands.Motion.Linear("X", Refined_Xaxis[hold] + 0.5 - OffsetAccurate_Xaxis, 1);
                 }
-                
+
                 // Mark lines
 
                 for (int i = 0; i < Mark_Number; i++)
@@ -1377,25 +1377,25 @@ namespace Aerotech_Control
             for (int hold = 0; hold < 4; hold++)
             {
 
-                Current_Y = Refined_Yaxis[hold] + MarkLength / 2; 
+                Current_Y = Refined_Yaxis[hold] + MarkLength / 2;
 
                 myController.Commands.Motion.Linear("Y", Current_Y, 1);
 
                 if (hold == 0)
                 {
-                    Current_X = Refined_Xaxis[hold] - (Line_Spacing * Mark_Number) - 0.5;                    
+                    Current_X = Refined_Xaxis[hold] - (Line_Spacing * Mark_Number) - 0.5;
                 }
                 else if (hold == 1)
                 {
-                    Current_X = Refined_Xaxis[hold] - (Line_Spacing * Mark_Number) - 0.5;                    
+                    Current_X = Refined_Xaxis[hold] - (Line_Spacing * Mark_Number) - 0.5;
                 }
                 else if (hold == 2)
                 {
-                    Current_X = Refined_Xaxis[hold] + 0.5;                    
+                    Current_X = Refined_Xaxis[hold] + 0.5;
                 }
                 else if (hold == 3)
                 {
-                    Current_X = Refined_Xaxis[hold] + 0.5;                    
+                    Current_X = Refined_Xaxis[hold] + 0.5;
                 }
 
                 myController.Commands.Motion.Linear("X", Current_X, 1);
@@ -1412,7 +1412,7 @@ namespace Aerotech_Control
                     // Change Z height
                     myController.Commands.Motion.Setup.Incremental();
                     myController.Commands.Motion.Linear("X", (Line_Spacing * hold), 1);
-                    myController.Commands.Motion.Linear("Y", -MarkLength/2, 1);
+                    myController.Commands.Motion.Linear("Y", -MarkLength / 2, 1);
                     DialogResult Focus_Result = MessageBox.Show("Is this result larger than the previous result?", "Important Question", MessageBoxButtons.YesNo);
                     if (Focus_Result == DialogResult.Yes)
                     {
@@ -1422,7 +1422,7 @@ namespace Aerotech_Control
                         LaserFocus_Zaxis[pos_count] = ablation_focus - Z_Scan_length / 2 + Z_Scan_length / Mark_Number * (i - 1);
                         pos_count++;
                     }
-                        myController.Commands.Motion.Setup.Absolute();
+                    myController.Commands.Motion.Setup.Absolute();
                 }
             }
             shutter_closed();
@@ -1435,7 +1435,7 @@ namespace Aerotech_Control
         private void Rotation_Centre()
         {
             double CentreTestRotation = 10;
-            
+
             // Move to rough marker position 
 
             myController.Commands.Motion.Setup.Absolute();
@@ -1454,7 +1454,7 @@ namespace Aerotech_Control
             // Apply -10 degree rotation
 
             myController.Commands.Motion.Setup.Incremental();
-            myController.Commands.Motion.Linear("B", -2*CentreTestRotation, 1);
+            myController.Commands.Motion.Linear("B", -2 * CentreTestRotation, 1);
 
             // Calculate centre of rotation 
 
@@ -1487,7 +1487,7 @@ namespace Aerotech_Control
         {
             string aommode0 = "AOMMODE=0\r\n";
             TalikserLaser.Write(aommode0);
-            Thread.Sleep(command_delay);            
+            Thread.Sleep(command_delay);
         }
 
         private void aomgate_low_trigger()
@@ -1532,107 +1532,182 @@ namespace Aerotech_Control
         #region Ophir Device Integration
 
         /*
+         * General functions to get/set sensor properties.
+         */
+
+        private void getProperty(object sender, sensorProperty prop)
+        {
+            try
+            {
+                //displayNoError();
+
+                int nHandle = getCurrentDeviceHandle();
+                if (nHandle == 0)
+                    return;
+
+                // Tag property of Get button is set to the channel number
+                // using the Property Editor.
+                int nChannel = Convert.ToInt32(((Button)sender).Tag);
+
+                int index;
+                Object options;
+
+                switch (prop)
+                {
+                    case sensorProperty.Range:
+                        lm_Co1.GetRanges(nHandle, nChannel, out index, out options);
+                        //fillComboBox(RangeCombos[nChannel], options, index);
+                        break;
+
+                    case sensorProperty.Wavelength:
+                        lm_Co1.GetWavelengths(nHandle, nChannel, out index, out options);
+                        //fillComboBox(WavelengthCombos[nChannel], options, index);
+                        break;
+
+                    case sensorProperty.Diffuser:
+                        lm_Co1.GetDiffuser(nHandle, nChannel, out index, out options);
+                        //fillComboBox(DiffuserCombos[nChannel], options, index);
+                        break;
+
+                    case sensorProperty.Mode:
+                        lm_Co1.GetMeasurementMode(nHandle, nChannel, out index, out options);
+                        //fillComboBox(ModeCombos[nChannel], options, index);
+                        break;
+
+                    case sensorProperty.Pulselength:
+                        lm_Co1.GetPulseLengths(nHandle, nChannel, out index, out options);
+                        //fillComboBox(PulseLengthCombos[nChannel], options, index);
+                        break;
+
+                    case sensorProperty.Threshold:
+                        lm_Co1.GetThreshold(nHandle, nChannel, out index, out options);
+                        //fillComboBox(ThresholdCombos[nChannel], options, index);
+                        break;
+
+                    case sensorProperty.Filter:
+                        lm_Co1.GetFilter(nHandle, nChannel, out index, out options);
+                        //fillComboBox(FilterCombos[nChannel], options, index);
+                        break;
+
+                    case sensorProperty.Trigger:
+                        lm_Co1.GetExtTrigOnOff(nHandle, nChannel, out index, out options);
+                        //fillComboBox(TriggerCombos[nChannel], options, index);
+                        break;
+
+                    default:
+                        break;
+                }
+
+            }
+            catch (Exception ex)
+            {
+                //displayError(ex);
+            }
+
+        }
+
+        /*
          * Data Ready event handler.
          */
         void DataReadyHandler(int hDevice, int channel)
         // Get the measured data from the OphirCOM object and display it
         {
-            try
-            {
-                object dataArray;
-                object timeStampArray;
-                object statusArray;
+            //try
+            //{
+            //    object dataArray;
+            //    object timeStampArray;
+            //    object statusArray;
 
-                // Get the measured data from the OphirCOM object
-                lm_Co1.GetData(hDevice, channel, out dataArray, out timeStampArray, out statusArray);
+            //    // Get the measured data from the OphirCOM object
+            //    lm_Co1.GetData(hDevice, channel, out dataArray, out timeStampArray, out statusArray);
 
-                if (Convert.ToInt32(HandleComboBox.SelectedItem) != hDevice)
-                    return;
+            //    if (Convert.ToInt32(HandleComboBox.SelectedItem) != hDevice)
+            //        return;
 
-                // Extract the data from the arrays 
-                if (((double[])dataArray).Length > 0)
-                {
-                    double[] dataArr = (double[])dataArray;
-                    double[] tsArr = (double[])timeStampArray;
-                    int[] statusArr = (int[])statusArray;
+            //    // Extract the data from the arrays 
+            //    if (((double[])dataArray).Length > 0)
+            //    {
+            //        double[] dataArr = (double[])dataArray;
+            //        double[] tsArr = (double[])timeStampArray;
+            //        int[] statusArr = (int[])statusArray;
 
-                    // Initialize measured data from the current displayed data
-                    //string timestampStr = TimeStampLabels[channel].Text;
-                    string measurementStr = MeasurementLabels[channel].Text;
-                    string statusStr = StatusLabels[channel].Text;
-                    //string xPositionStr = XPositionLabels[channel].Text;
-                    //string yPositionStr = YPositionLabels[channel].Text;
-                    string sizeStr = SizeLabels[channel].Text;
+            //        // Initialize measured data from the current displayed data
+            //        //string timestampStr = TimeStampLabels[channel].Text;
+            //        string measurementStr = MeasurementLabels[channel].Text;
+            //        string statusStr = StatusLabels[channel].Text;
+            //        //string xPositionStr = XPositionLabels[channel].Text;
+            //        //string yPositionStr = YPositionLabels[channel].Text;
+            //        string sizeStr = SizeLabels[channel].Text;
 
-                    // Values of the possible measurements types
-                    int powerEnergyMeasurementType = 0;
-                    int xPositionMeasurementType = 1;
-                    int yPositionMeasurementType = 2;
-                    int sizeMeasurementType = 3;
-                    int eventMeasurementType = 4;
+            //        // Values of the possible measurements types
+            //        int powerEnergyMeasurementType = 0;
+            //        int xPositionMeasurementType = 1;
+            //        int yPositionMeasurementType = 2;
+            //        int sizeMeasurementType = 3;
+            //        int eventMeasurementType = 4;
 
-                    // Values of the possible statuses
-                    int okStatus = 0;
-                    int accuracyWarningStatus = 2;
+            //        // Values of the possible statuses
+            //        int okStatus = 0;
+            //        int accuracyWarningStatus = 2;
 
-                    for (int ind = 0; ind < dataArr.Length; ind++)
-                    {
-                        timestampStr = tsArr[ind].ToString();
+            //        for (int ind = 0; ind < dataArr.Length; ind++)
+            //        {
+            //            timestampStr = tsArr[ind].ToString();
 
-                        // Each int type element in statusArr[] holds in its two high
-                        // bytes the measurement type and in the two low bytes the status.
-                        // Extract these two values.
-                        int measurementType = statusArr[ind] / 0x10000;// high bytes 
-                        int status = statusArr[ind] % 0x10000;// low bytes
+            //            // Each int type element in statusArr[] holds in its two high
+            //            // bytes the measurement type and in the two low bytes the status.
+            //            // Extract these two values.
+            //            int measurementType = statusArr[ind] / 0x10000;// high bytes 
+            //            int status = statusArr[ind] % 0x10000;// low bytes
 
-                        // Power or energy measurement
-                        if (measurementType == powerEnergyMeasurementType)
-                        {
-                            measurementStr = dataArr[ind].ToString();
-                            statusStr = GetStatus(statusArr[ind]);
-                        }
-                        // BeamTrack measurements
-                        //else if (measurementType == xPositionMeasurementType)   // X Position
-                        //{
-                        //    if (status == okStatus)
-                        //        xPositionStr = dataArr[ind].ToString();
-                        //    else
-                        //        xPositionStr = GetStatus(statusArr[ind]);
-                        //}
-                        //else if (measurementType == yPositionMeasurementType)  // Y Position
-                        //{
-                        //    if (status == okStatus)
-                        //        yPositionStr = dataArr[ind].ToString();
-                        //    else
-                        //        yPositionStr = GetStatus(statusArr[ind]);
-                        //}
-                        //else if (measurementType == sizeMeasurementType) // Size
-                        //{
-                        //    if (status == okStatus || status == accuracyWarningStatus)
-                        //        sizeStr = dataArr[ind].ToString();
-                        //    else
-                        //        sizeStr = GetStatus(statusArr[ind]);
-                        //}
-                        //else if (measurementType == eventMeasurementType)
-                        //{
-                        //    measurementStr = dataArr[ind].ToString();
-                        //    statusStr = GetStatus(statusArr[ind]);
-                        //}
-                    }//for (int ind = 0;
+            //            // Power or energy measurement
+            //            if (measurementType == powerEnergyMeasurementType)
+            //            {
+            //                measurementStr = dataArr[ind].ToString();
+            //                statusStr = GetStatus(statusArr[ind]);
+            //            }
+            //            // BeamTrack measurements
+            //            //else if (measurementType == xPositionMeasurementType)   // X Position
+            //            //{
+            //            //    if (status == okStatus)
+            //            //        xPositionStr = dataArr[ind].ToString();
+            //            //    else
+            //            //        xPositionStr = GetStatus(statusArr[ind]);
+            //            //}
+            //            //else if (measurementType == yPositionMeasurementType)  // Y Position
+            //            //{
+            //            //    if (status == okStatus)
+            //            //        yPositionStr = dataArr[ind].ToString();
+            //            //    else
+            //            //        yPositionStr = GetStatus(statusArr[ind]);
+            //            //}
+            //            //else if (measurementType == sizeMeasurementType) // Size
+            //            //{
+            //            //    if (status == okStatus || status == accuracyWarningStatus)
+            //            //        sizeStr = dataArr[ind].ToString();
+            //            //    else
+            //            //        sizeStr = GetStatus(statusArr[ind]);
+            //            //}
+            //            //else if (measurementType == eventMeasurementType)
+            //            //{
+            //            //    measurementStr = dataArr[ind].ToString();
+            //            //    statusStr = GetStatus(statusArr[ind]);
+            //            //}
+            //        }//for (int ind = 0;
 
-                    // Display last measured data
-                    TimeStampLabels[channel].Text = timestampStr;
-                    MeasurementLabels[channel].Text = measurementStr;
-                    StatusLabels[channel].Text = statusStr;
-                    XPositionLabels[channel].Text = xPositionStr;
-                    YPositionLabels[channel].Text = yPositionStr;
-                    SizeLabels[channel].Text = sizeStr;
-                }//if (((double[])dataArray).Length > 0)
-            }//try
-            catch (Exception ex)
-            {
-                displayError(ex);
-            }
+            //        // Display last measured data
+            //        TimeStampLabels[channel].Text = timestampStr;
+            //        MeasurementLabels[channel].Text = measurementStr;
+            //        StatusLabels[channel].Text = statusStr;
+            //        XPositionLabels[channel].Text = xPositionStr;
+            //        YPositionLabels[channel].Text = yPositionStr;
+            //        SizeLabels[channel].Text = sizeStr;
+            //    }//if (((double[])dataArray).Length > 0)
+            //}//try
+            //catch (Exception ex)
+            //{
+            //    displayError(ex);
+            //}
         }
 
         /*
@@ -1661,8 +1736,47 @@ namespace Aerotech_Control
             return h;
         }
 
+        private void btn_ScanUSB_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                //displayNoError();
+                Cursor.Current = Cursors.WaitCursor;
+                Object serialNumbers;
+                lm_Co1.ScanUSB(out serialNumbers);
+                Cursor.Current = Cursors.Default;
+                DeviceListBox.Items.Clear();
+                DeviceListBox.Items.AddRange((Object[])serialNumbers);
+                if (DeviceListBox.Items.Count > 0)
+                    DeviceListBox.SetSelected(0, true);
+            }
+            catch (Exception ex)
+            {
+                //displayError(ex);
+            }
+        }
+
+        private void btn_OpenDevice_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                //displayNoError();
+                string snStr = DeviceListBox.SelectedItem.ToString();
+                if (snStr == "") return;
+
+                int hDevice;
+                lm_Co1.OpenUSBDevice(snStr, out hDevice);
+                //HandleComboBox.Items.Add(hDevice.ToString());
+                //HandleComboBox.SelectedItem = hDevice.ToString();
+            }
+            catch (Exception ex)
+            {
+                //displayError(ex);
+            }
+        }
 
         #endregion
-                
+
     }
 }
+

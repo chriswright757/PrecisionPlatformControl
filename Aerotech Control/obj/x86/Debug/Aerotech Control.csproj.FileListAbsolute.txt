@@ -27,3 +27,10 @@ C:\Users\chris\Documents\GitHub\PrecisionPlatformControl\Aerotech Control\obj\x8
 C:\Users\chris\Documents\GitHub\PrecisionPlatformControl\Aerotech Control\obj\x86\Debug\Aerotech Control.csproj.ResolveComReference.cache
 C:\Users\chris\Documents\GitHub\PrecisionPlatformControl\Aerotech Control\obj\x86\Debug\Aerotech Control.exe
 C:\Users\chris\Documents\GitHub\PrecisionPlatformControl\Aerotech Control\obj\x86\Debug\Aerotech Control.pdb
+C:\Users\chris\Documents\GitHub\PrecisionPlatformControl\Aerotech Control\bin\x86\Debug\Aerotech Control.exe
+C:\Users\chris\Documents\GitHub\PrecisionPlatformControl\Aerotech Control\bin\x86\Debug\Aerotech Control.pdb
+C:\Users\chris\Documents\GitHub\PrecisionPlatformControl\Aerotech Control\bin\x86\Debug\TIS.Imaging.ICImagingControl34.dll
+C:\Users\chris\Documents\GitHub\PrecisionPlatformControl\Aerotech Control\obj\x86\Debug\Aerotech Control.csprojResolveAssemblyReference.cache
+C:\Users\chris\Documents\GitHub\PrecisionPlatformControl\Aerotech Control\obj\x86\Debug\Aerotech_Control.Form1.resources
+C:\Users\chris\Documents\GitHub\PrecisionPlatformControl\Aerotech Control\obj\x86\Debug\Aerotech_Control.Properties.Resources.resources
+C:\Users\chris\Documents\GitHub\PrecisionPlatformControl\Aerotech Control\obj\x86\Debug\Aerotech Control.csproj.GenerateResource.Cache

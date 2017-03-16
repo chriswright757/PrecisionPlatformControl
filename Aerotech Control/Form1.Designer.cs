@@ -126,6 +126,11 @@
             this.WattPilot_1064 = new System.IO.Ports.SerialPort(this.components);
             this.backgroundWorker_LaserAlign = new System.ComponentModel.BackgroundWorker();
             this.btn_HomeProcedure = new System.Windows.Forms.Button();
+            this.grpbx_OphirControl = new System.Windows.Forms.GroupBox();
+            this.btn_ScanUSB = new System.Windows.Forms.Button();
+            this.DeviceListBox = new System.Windows.Forms.ListBox();
+            this.btn_OpenDevice = new System.Windows.Forms.Button();
+            this.HandleComboBox = new System.Windows.Forms.ComboBox();
             this.grpbx_AxVel.SuspendLayout();
             this.grpbx_AxPos.SuspendLayout();
             this.grpbx_AxisStatus.SuspendLayout();
@@ -133,12 +138,13 @@
             this.grpbx_JogAxes.SuspendLayout();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.icImagingControl1)).BeginInit();
+            this.grpbx_OphirControl.SuspendLayout();
             this.SuspendLayout();
             // 
             // btn_ConnectController
             // 
             this.btn_ConnectController.Location = new System.Drawing.Point(16, 28);
-            this.btn_ConnectController.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btn_ConnectController.Margin = new System.Windows.Forms.Padding(4);
             this.btn_ConnectController.Name = "btn_ConnectController";
             this.btn_ConnectController.Size = new System.Drawing.Size(127, 28);
             this.btn_ConnectController.TabIndex = 0;
@@ -149,7 +155,7 @@
             // btn_DisconnectController
             // 
             this.btn_DisconnectController.Location = new System.Drawing.Point(151, 28);
-            this.btn_DisconnectController.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btn_DisconnectController.Margin = new System.Windows.Forms.Padding(4);
             this.btn_DisconnectController.Name = "btn_DisconnectController";
             this.btn_DisconnectController.Size = new System.Drawing.Size(127, 28);
             this.btn_DisconnectController.TabIndex = 1;
@@ -161,7 +167,7 @@
             // 
             this.chkbx_ConnectedVal.AutoSize = true;
             this.chkbx_ConnectedVal.Location = new System.Drawing.Point(16, 64);
-            this.chkbx_ConnectedVal.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.chkbx_ConnectedVal.Margin = new System.Windows.Forms.Padding(4);
             this.chkbx_ConnectedVal.Name = "chkbx_ConnectedVal";
             this.chkbx_ConnectedVal.Size = new System.Drawing.Size(106, 21);
             this.chkbx_ConnectedVal.TabIndex = 2;
@@ -172,7 +178,7 @@
             // 
             this.cmb_AxisNames.FormattingEnabled = true;
             this.cmb_AxisNames.Location = new System.Drawing.Point(16, 95);
-            this.cmb_AxisNames.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.cmb_AxisNames.Margin = new System.Windows.Forms.Padding(4);
             this.cmb_AxisNames.Name = "cmb_AxisNames";
             this.cmb_AxisNames.Size = new System.Drawing.Size(160, 24);
             this.cmb_AxisNames.TabIndex = 3;
@@ -201,9 +207,9 @@
             this.grpbx_AxVel.Controls.Add(this.lbl_YVel);
             this.grpbx_AxVel.Controls.Add(this.lbl_XVel);
             this.grpbx_AxVel.Location = new System.Drawing.Point(856, 28);
-            this.grpbx_AxVel.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.grpbx_AxVel.Margin = new System.Windows.Forms.Padding(4);
             this.grpbx_AxVel.Name = "grpbx_AxVel";
-            this.grpbx_AxVel.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.grpbx_AxVel.Padding = new System.Windows.Forms.Padding(4);
             this.grpbx_AxVel.Size = new System.Drawing.Size(241, 242);
             this.grpbx_AxVel.TabIndex = 45;
             this.grpbx_AxVel.TabStop = false;
@@ -368,9 +374,9 @@
             this.grpbx_AxPos.Controls.Add(this.lbl_YPos);
             this.grpbx_AxPos.Controls.Add(this.lbl_XPos);
             this.grpbx_AxPos.Location = new System.Drawing.Point(635, 28);
-            this.grpbx_AxPos.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.grpbx_AxPos.Margin = new System.Windows.Forms.Padding(4);
             this.grpbx_AxPos.Name = "grpbx_AxPos";
-            this.grpbx_AxPos.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.grpbx_AxPos.Padding = new System.Windows.Forms.Padding(4);
             this.grpbx_AxPos.Size = new System.Drawing.Size(213, 242);
             this.grpbx_AxPos.TabIndex = 44;
             this.grpbx_AxPos.TabStop = false;
@@ -529,9 +535,9 @@
             this.grpbx_AxisStatus.Controls.Add(this.lbl_YStatus);
             this.grpbx_AxisStatus.Controls.Add(this.lbl_XStatus);
             this.grpbx_AxisStatus.Location = new System.Drawing.Point(480, 28);
-            this.grpbx_AxisStatus.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.grpbx_AxisStatus.Margin = new System.Windows.Forms.Padding(4);
             this.grpbx_AxisStatus.Name = "grpbx_AxisStatus";
-            this.grpbx_AxisStatus.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.grpbx_AxisStatus.Padding = new System.Windows.Forms.Padding(4);
             this.grpbx_AxisStatus.Size = new System.Drawing.Size(147, 242);
             this.grpbx_AxisStatus.TabIndex = 43;
             this.grpbx_AxisStatus.TabStop = false;
@@ -624,9 +630,9 @@
             this.grpbx_AxControl.Controls.Add(this.lbl_YInfo);
             this.grpbx_AxControl.Controls.Add(this.lbl_XInfo);
             this.grpbx_AxControl.Location = new System.Drawing.Point(295, 28);
-            this.grpbx_AxControl.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.grpbx_AxControl.Margin = new System.Windows.Forms.Padding(4);
             this.grpbx_AxControl.Name = "grpbx_AxControl";
-            this.grpbx_AxControl.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.grpbx_AxControl.Padding = new System.Windows.Forms.Padding(4);
             this.grpbx_AxControl.Size = new System.Drawing.Size(177, 242);
             this.grpbx_AxControl.TabIndex = 42;
             this.grpbx_AxControl.TabStop = false;
@@ -637,7 +643,7 @@
             this.btn_DOnOff.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("btn_DOnOff.BackgroundImage")));
             this.btn_DOnOff.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.btn_DOnOff.Location = new System.Drawing.Point(81, 128);
-            this.btn_DOnOff.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btn_DOnOff.Margin = new System.Windows.Forms.Padding(4);
             this.btn_DOnOff.Name = "btn_DOnOff";
             this.btn_DOnOff.Size = new System.Drawing.Size(41, 34);
             this.btn_DOnOff.TabIndex = 50;
@@ -649,7 +655,7 @@
             this.btn_BHome.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("btn_BHome.BackgroundImage")));
             this.btn_BHome.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.btn_BHome.Location = new System.Drawing.Point(127, 199);
-            this.btn_BHome.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btn_BHome.Margin = new System.Windows.Forms.Padding(4);
             this.btn_BHome.Name = "btn_BHome";
             this.btn_BHome.Size = new System.Drawing.Size(41, 34);
             this.btn_BHome.TabIndex = 46;
@@ -661,7 +667,7 @@
             this.btn_AHome.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("btn_AHome.BackgroundImage")));
             this.btn_AHome.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.btn_AHome.Location = new System.Drawing.Point(127, 164);
-            this.btn_AHome.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btn_AHome.Margin = new System.Windows.Forms.Padding(4);
             this.btn_AHome.Name = "btn_AHome";
             this.btn_AHome.Size = new System.Drawing.Size(41, 34);
             this.btn_AHome.TabIndex = 49;
@@ -673,7 +679,7 @@
             this.btn_BOnOff.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("btn_BOnOff.BackgroundImage")));
             this.btn_BOnOff.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.btn_BOnOff.Location = new System.Drawing.Point(81, 199);
-            this.btn_BOnOff.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btn_BOnOff.Margin = new System.Windows.Forms.Padding(4);
             this.btn_BOnOff.Name = "btn_BOnOff";
             this.btn_BOnOff.Size = new System.Drawing.Size(41, 36);
             this.btn_BOnOff.TabIndex = 47;
@@ -697,7 +703,7 @@
             this.btn_DHome.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("btn_DHome.BackgroundImage")));
             this.btn_DHome.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.btn_DHome.Location = new System.Drawing.Point(127, 128);
-            this.btn_DHome.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btn_DHome.Margin = new System.Windows.Forms.Padding(4);
             this.btn_DHome.Name = "btn_DHome";
             this.btn_DHome.Size = new System.Drawing.Size(41, 34);
             this.btn_DHome.TabIndex = 26;
@@ -709,7 +715,7 @@
             this.btn_AOnOff.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("btn_AOnOff.BackgroundImage")));
             this.btn_AOnOff.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.btn_AOnOff.Location = new System.Drawing.Point(81, 164);
-            this.btn_AOnOff.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btn_AOnOff.Margin = new System.Windows.Forms.Padding(4);
             this.btn_AOnOff.Name = "btn_AOnOff";
             this.btn_AOnOff.Size = new System.Drawing.Size(41, 36);
             this.btn_AOnOff.TabIndex = 50;
@@ -733,7 +739,7 @@
             this.btn_ZHome.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("btn_ZHome.BackgroundImage")));
             this.btn_ZHome.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.btn_ZHome.Location = new System.Drawing.Point(127, 92);
-            this.btn_ZHome.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btn_ZHome.Margin = new System.Windows.Forms.Padding(4);
             this.btn_ZHome.Name = "btn_ZHome";
             this.btn_ZHome.Size = new System.Drawing.Size(41, 34);
             this.btn_ZHome.TabIndex = 26;
@@ -745,7 +751,7 @@
             this.btn_YHome.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("btn_YHome.BackgroundImage")));
             this.btn_YHome.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.btn_YHome.Location = new System.Drawing.Point(127, 57);
-            this.btn_YHome.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btn_YHome.Margin = new System.Windows.Forms.Padding(4);
             this.btn_YHome.Name = "btn_YHome";
             this.btn_YHome.Size = new System.Drawing.Size(41, 34);
             this.btn_YHome.TabIndex = 28;
@@ -757,7 +763,7 @@
             this.btn_XHome.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("btn_XHome.BackgroundImage")));
             this.btn_XHome.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.btn_XHome.Location = new System.Drawing.Point(127, 21);
-            this.btn_XHome.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btn_XHome.Margin = new System.Windows.Forms.Padding(4);
             this.btn_XHome.Name = "btn_XHome";
             this.btn_XHome.Size = new System.Drawing.Size(41, 34);
             this.btn_XHome.TabIndex = 25;
@@ -769,7 +775,7 @@
             this.btn_ZOnOff.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("btn_ZOnOff.BackgroundImage")));
             this.btn_ZOnOff.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.btn_ZOnOff.Location = new System.Drawing.Point(81, 92);
-            this.btn_ZOnOff.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btn_ZOnOff.Margin = new System.Windows.Forms.Padding(4);
             this.btn_ZOnOff.Name = "btn_ZOnOff";
             this.btn_ZOnOff.Size = new System.Drawing.Size(41, 34);
             this.btn_ZOnOff.TabIndex = 26;
@@ -793,7 +799,7 @@
             this.btn_YOnOff.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("btn_YOnOff.BackgroundImage")));
             this.btn_YOnOff.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.btn_YOnOff.Location = new System.Drawing.Point(81, 57);
-            this.btn_YOnOff.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btn_YOnOff.Margin = new System.Windows.Forms.Padding(4);
             this.btn_YOnOff.Name = "btn_YOnOff";
             this.btn_YOnOff.Size = new System.Drawing.Size(41, 36);
             this.btn_YOnOff.TabIndex = 26;
@@ -817,7 +823,7 @@
             this.btn_XOnOff.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("btn_XOnOff.BackgroundImage")));
             this.btn_XOnOff.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.btn_XOnOff.Location = new System.Drawing.Point(81, 21);
-            this.btn_XOnOff.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btn_XOnOff.Margin = new System.Windows.Forms.Padding(4);
             this.btn_XOnOff.Name = "btn_XOnOff";
             this.btn_XOnOff.Size = new System.Drawing.Size(41, 34);
             this.btn_XOnOff.TabIndex = 24;
@@ -851,7 +857,7 @@
             // btn_EnableAir
             // 
             this.btn_EnableAir.Location = new System.Drawing.Point(16, 166);
-            this.btn_EnableAir.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btn_EnableAir.Margin = new System.Windows.Forms.Padding(4);
             this.btn_EnableAir.Name = "btn_EnableAir";
             this.btn_EnableAir.Size = new System.Drawing.Size(127, 28);
             this.btn_EnableAir.TabIndex = 46;
@@ -882,9 +888,9 @@
             this.grpbx_JogAxes.Controls.Add(this.btn_PosJogX);
             this.grpbx_JogAxes.Controls.Add(this.btn_NegJogX);
             this.grpbx_JogAxes.Location = new System.Drawing.Point(525, 278);
-            this.grpbx_JogAxes.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.grpbx_JogAxes.Margin = new System.Windows.Forms.Padding(4);
             this.grpbx_JogAxes.Name = "grpbx_JogAxes";
-            this.grpbx_JogAxes.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.grpbx_JogAxes.Padding = new System.Windows.Forms.Padding(4);
             this.grpbx_JogAxes.Size = new System.Drawing.Size(572, 208);
             this.grpbx_JogAxes.TabIndex = 47;
             this.grpbx_JogAxes.TabStop = false;
@@ -924,7 +930,7 @@
             // btn_jog1
             // 
             this.btn_jog1.Location = new System.Drawing.Point(455, 164);
-            this.btn_jog1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btn_jog1.Margin = new System.Windows.Forms.Padding(4);
             this.btn_jog1.Name = "btn_jog1";
             this.btn_jog1.Size = new System.Drawing.Size(105, 31);
             this.btn_jog1.TabIndex = 57;
@@ -935,7 +941,7 @@
             // btn_jog01
             // 
             this.btn_jog01.Location = new System.Drawing.Point(344, 164);
-            this.btn_jog01.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btn_jog01.Margin = new System.Windows.Forms.Padding(4);
             this.btn_jog01.Name = "btn_jog01";
             this.btn_jog01.Size = new System.Drawing.Size(105, 31);
             this.btn_jog01.TabIndex = 58;
@@ -946,7 +952,7 @@
             // btn_jog001
             // 
             this.btn_jog001.Location = new System.Drawing.Point(233, 164);
-            this.btn_jog001.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btn_jog001.Margin = new System.Windows.Forms.Padding(4);
             this.btn_jog001.Name = "btn_jog001";
             this.btn_jog001.Size = new System.Drawing.Size(105, 31);
             this.btn_jog001.TabIndex = 59;
@@ -957,7 +963,7 @@
             // btn_jog0001
             // 
             this.btn_jog0001.Location = new System.Drawing.Point(123, 164);
-            this.btn_jog0001.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btn_jog0001.Margin = new System.Windows.Forms.Padding(4);
             this.btn_jog0001.Name = "btn_jog0001";
             this.btn_jog0001.Size = new System.Drawing.Size(105, 31);
             this.btn_jog0001.TabIndex = 60;
@@ -968,7 +974,7 @@
             // btn_jog00001
             // 
             this.btn_jog00001.Location = new System.Drawing.Point(12, 164);
-            this.btn_jog00001.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btn_jog00001.Margin = new System.Windows.Forms.Padding(4);
             this.btn_jog00001.Name = "btn_jog00001";
             this.btn_jog00001.Size = new System.Drawing.Size(105, 31);
             this.btn_jog00001.TabIndex = 56;
@@ -979,7 +985,7 @@
             // btn_PosJogB
             // 
             this.btn_PosJogB.Location = new System.Drawing.Point(489, 21);
-            this.btn_PosJogB.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btn_PosJogB.Margin = new System.Windows.Forms.Padding(4);
             this.btn_PosJogB.Name = "btn_PosJogB";
             this.btn_PosJogB.Size = new System.Drawing.Size(72, 25);
             this.btn_PosJogB.TabIndex = 49;
@@ -989,7 +995,7 @@
             // btn_NegJogB
             // 
             this.btn_NegJogB.Location = new System.Drawing.Point(489, 92);
-            this.btn_NegJogB.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btn_NegJogB.Margin = new System.Windows.Forms.Padding(4);
             this.btn_NegJogB.Name = "btn_NegJogB";
             this.btn_NegJogB.Size = new System.Drawing.Size(72, 25);
             this.btn_NegJogB.TabIndex = 48;
@@ -999,7 +1005,7 @@
             // btn_PosJogA
             // 
             this.btn_PosJogA.Location = new System.Drawing.Point(409, 21);
-            this.btn_PosJogA.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btn_PosJogA.Margin = new System.Windows.Forms.Padding(4);
             this.btn_PosJogA.Name = "btn_PosJogA";
             this.btn_PosJogA.Size = new System.Drawing.Size(72, 25);
             this.btn_PosJogA.TabIndex = 49;
@@ -1010,7 +1016,7 @@
             // btn_NegJogA
             // 
             this.btn_NegJogA.Location = new System.Drawing.Point(409, 92);
-            this.btn_NegJogA.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btn_NegJogA.Margin = new System.Windows.Forms.Padding(4);
             this.btn_NegJogA.Name = "btn_NegJogA";
             this.btn_NegJogA.Size = new System.Drawing.Size(72, 25);
             this.btn_NegJogA.TabIndex = 48;
@@ -1020,7 +1026,7 @@
             // btn_PosJogD
             // 
             this.btn_PosJogD.Location = new System.Drawing.Point(329, 23);
-            this.btn_PosJogD.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btn_PosJogD.Margin = new System.Windows.Forms.Padding(4);
             this.btn_PosJogD.Name = "btn_PosJogD";
             this.btn_PosJogD.Size = new System.Drawing.Size(72, 25);
             this.btn_PosJogD.TabIndex = 51;
@@ -1031,7 +1037,7 @@
             // btn_NegJogD
             // 
             this.btn_NegJogD.Location = new System.Drawing.Point(329, 92);
-            this.btn_NegJogD.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btn_NegJogD.Margin = new System.Windows.Forms.Padding(4);
             this.btn_NegJogD.Name = "btn_NegJogD";
             this.btn_NegJogD.Size = new System.Drawing.Size(72, 25);
             this.btn_NegJogD.TabIndex = 50;
@@ -1042,7 +1048,7 @@
             // btn_PosJogZ
             // 
             this.btn_PosJogZ.Location = new System.Drawing.Point(249, 26);
-            this.btn_PosJogZ.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btn_PosJogZ.Margin = new System.Windows.Forms.Padding(4);
             this.btn_PosJogZ.Name = "btn_PosJogZ";
             this.btn_PosJogZ.Size = new System.Drawing.Size(72, 25);
             this.btn_PosJogZ.TabIndex = 53;
@@ -1053,7 +1059,7 @@
             // btn_NegJogZ
             // 
             this.btn_NegJogZ.Location = new System.Drawing.Point(249, 92);
-            this.btn_NegJogZ.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btn_NegJogZ.Margin = new System.Windows.Forms.Padding(4);
             this.btn_NegJogZ.Name = "btn_NegJogZ";
             this.btn_NegJogZ.Size = new System.Drawing.Size(72, 25);
             this.btn_NegJogZ.TabIndex = 52;
@@ -1064,7 +1070,7 @@
             // btn_PosJogY
             // 
             this.btn_PosJogY.Location = new System.Drawing.Point(88, 28);
-            this.btn_PosJogY.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btn_PosJogY.Margin = new System.Windows.Forms.Padding(4);
             this.btn_PosJogY.Name = "btn_PosJogY";
             this.btn_PosJogY.Size = new System.Drawing.Size(72, 25);
             this.btn_PosJogY.TabIndex = 55;
@@ -1075,7 +1081,7 @@
             // btn_NegJogY
             // 
             this.btn_NegJogY.Location = new System.Drawing.Point(88, 92);
-            this.btn_NegJogY.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btn_NegJogY.Margin = new System.Windows.Forms.Padding(4);
             this.btn_NegJogY.Name = "btn_NegJogY";
             this.btn_NegJogY.Size = new System.Drawing.Size(72, 25);
             this.btn_NegJogY.TabIndex = 54;
@@ -1086,7 +1092,7 @@
             // btn_PosJogX
             // 
             this.btn_PosJogX.Location = new System.Drawing.Point(156, 60);
-            this.btn_PosJogX.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btn_PosJogX.Margin = new System.Windows.Forms.Padding(4);
             this.btn_PosJogX.Name = "btn_PosJogX";
             this.btn_PosJogX.Size = new System.Drawing.Size(72, 25);
             this.btn_PosJogX.TabIndex = 1;
@@ -1097,7 +1103,7 @@
             // btn_NegJogX
             // 
             this.btn_NegJogX.Location = new System.Drawing.Point(12, 62);
-            this.btn_NegJogX.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btn_NegJogX.Margin = new System.Windows.Forms.Padding(4);
             this.btn_NegJogX.Name = "btn_NegJogX";
             this.btn_NegJogX.Size = new System.Drawing.Size(72, 25);
             this.btn_NegJogX.TabIndex = 0;
@@ -1118,9 +1124,9 @@
             this.groupBox1.Controls.Add(this.btn_cornerB);
             this.groupBox1.Controls.Add(this.btn_cornerA);
             this.groupBox1.Location = new System.Drawing.Point(16, 278);
-            this.groupBox1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.groupBox1.Margin = new System.Windows.Forms.Padding(4);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.groupBox1.Padding = new System.Windows.Forms.Padding(4);
             this.groupBox1.Size = new System.Drawing.Size(496, 208);
             this.groupBox1.TabIndex = 48;
             this.groupBox1.TabStop = false;
@@ -1129,7 +1135,7 @@
             // btn_FindFocus
             // 
             this.btn_FindFocus.Location = new System.Drawing.Point(15, 164);
-            this.btn_FindFocus.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btn_FindFocus.Margin = new System.Windows.Forms.Padding(4);
             this.btn_FindFocus.Name = "btn_FindFocus";
             this.btn_FindFocus.Size = new System.Drawing.Size(100, 28);
             this.btn_FindFocus.TabIndex = 57;
@@ -1140,7 +1146,7 @@
             // btn_MarkerAligned
             // 
             this.btn_MarkerAligned.Location = new System.Drawing.Point(192, 130);
-            this.btn_MarkerAligned.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btn_MarkerAligned.Margin = new System.Windows.Forms.Padding(4);
             this.btn_MarkerAligned.Name = "btn_MarkerAligned";
             this.btn_MarkerAligned.Size = new System.Drawing.Size(161, 28);
             this.btn_MarkerAligned.TabIndex = 56;
@@ -1151,7 +1157,7 @@
             // btn_StartAlignment
             // 
             this.btn_StartAlignment.Location = new System.Drawing.Point(15, 22);
-            this.btn_StartAlignment.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btn_StartAlignment.Margin = new System.Windows.Forms.Padding(4);
             this.btn_StartAlignment.Name = "btn_StartAlignment";
             this.btn_StartAlignment.Size = new System.Drawing.Size(132, 28);
             this.btn_StartAlignment.TabIndex = 55;
@@ -1162,7 +1168,7 @@
             // btn_UpdateCoords
             // 
             this.btn_UpdateCoords.Location = new System.Drawing.Point(192, 98);
-            this.btn_UpdateCoords.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btn_UpdateCoords.Margin = new System.Windows.Forms.Padding(4);
             this.btn_UpdateCoords.Name = "btn_UpdateCoords";
             this.btn_UpdateCoords.Size = new System.Drawing.Size(163, 28);
             this.btn_UpdateCoords.TabIndex = 54;
@@ -1173,7 +1179,7 @@
             // btn_AlignLaseruScope
             // 
             this.btn_AlignLaseruScope.Location = new System.Drawing.Point(15, 130);
-            this.btn_AlignLaseruScope.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btn_AlignLaseruScope.Margin = new System.Windows.Forms.Padding(4);
             this.btn_AlignLaseruScope.Name = "btn_AlignLaseruScope";
             this.btn_AlignLaseruScope.Size = new System.Drawing.Size(171, 27);
             this.btn_AlignLaseruScope.TabIndex = 53;
@@ -1184,7 +1190,7 @@
             // btn_TiltCorrection
             // 
             this.btn_TiltCorrection.Location = new System.Drawing.Point(15, 98);
-            this.btn_TiltCorrection.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btn_TiltCorrection.Margin = new System.Windows.Forms.Padding(4);
             this.btn_TiltCorrection.Name = "btn_TiltCorrection";
             this.btn_TiltCorrection.Size = new System.Drawing.Size(172, 28);
             this.btn_TiltCorrection.TabIndex = 52;
@@ -1195,7 +1201,7 @@
             // btn_cornerD
             // 
             this.btn_cornerD.Location = new System.Drawing.Point(375, 63);
-            this.btn_cornerD.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btn_cornerD.Margin = new System.Windows.Forms.Padding(4);
             this.btn_cornerD.Name = "btn_cornerD";
             this.btn_cornerD.Size = new System.Drawing.Size(100, 28);
             this.btn_cornerD.TabIndex = 49;
@@ -1206,7 +1212,7 @@
             // btn_cornerC
             // 
             this.btn_cornerC.Location = new System.Drawing.Point(255, 63);
-            this.btn_cornerC.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btn_cornerC.Margin = new System.Windows.Forms.Padding(4);
             this.btn_cornerC.Name = "btn_cornerC";
             this.btn_cornerC.Size = new System.Drawing.Size(100, 28);
             this.btn_cornerC.TabIndex = 50;
@@ -1217,7 +1223,7 @@
             // btn_cornerB
             // 
             this.btn_cornerB.Location = new System.Drawing.Point(135, 63);
-            this.btn_cornerB.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btn_cornerB.Margin = new System.Windows.Forms.Padding(4);
             this.btn_cornerB.Name = "btn_cornerB";
             this.btn_cornerB.Size = new System.Drawing.Size(100, 28);
             this.btn_cornerB.TabIndex = 51;
@@ -1228,7 +1234,7 @@
             // btn_cornerA
             // 
             this.btn_cornerA.Location = new System.Drawing.Point(15, 63);
-            this.btn_cornerA.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btn_cornerA.Margin = new System.Windows.Forms.Padding(4);
             this.btn_cornerA.Name = "btn_cornerA";
             this.btn_cornerA.Size = new System.Drawing.Size(100, 28);
             this.btn_cornerA.TabIndex = 1;
@@ -1244,7 +1250,7 @@
             this.icImagingControl1.ImageAvailableExecutionMode = TIS.Imaging.EventExecutionMode.MultiThreaded;
             this.icImagingControl1.LiveDisplayPosition = new System.Drawing.Point(0, 0);
             this.icImagingControl1.Location = new System.Drawing.Point(1156, 28);
-            this.icImagingControl1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.icImagingControl1.Margin = new System.Windows.Forms.Padding(4);
             this.icImagingControl1.Name = "icImagingControl1";
             this.icImagingControl1.Size = new System.Drawing.Size(1365, 945);
             this.icImagingControl1.TabIndex = 49;
@@ -1260,7 +1266,7 @@
             // btn_HomeProcedure
             // 
             this.btn_HomeProcedure.Location = new System.Drawing.Point(16, 202);
-            this.btn_HomeProcedure.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btn_HomeProcedure.Margin = new System.Windows.Forms.Padding(4);
             this.btn_HomeProcedure.Name = "btn_HomeProcedure";
             this.btn_HomeProcedure.Size = new System.Drawing.Size(127, 28);
             this.btn_HomeProcedure.TabIndex = 50;
@@ -1268,11 +1274,63 @@
             this.btn_HomeProcedure.UseVisualStyleBackColor = true;
             this.btn_HomeProcedure.Click += new System.EventHandler(this.btn_HomeProcedure_Click);
             // 
+            // grpbx_OphirControl
+            // 
+            this.grpbx_OphirControl.Controls.Add(this.HandleComboBox);
+            this.grpbx_OphirControl.Controls.Add(this.btn_OpenDevice);
+            this.grpbx_OphirControl.Controls.Add(this.DeviceListBox);
+            this.grpbx_OphirControl.Controls.Add(this.btn_ScanUSB);
+            this.grpbx_OphirControl.Location = new System.Drawing.Point(16, 494);
+            this.grpbx_OphirControl.Name = "grpbx_OphirControl";
+            this.grpbx_OphirControl.Size = new System.Drawing.Size(496, 243);
+            this.grpbx_OphirControl.TabIndex = 51;
+            this.grpbx_OphirControl.TabStop = false;
+            this.grpbx_OphirControl.Text = "Ophir Control";
+            // 
+            // btn_ScanUSB
+            // 
+            this.btn_ScanUSB.Location = new System.Drawing.Point(15, 22);
+            this.btn_ScanUSB.Name = "btn_ScanUSB";
+            this.btn_ScanUSB.Size = new System.Drawing.Size(128, 23);
+            this.btn_ScanUSB.TabIndex = 0;
+            this.btn_ScanUSB.Text = "Scan USB";
+            this.btn_ScanUSB.UseVisualStyleBackColor = true;
+            this.btn_ScanUSB.Click += new System.EventHandler(this.btn_ScanUSB_Click);
+            // 
+            // DeviceListBox
+            // 
+            this.DeviceListBox.FormattingEnabled = true;
+            this.DeviceListBox.ItemHeight = 16;
+            this.DeviceListBox.Location = new System.Drawing.Point(15, 62);
+            this.DeviceListBox.Margin = new System.Windows.Forms.Padding(4);
+            this.DeviceListBox.Name = "DeviceListBox";
+            this.DeviceListBox.Size = new System.Drawing.Size(128, 132);
+            this.DeviceListBox.TabIndex = 4;
+            // 
+            // btn_OpenDevice
+            // 
+            this.btn_OpenDevice.Location = new System.Drawing.Point(15, 212);
+            this.btn_OpenDevice.Name = "btn_OpenDevice";
+            this.btn_OpenDevice.Size = new System.Drawing.Size(127, 25);
+            this.btn_OpenDevice.TabIndex = 5;
+            this.btn_OpenDevice.Text = "Open Device";
+            this.btn_OpenDevice.UseVisualStyleBackColor = true;
+            this.btn_OpenDevice.Click += new System.EventHandler(this.btn_OpenDevice_Click);
+            // 
+            // HandleComboBox
+            // 
+            this.HandleComboBox.FormattingEnabled = true;
+            this.HandleComboBox.Location = new System.Drawing.Point(163, 22);
+            this.HandleComboBox.Name = "HandleComboBox";
+            this.HandleComboBox.Size = new System.Drawing.Size(121, 24);
+            this.HandleComboBox.TabIndex = 6;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(2536, 1022);
+            this.Controls.Add(this.grpbx_OphirControl);
             this.Controls.Add(this.btn_HomeProcedure);
             this.Controls.Add(this.icImagingControl1);
             this.Controls.Add(this.groupBox1);
@@ -1288,7 +1346,7 @@
             this.Controls.Add(this.btn_DisconnectController);
             this.Controls.Add(this.btn_ConnectController);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
-            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "Form1";
             this.Text = "Form1";
             this.Load += new System.EventHandler(this.Form1_Load);
@@ -1300,6 +1358,7 @@
             this.grpbx_JogAxes.PerformLayout();
             this.groupBox1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.icImagingControl1)).EndInit();
+            this.grpbx_OphirControl.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -1403,6 +1462,11 @@
         private System.Windows.Forms.Button btn_MarkerAligned;
         private System.Windows.Forms.Button btn_FindFocus;
         private System.Windows.Forms.Button btn_HomeProcedure;
+        private System.Windows.Forms.GroupBox grpbx_OphirControl;
+        private System.Windows.Forms.Button btn_ScanUSB;
+        internal System.Windows.Forms.ListBox DeviceListBox;
+        private System.Windows.Forms.Button btn_OpenDevice;
+        private System.Windows.Forms.ComboBox HandleComboBox;
     }
 }
 
