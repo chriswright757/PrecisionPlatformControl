@@ -1612,103 +1612,111 @@ namespace Aerotech_Control
         void DataReadyHandler(int hDevice, int channel)
         // Get the measured data from the OphirCOM object and display it
         {
-            //try
-            //{
-            //    object dataArray;
-            //    object timeStampArray;
-            //    object statusArray;
+            try
+            {
+                object dataArray;
+                object timeStampArray;
+                object statusArray;
 
-            //    // Get the measured data from the OphirCOM object
-            //    lm_Co1.GetData(hDevice, channel, out dataArray, out timeStampArray, out statusArray);
+                // Get the measured data from the OphirCOM object
+                lm_Co1.GetData(hDevice, channel, out dataArray, out timeStampArray, out statusArray);
 
-            //    if (Convert.ToInt32(HandleComboBox.SelectedItem) != hDevice)
-            //        return;
+                if (Convert.ToInt32(HandleComboBox.SelectedItem) != hDevice)
+                    return;
 
-            //    // Extract the data from the arrays 
-            //    if (((double[])dataArray).Length > 0)
-            //    {
-            //        double[] dataArr = (double[])dataArray;
-            //        double[] tsArr = (double[])timeStampArray;
-            //        int[] statusArr = (int[])statusArray;
+                // Extract the data from the arrays 
+                if (((double[])dataArray).Length > 0)
+                {
+                    double[] dataArr = (double[])dataArray;
+                    double[] tsArr = (double[])timeStampArray;
+                    int[] statusArr = (int[])statusArray;
 
-            //        // Initialize measured data from the current displayed data
-            //        //string timestampStr = TimeStampLabels[channel].Text;
-            //        string measurementStr = MeasurementLabels[channel].Text;
-            //        string statusStr = StatusLabels[channel].Text;
-            //        //string xPositionStr = XPositionLabels[channel].Text;
-            //        //string yPositionStr = YPositionLabels[channel].Text;
-            //        string sizeStr = SizeLabels[channel].Text;
+                    // Initialize measured data from the current displayed data
+                    string timestampStr = LabelTime0.Text;
+                    string measurementStr = LabelMeasurement0.Text;
+                    string statusStr = LabelStatus0.Text;
+                    //string xPositionStr = XPositionLabels[channel].Text;
+                    //string yPositionStr = YPositionLabels[channel].Text;
+                    //string sizeStr = SizeLabels[channel].Text;
 
-            //        // Values of the possible measurements types
-            //        int powerEnergyMeasurementType = 0;
-            //        int xPositionMeasurementType = 1;
-            //        int yPositionMeasurementType = 2;
-            //        int sizeMeasurementType = 3;
-            //        int eventMeasurementType = 4;
+                    // Values of the possible measurements types
+                    int powerEnergyMeasurementType = 0;
+                    //int xPositionMeasurementType = 1;
+                    //int yPositionMeasurementType = 2;
+                    //int sizeMeasurementType = 3;
+                    //int eventMeasurementType = 4;
 
-            //        // Values of the possible statuses
-            //        int okStatus = 0;
-            //        int accuracyWarningStatus = 2;
+                    // Values of the possible statuses
+                    int okStatus = 0;
+                    int accuracyWarningStatus = 2;
 
-            //        for (int ind = 0; ind < dataArr.Length; ind++)
-            //        {
-            //            timestampStr = tsArr[ind].ToString();
+                    for (int ind = 0; ind < dataArr.Length; ind++)
+                    {
+                        timestampStr = tsArr[ind].ToString();
 
-            //            // Each int type element in statusArr[] holds in its two high
-            //            // bytes the measurement type and in the two low bytes the status.
-            //            // Extract these two values.
-            //            int measurementType = statusArr[ind] / 0x10000;// high bytes 
-            //            int status = statusArr[ind] % 0x10000;// low bytes
+                        // Each int type element in statusArr[] holds in its two high
+                        // bytes the measurement type and in the two low bytes the status.
+                        // Extract these two values.
+                        int measurementType = statusArr[ind] / 0x10000;// high bytes 
+                        int status = statusArr[ind] % 0x10000;// low bytes
 
-            //            // Power or energy measurement
-            //            if (measurementType == powerEnergyMeasurementType)
-            //            {
-            //                measurementStr = dataArr[ind].ToString();
-            //                statusStr = GetStatus(statusArr[ind]);
-            //            }
-            //            // BeamTrack measurements
-            //            //else if (measurementType == xPositionMeasurementType)   // X Position
-            //            //{
-            //            //    if (status == okStatus)
-            //            //        xPositionStr = dataArr[ind].ToString();
-            //            //    else
-            //            //        xPositionStr = GetStatus(statusArr[ind]);
-            //            //}
-            //            //else if (measurementType == yPositionMeasurementType)  // Y Position
-            //            //{
-            //            //    if (status == okStatus)
-            //            //        yPositionStr = dataArr[ind].ToString();
-            //            //    else
-            //            //        yPositionStr = GetStatus(statusArr[ind]);
-            //            //}
-            //            //else if (measurementType == sizeMeasurementType) // Size
-            //            //{
-            //            //    if (status == okStatus || status == accuracyWarningStatus)
-            //            //        sizeStr = dataArr[ind].ToString();
-            //            //    else
-            //            //        sizeStr = GetStatus(statusArr[ind]);
-            //            //}
-            //            //else if (measurementType == eventMeasurementType)
-            //            //{
-            //            //    measurementStr = dataArr[ind].ToString();
-            //            //    statusStr = GetStatus(statusArr[ind]);
-            //            //}
-            //        }//for (int ind = 0;
+                        // Power or energy measurement
+                        if (measurementType == powerEnergyMeasurementType)
+                        {
+                            measurementStr = dataArr[ind].ToString();
+                            //statusStr = GetStatus(statusArr[ind]);
+                        }
+                        // BeamTrack measurements
+                        //else if (measurementType == xPositionMeasurementType)   // X Position
+                        //{
+                        //    if (status == okStatus)
+                        //        xPositionStr = dataArr[ind].ToString();
+                        //    else
+                        //        xPositionStr = GetStatus(statusArr[ind]);
+                        //}
+                        //else if (measurementType == yPositionMeasurementType)  // Y Position
+                        //{
+                        //    if (status == okStatus)
+                        //        yPositionStr = dataArr[ind].ToString();
+                        //    else
+                        //        yPositionStr = GetStatus(statusArr[ind]);
+                        //}
+                        //else if (measurementType == sizeMeasurementType) // Size
+                        //{
+                        //    if (status == okStatus || status == accuracyWarningStatus)
+                        //        sizeStr = dataArr[ind].ToString();
+                        //    else
+                        //        sizeStr = GetStatus(statusArr[ind]);
+                        //}
+                        //else if (measurementType == eventMeasurementType)
+                        //{
+                        //    measurementStr = dataArr[ind].ToString();
+                        //    statusStr = GetStatus(statusArr[ind]);
+                        //}
+                    }//for (int ind = 0;
 
-            //        // Display last measured data
-            //        TimeStampLabels[channel].Text = timestampStr;
-            //        MeasurementLabels[channel].Text = measurementStr;
-            //        StatusLabels[channel].Text = statusStr;
-            //        XPositionLabels[channel].Text = xPositionStr;
-            //        YPositionLabels[channel].Text = yPositionStr;
-            //        SizeLabels[channel].Text = sizeStr;
-            //    }//if (((double[])dataArray).Length > 0)
-            //}//try
-            //catch (Exception ex)
-            //{
-            //    displayError(ex);
-            //}
+                    // Display last measured data
+                    LabelTime0.Text = timestampStr;
+                    LabelMeasurement0.Text = measurementStr;
+                    LabelStatus0.Text = statusStr;
+                    //XPositionLabels[channel].Text = xPositionStr;
+                    //YPositionLabels[channel].Text = yPositionStr;
+                    //SizeLabels[channel].Text = sizeStr;
+                }//if (((double[])dataArray).Length > 0)
+            }//try
+            catch (Exception ex)
+            {
+                //displayError(ex);
+            }            
         }
+
+        //private string GetStatus(int index)
+        //{
+        //    if (statusText.ContainsKey(index))  // if unknown status - ignore it, else - get it
+        //        return statusText[index];
+        //    else
+        //        return "";
+        //}
 
         /*
          * Plug and Play event handler.
@@ -1766,17 +1774,45 @@ namespace Aerotech_Control
 
                 int hDevice;
                 lm_Co1.OpenUSBDevice(snStr, out hDevice);
-                //HandleComboBox.Items.Add(hDevice.ToString());
-                //HandleComboBox.SelectedItem = hDevice.ToString();
+                HandleComboBox.Items.Add(hDevice.ToString());
+                HandleComboBox.SelectedItem = hDevice.ToString();
             }
             catch (Exception ex)
             {
                 //displayError(ex);
             }
         }
+             
+        private void btn_StartStream_Click(object sender, EventArgs e)
+        {
+            bool exists;
 
-        #endregion
+            int nHandle = getCurrentDeviceHandle();
+            if (nHandle == 0)
+                return;
 
+            //displayNoError();
+
+            //ClearMeasurementsData();
+
+            for (int nChannel = 0; nChannel < 4; nChannel++)
+            {
+
+                try
+                {
+                    lm_Co1.IsSensorExists(nHandle, nChannel, out exists);
+                    if (!exists)
+                        continue;
+
+                    lm_Co1.StartStream(nHandle, nChannel);
+                }
+                catch (Exception ex)
+                {
+                    //displayError(ex);
+                }
+            }
+        }
     }
+    #endregion
 }
 

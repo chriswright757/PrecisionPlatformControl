@@ -131,6 +131,15 @@
             this.DeviceListBox = new System.Windows.Forms.ListBox();
             this.btn_OpenDevice = new System.Windows.Forms.Button();
             this.HandleComboBox = new System.Windows.Forms.ComboBox();
+            this.btn_StartStream = new System.Windows.Forms.Button();
+            this.LabelTime0 = new System.Windows.Forms.Label();
+            this.label19 = new System.Windows.Forms.Label();
+            this.label18 = new System.Windows.Forms.Label();
+            this.LabelMeasurement0 = new System.Windows.Forms.Label();
+            this.label20 = new System.Windows.Forms.Label();
+            this.LabelStatus0 = new System.Windows.Forms.Label();
+            this.grpbx_TalikserLaser = new System.Windows.Forms.GroupBox();
+            this.lbl_ShutterStatusText = new System.Windows.Forms.Label();
             this.grpbx_AxVel.SuspendLayout();
             this.grpbx_AxPos.SuspendLayout();
             this.grpbx_AxisStatus.SuspendLayout();
@@ -139,6 +148,7 @@
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.icImagingControl1)).BeginInit();
             this.grpbx_OphirControl.SuspendLayout();
+            this.grpbx_TalikserLaser.SuspendLayout();
             this.SuspendLayout();
             // 
             // btn_ConnectController
@@ -1276,6 +1286,13 @@
             // 
             // grpbx_OphirControl
             // 
+            this.grpbx_OphirControl.Controls.Add(this.LabelStatus0);
+            this.grpbx_OphirControl.Controls.Add(this.label20);
+            this.grpbx_OphirControl.Controls.Add(this.LabelMeasurement0);
+            this.grpbx_OphirControl.Controls.Add(this.label18);
+            this.grpbx_OphirControl.Controls.Add(this.label19);
+            this.grpbx_OphirControl.Controls.Add(this.LabelTime0);
+            this.grpbx_OphirControl.Controls.Add(this.btn_StartStream);
             this.grpbx_OphirControl.Controls.Add(this.HandleComboBox);
             this.grpbx_OphirControl.Controls.Add(this.btn_OpenDevice);
             this.grpbx_OphirControl.Controls.Add(this.DeviceListBox);
@@ -1319,17 +1336,115 @@
             // 
             // HandleComboBox
             // 
+            this.HandleComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.HandleComboBox.FormattingEnabled = true;
             this.HandleComboBox.Location = new System.Drawing.Point(163, 22);
             this.HandleComboBox.Name = "HandleComboBox";
             this.HandleComboBox.Size = new System.Drawing.Size(121, 24);
             this.HandleComboBox.TabIndex = 6;
             // 
+            // btn_StartStream
+            // 
+            this.btn_StartStream.Location = new System.Drawing.Point(163, 62);
+            this.btn_StartStream.Name = "btn_StartStream";
+            this.btn_StartStream.Size = new System.Drawing.Size(121, 23);
+            this.btn_StartStream.TabIndex = 7;
+            this.btn_StartStream.Text = "Start Stream";
+            this.btn_StartStream.UseVisualStyleBackColor = true;
+            this.btn_StartStream.Click += new System.EventHandler(this.btn_StartStream_Click);
+            // 
+            // LabelTime0
+            // 
+            this.LabelTime0.AutoSize = true;
+            this.LabelTime0.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(177)));
+            this.LabelTime0.Location = new System.Drawing.Point(276, 101);
+            this.LabelTime0.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.LabelTime0.Name = "LabelTime0";
+            this.LabelTime0.Size = new System.Drawing.Size(49, 17);
+            this.LabelTime0.TabIndex = 60;
+            this.LabelTime0.Text = "Value";
+            // 
+            // label19
+            // 
+            this.label19.AutoSize = true;
+            this.label19.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(177)));
+            this.label19.Location = new System.Drawing.Point(160, 101);
+            this.label19.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label19.Name = "label19";
+            this.label19.Size = new System.Drawing.Size(43, 17);
+            this.label19.TabIndex = 61;
+            this.label19.Text = "Time";
+            // 
+            // label18
+            // 
+            this.label18.AutoSize = true;
+            this.label18.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(177)));
+            this.label18.Location = new System.Drawing.Point(160, 132);
+            this.label18.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label18.Name = "label18";
+            this.label18.Size = new System.Drawing.Size(105, 17);
+            this.label18.TabIndex = 62;
+            this.label18.Text = "Measurement";
+            // 
+            // LabelMeasurement0
+            // 
+            this.LabelMeasurement0.AutoSize = true;
+            this.LabelMeasurement0.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(177)));
+            this.LabelMeasurement0.Location = new System.Drawing.Point(276, 132);
+            this.LabelMeasurement0.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.LabelMeasurement0.Name = "LabelMeasurement0";
+            this.LabelMeasurement0.Size = new System.Drawing.Size(49, 17);
+            this.LabelMeasurement0.TabIndex = 63;
+            this.LabelMeasurement0.Text = "Value";
+            // 
+            // label20
+            // 
+            this.label20.AutoSize = true;
+            this.label20.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(177)));
+            this.label20.Location = new System.Drawing.Point(160, 165);
+            this.label20.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label20.Name = "label20";
+            this.label20.Size = new System.Drawing.Size(54, 17);
+            this.label20.TabIndex = 52;
+            this.label20.Text = "Status";
+            // 
+            // LabelStatus0
+            // 
+            this.LabelStatus0.AutoSize = true;
+            this.LabelStatus0.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(177)));
+            this.LabelStatus0.Location = new System.Drawing.Point(276, 165);
+            this.LabelStatus0.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.LabelStatus0.Name = "LabelStatus0";
+            this.LabelStatus0.Size = new System.Drawing.Size(49, 17);
+            this.LabelStatus0.TabIndex = 62;
+            this.LabelStatus0.Text = "Value";
+            // 
+            // grpbx_TalikserLaser
+            // 
+            this.grpbx_TalikserLaser.Controls.Add(this.lbl_ShutterStatusText);
+            this.grpbx_TalikserLaser.Location = new System.Drawing.Point(525, 494);
+            this.grpbx_TalikserLaser.Name = "grpbx_TalikserLaser";
+            this.grpbx_TalikserLaser.Size = new System.Drawing.Size(572, 243);
+            this.grpbx_TalikserLaser.TabIndex = 52;
+            this.grpbx_TalikserLaser.TabStop = false;
+            this.grpbx_TalikserLaser.Text = "Talisker Laser";
+            // 
+            // lbl_ShutterStatusText
+            // 
+            this.lbl_ShutterStatusText.AutoSize = true;
+            this.lbl_ShutterStatusText.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbl_ShutterStatusText.Location = new System.Drawing.Point(9, 29);
+            this.lbl_ShutterStatusText.Name = "lbl_ShutterStatusText";
+            this.lbl_ShutterStatusText.Size = new System.Drawing.Size(112, 17);
+            this.lbl_ShutterStatusText.TabIndex = 0;
+            this.lbl_ShutterStatusText.Text = "Shutter Status";
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(2536, 1022);
+            this.Controls.Add(this.grpbx_TalikserLaser);
             this.Controls.Add(this.grpbx_OphirControl);
             this.Controls.Add(this.btn_HomeProcedure);
             this.Controls.Add(this.icImagingControl1);
@@ -1348,7 +1463,7 @@
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "Form1";
-            this.Text = "Form1";
+            this.Text = "Precision Platform Control";
             this.Load += new System.EventHandler(this.Form1_Load);
             this.grpbx_AxVel.ResumeLayout(false);
             this.grpbx_AxPos.ResumeLayout(false);
@@ -1359,6 +1474,9 @@
             this.groupBox1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.icImagingControl1)).EndInit();
             this.grpbx_OphirControl.ResumeLayout(false);
+            this.grpbx_OphirControl.PerformLayout();
+            this.grpbx_TalikserLaser.ResumeLayout(false);
+            this.grpbx_TalikserLaser.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -1466,7 +1584,16 @@
         private System.Windows.Forms.Button btn_ScanUSB;
         internal System.Windows.Forms.ListBox DeviceListBox;
         private System.Windows.Forms.Button btn_OpenDevice;
-        private System.Windows.Forms.ComboBox HandleComboBox;
+        internal System.Windows.Forms.ComboBox HandleComboBox;
+        private System.Windows.Forms.Button btn_StartStream;
+        private System.Windows.Forms.Label LabelMeasurement0;
+        internal System.Windows.Forms.Label label18;
+        private System.Windows.Forms.Label label19;
+        private System.Windows.Forms.Label LabelTime0;
+        private System.Windows.Forms.Label LabelStatus0;
+        internal System.Windows.Forms.Label label20;
+        private System.Windows.Forms.GroupBox grpbx_TalikserLaser;
+        private System.Windows.Forms.Label lbl_ShutterStatusText;
     }
 }
 
