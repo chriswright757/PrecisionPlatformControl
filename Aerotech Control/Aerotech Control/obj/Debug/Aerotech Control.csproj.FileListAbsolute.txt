@@ -27,3 +27,7 @@ C:\Users\chris\Google Drive\University\Cambridge - PhD\Platform Code\Aerotech Co
 C:\Users\chris\Google Drive\University\Cambridge - PhD\Platform Code\Aerotech Control\Aerotech Control\Aerotech Control\obj\Debug\Aerotech Control.csproj.GenerateResource.Cache
 C:\Users\chris\Google Drive\University\Cambridge - PhD\Platform Code\Aerotech Control\Aerotech Control\Aerotech Control\obj\Debug\Interop.MLApp.dll
 C:\Users\chris\Google Drive\University\Cambridge - PhD\Platform Code\Aerotech Control\Aerotech Control\Aerotech Control\obj\Debug\Aerotech Control.csproj.ResolveComReference.cache
+C:\Users\chris\Documents\GitHub\PrecisionPlatformControl\Aerotech Control\Aerotech Control\obj\Debug\Interop.MLApp.dll
+C:\Users\chris\Documents\GitHub\PrecisionPlatformControl\Aerotech Control\Aerotech Control\obj\Debug\Aerotech Control.csproj.ResolveComReference.cache
+C:\Users\chris\Documents\GitHub\PrecisionPlatformControl\Aerotech Control\Aerotech Control\obj\Debug\Aerotech Control.exe
+C:\Users\chris\Documents\GitHub\PrecisionPlatformControl\Aerotech Control\Aerotech Control\obj\Debug\Aerotech Control.pdb

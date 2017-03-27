@@ -1474,6 +1474,9 @@ namespace Aerotech_Control
             string shutter_closed = "s=0\r\n";
             TalikserLaser.Write(shutter_closed);
             Thread.Sleep(command_delay);
+            btn_Shutter.Text = "Open Shutter";
+            lbl_ShutterStatus.Text = "Closed";
+            lbl_ShutterStatus.BackColor = Color.Lime;
         }
 
         private void shutter_open()
@@ -1481,6 +1484,9 @@ namespace Aerotech_Control
             string shutter_open = "s=1\r\n";
             TalikserLaser.Write(shutter_open);
             Thread.Sleep(command_delay);
+            btn_Shutter.Text = "Close Shutter";
+            lbl_ShutterStatus.Text = "Open";
+            lbl_ShutterStatus.BackColor = Color.Red;
         }
 
         private void aommode_0()
@@ -1488,6 +1494,23 @@ namespace Aerotech_Control
             string aommode0 = "AOMMODE=0\r\n";
             TalikserLaser.Write(aommode0);
             Thread.Sleep(command_delay);
+            lbl_AOMMode.Text = "Continuous";
+        }
+
+        private void aommode_2()
+        {
+            string aommode0 = "AOMMODE=2\r\n";
+            TalikserLaser.Write(aommode0);
+            Thread.Sleep(command_delay);
+            lbl_AOMMode.Text = "Divided";
+        }
+
+        private void aommode_3()
+        {
+            string aommode0 = "AOMMODE=3\r\n";
+            TalikserLaser.Write(aommode0);
+            Thread.Sleep(command_delay);
+            lbl_AOMMode.Text = "Burst";
         }
 
         private void aomgate_low_trigger()
@@ -1495,6 +1518,8 @@ namespace Aerotech_Control
             string aomgate_low_trigger = "AOMGATE=0\r\n";
             TalikserLaser.Write(aomgate_low_trigger);
             Thread.Sleep(command_delay);
+            btn_AOMGATE.Text = "AOMGate - High";
+            lbl_AOMGateStatus.Text = "Low";
         }
 
         private void aomgate_high_trigger()
@@ -1502,6 +1527,8 @@ namespace Aerotech_Control
             string aomgate_high_trigger = "AOMGATE=1\r\n";
             TalikserLaser.Write(aomgate_high_trigger);
             Thread.Sleep(command_delay);
+            btn_AOMGATE.Text = "AOMGate - Low";
+            lbl_AOMGateStatus.Text = "High";
         }
 
         private void talisker_attenuation(int value)
@@ -1509,6 +1536,7 @@ namespace Aerotech_Control
             string atten_command = "ATT=" + value + "\r\n";
             TalikserLaser.Write(atten_command);
             Thread.Sleep(command_delay);
+            lbl_TaliskerATT.Text = value.ToString("0");
         }
 
         private void watt_pilot_attenuation(double value)
@@ -1517,12 +1545,13 @@ namespace Aerotech_Control
             double offset = -443;
             double stepsPerUnit = 43.333;
             double resolution = 2;
-            double ratio = value / 100;
+            double ratio = (100 - value) / 100;
             double angle = ((Math.Acos(Math.Sqrt(ratio))) * 180.0) / (2.0 * Math.PI);
             double steps = (angle * stepsPerUnit * resolution) + offset;
             string command = "g " + steps + "\r";
             WattPilot_1064.Write(command);
             Thread.Sleep(5000);
+            lbl_WPATT.Text = (100 - value).ToString("0.0");
         }
 
 
@@ -1812,7 +1841,72 @@ namespace Aerotech_Control
                 }
             }
         }
+
+        #endregion
+
+        #region Laser Buttons and Control
+
+        private void btn_Shutter_Click(object sender, EventArgs e)
+        {
+            if (lbl_ShutterStatus.Text == "Closed")
+            {
+                shutter_open();                
+            }
+            else if (lbl_ShutterStatus.Text == "Open")
+            {
+                shutter_closed();                
+            }
+        }
+
+        private void txtbx_RequestedWPATT_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+                watt_pilot_attenuation(Convert.ToDouble(txtbx_RequestedTaliskerATT));
+            }
+        }
+
+        private void txtbx_RequestedTaliskerATT_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+                talisker_attenuation(Convert.ToInt32(txtbx_RequestedTaliskerATT));
+            }
+        }
+
+        private void btn_aommode0_Click(object sender, EventArgs e)
+        {
+            aommode_0();
+        }
+
+        private void btn_aommode2_Click(object sender, EventArgs e)
+        {
+            aommode_2();
+        }
+
+        private void btn_aommode3_Click(object sender, EventArgs e)
+        {
+            aommode_3();
+        }
+
+        #endregion
+
+        private void btn_AOMGATE_Click(object sender, EventArgs e)
+        {
+            if (lbl_AOMGateStatus.Text == "High")
+            {
+                aomgate_low_trigger();
+            }
+            else if (lbl_AOMGateStatus.Text == "Low")
+            {
+                aomgate_high_trigger();
+            }
+        }
     }
-    #endregion
+
+
+
+
+
 }
 

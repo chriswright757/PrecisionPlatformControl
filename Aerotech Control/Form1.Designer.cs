@@ -127,19 +127,37 @@
             this.backgroundWorker_LaserAlign = new System.ComponentModel.BackgroundWorker();
             this.btn_HomeProcedure = new System.Windows.Forms.Button();
             this.grpbx_OphirControl = new System.Windows.Forms.GroupBox();
-            this.btn_ScanUSB = new System.Windows.Forms.Button();
-            this.DeviceListBox = new System.Windows.Forms.ListBox();
-            this.btn_OpenDevice = new System.Windows.Forms.Button();
-            this.HandleComboBox = new System.Windows.Forms.ComboBox();
-            this.btn_StartStream = new System.Windows.Forms.Button();
-            this.LabelTime0 = new System.Windows.Forms.Label();
-            this.label19 = new System.Windows.Forms.Label();
-            this.label18 = new System.Windows.Forms.Label();
-            this.LabelMeasurement0 = new System.Windows.Forms.Label();
-            this.label20 = new System.Windows.Forms.Label();
             this.LabelStatus0 = new System.Windows.Forms.Label();
+            this.label20 = new System.Windows.Forms.Label();
+            this.LabelMeasurement0 = new System.Windows.Forms.Label();
+            this.label18 = new System.Windows.Forms.Label();
+            this.label19 = new System.Windows.Forms.Label();
+            this.LabelTime0 = new System.Windows.Forms.Label();
+            this.btn_StartStream = new System.Windows.Forms.Button();
+            this.HandleComboBox = new System.Windows.Forms.ComboBox();
+            this.btn_OpenDevice = new System.Windows.Forms.Button();
+            this.DeviceListBox = new System.Windows.Forms.ListBox();
+            this.btn_ScanUSB = new System.Windows.Forms.Button();
             this.grpbx_TalikserLaser = new System.Windows.Forms.GroupBox();
+            this.lbl_AOMMode = new System.Windows.Forms.Label();
+            this.lbl_aommodetext = new System.Windows.Forms.Label();
+            this.btn_aommode2 = new System.Windows.Forms.Button();
+            this.btn_aommode3 = new System.Windows.Forms.Button();
+            this.btn_aommode0 = new System.Windows.Forms.Button();
+            this.lbl_ShutterStatus = new System.Windows.Forms.Label();
+            this.btn_Shutter = new System.Windows.Forms.Button();
             this.lbl_ShutterStatusText = new System.Windows.Forms.Label();
+            this.lbl_RequestedTaliskerATTText = new System.Windows.Forms.Label();
+            this.txtbx_RequestedTaliskerATT = new System.Windows.Forms.TextBox();
+            this.lbl_TaliskerATTText = new System.Windows.Forms.Label();
+            this.lbl_TaliskerATT = new System.Windows.Forms.Label();
+            this.lbl_WPATT = new System.Windows.Forms.Label();
+            this.lbl_WPATTText = new System.Windows.Forms.Label();
+            this.txtbx_RequestedWPATT = new System.Windows.Forms.TextBox();
+            this.lbl_RequestedWPATTText = new System.Windows.Forms.Label();
+            this.lbl_AOMGateStatus = new System.Windows.Forms.Label();
+            this.btn_AOMGATE = new System.Windows.Forms.Button();
+            this.lbl_AOMGateText = new System.Windows.Forms.Label();
             this.grpbx_AxVel.SuspendLayout();
             this.grpbx_AxPos.SuspendLayout();
             this.grpbx_AxisStatus.SuspendLayout();
@@ -1304,98 +1322,16 @@
             this.grpbx_OphirControl.TabStop = false;
             this.grpbx_OphirControl.Text = "Ophir Control";
             // 
-            // btn_ScanUSB
+            // LabelStatus0
             // 
-            this.btn_ScanUSB.Location = new System.Drawing.Point(15, 22);
-            this.btn_ScanUSB.Name = "btn_ScanUSB";
-            this.btn_ScanUSB.Size = new System.Drawing.Size(128, 23);
-            this.btn_ScanUSB.TabIndex = 0;
-            this.btn_ScanUSB.Text = "Scan USB";
-            this.btn_ScanUSB.UseVisualStyleBackColor = true;
-            this.btn_ScanUSB.Click += new System.EventHandler(this.btn_ScanUSB_Click);
-            // 
-            // DeviceListBox
-            // 
-            this.DeviceListBox.FormattingEnabled = true;
-            this.DeviceListBox.ItemHeight = 16;
-            this.DeviceListBox.Location = new System.Drawing.Point(15, 62);
-            this.DeviceListBox.Margin = new System.Windows.Forms.Padding(4);
-            this.DeviceListBox.Name = "DeviceListBox";
-            this.DeviceListBox.Size = new System.Drawing.Size(128, 132);
-            this.DeviceListBox.TabIndex = 4;
-            // 
-            // btn_OpenDevice
-            // 
-            this.btn_OpenDevice.Location = new System.Drawing.Point(15, 212);
-            this.btn_OpenDevice.Name = "btn_OpenDevice";
-            this.btn_OpenDevice.Size = new System.Drawing.Size(127, 25);
-            this.btn_OpenDevice.TabIndex = 5;
-            this.btn_OpenDevice.Text = "Open Device";
-            this.btn_OpenDevice.UseVisualStyleBackColor = true;
-            this.btn_OpenDevice.Click += new System.EventHandler(this.btn_OpenDevice_Click);
-            // 
-            // HandleComboBox
-            // 
-            this.HandleComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.HandleComboBox.FormattingEnabled = true;
-            this.HandleComboBox.Location = new System.Drawing.Point(163, 22);
-            this.HandleComboBox.Name = "HandleComboBox";
-            this.HandleComboBox.Size = new System.Drawing.Size(121, 24);
-            this.HandleComboBox.TabIndex = 6;
-            // 
-            // btn_StartStream
-            // 
-            this.btn_StartStream.Location = new System.Drawing.Point(163, 62);
-            this.btn_StartStream.Name = "btn_StartStream";
-            this.btn_StartStream.Size = new System.Drawing.Size(121, 23);
-            this.btn_StartStream.TabIndex = 7;
-            this.btn_StartStream.Text = "Start Stream";
-            this.btn_StartStream.UseVisualStyleBackColor = true;
-            this.btn_StartStream.Click += new System.EventHandler(this.btn_StartStream_Click);
-            // 
-            // LabelTime0
-            // 
-            this.LabelTime0.AutoSize = true;
-            this.LabelTime0.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(177)));
-            this.LabelTime0.Location = new System.Drawing.Point(276, 101);
-            this.LabelTime0.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.LabelTime0.Name = "LabelTime0";
-            this.LabelTime0.Size = new System.Drawing.Size(49, 17);
-            this.LabelTime0.TabIndex = 60;
-            this.LabelTime0.Text = "Value";
-            // 
-            // label19
-            // 
-            this.label19.AutoSize = true;
-            this.label19.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(177)));
-            this.label19.Location = new System.Drawing.Point(160, 101);
-            this.label19.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.label19.Name = "label19";
-            this.label19.Size = new System.Drawing.Size(43, 17);
-            this.label19.TabIndex = 61;
-            this.label19.Text = "Time";
-            // 
-            // label18
-            // 
-            this.label18.AutoSize = true;
-            this.label18.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(177)));
-            this.label18.Location = new System.Drawing.Point(160, 132);
-            this.label18.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.label18.Name = "label18";
-            this.label18.Size = new System.Drawing.Size(105, 17);
-            this.label18.TabIndex = 62;
-            this.label18.Text = "Measurement";
-            // 
-            // LabelMeasurement0
-            // 
-            this.LabelMeasurement0.AutoSize = true;
-            this.LabelMeasurement0.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(177)));
-            this.LabelMeasurement0.Location = new System.Drawing.Point(276, 132);
-            this.LabelMeasurement0.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.LabelMeasurement0.Name = "LabelMeasurement0";
-            this.LabelMeasurement0.Size = new System.Drawing.Size(49, 17);
-            this.LabelMeasurement0.TabIndex = 63;
-            this.LabelMeasurement0.Text = "Value";
+            this.LabelStatus0.AutoSize = true;
+            this.LabelStatus0.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(177)));
+            this.LabelStatus0.Location = new System.Drawing.Point(276, 165);
+            this.LabelStatus0.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.LabelStatus0.Name = "LabelStatus0";
+            this.LabelStatus0.Size = new System.Drawing.Size(49, 17);
+            this.LabelStatus0.TabIndex = 62;
+            this.LabelStatus0.Text = "Value";
             // 
             // label20
             // 
@@ -1408,19 +1344,119 @@
             this.label20.TabIndex = 52;
             this.label20.Text = "Status";
             // 
-            // LabelStatus0
+            // LabelMeasurement0
             // 
-            this.LabelStatus0.AutoSize = true;
-            this.LabelStatus0.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(177)));
-            this.LabelStatus0.Location = new System.Drawing.Point(276, 165);
-            this.LabelStatus0.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.LabelStatus0.Name = "LabelStatus0";
-            this.LabelStatus0.Size = new System.Drawing.Size(49, 17);
-            this.LabelStatus0.TabIndex = 62;
-            this.LabelStatus0.Text = "Value";
+            this.LabelMeasurement0.AutoSize = true;
+            this.LabelMeasurement0.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(177)));
+            this.LabelMeasurement0.Location = new System.Drawing.Point(276, 132);
+            this.LabelMeasurement0.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.LabelMeasurement0.Name = "LabelMeasurement0";
+            this.LabelMeasurement0.Size = new System.Drawing.Size(49, 17);
+            this.LabelMeasurement0.TabIndex = 63;
+            this.LabelMeasurement0.Text = "Value";
+            // 
+            // label18
+            // 
+            this.label18.AutoSize = true;
+            this.label18.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(177)));
+            this.label18.Location = new System.Drawing.Point(160, 132);
+            this.label18.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label18.Name = "label18";
+            this.label18.Size = new System.Drawing.Size(105, 17);
+            this.label18.TabIndex = 62;
+            this.label18.Text = "Measurement";
+            // 
+            // label19
+            // 
+            this.label19.AutoSize = true;
+            this.label19.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(177)));
+            this.label19.Location = new System.Drawing.Point(160, 101);
+            this.label19.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label19.Name = "label19";
+            this.label19.Size = new System.Drawing.Size(43, 17);
+            this.label19.TabIndex = 61;
+            this.label19.Text = "Time";
+            // 
+            // LabelTime0
+            // 
+            this.LabelTime0.AutoSize = true;
+            this.LabelTime0.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(177)));
+            this.LabelTime0.Location = new System.Drawing.Point(276, 101);
+            this.LabelTime0.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.LabelTime0.Name = "LabelTime0";
+            this.LabelTime0.Size = new System.Drawing.Size(49, 17);
+            this.LabelTime0.TabIndex = 60;
+            this.LabelTime0.Text = "Value";
+            // 
+            // btn_StartStream
+            // 
+            this.btn_StartStream.Location = new System.Drawing.Point(163, 62);
+            this.btn_StartStream.Name = "btn_StartStream";
+            this.btn_StartStream.Size = new System.Drawing.Size(121, 23);
+            this.btn_StartStream.TabIndex = 7;
+            this.btn_StartStream.Text = "Start Stream";
+            this.btn_StartStream.UseVisualStyleBackColor = true;
+            this.btn_StartStream.Click += new System.EventHandler(this.btn_StartStream_Click);
+            // 
+            // HandleComboBox
+            // 
+            this.HandleComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.HandleComboBox.FormattingEnabled = true;
+            this.HandleComboBox.Location = new System.Drawing.Point(163, 22);
+            this.HandleComboBox.Name = "HandleComboBox";
+            this.HandleComboBox.Size = new System.Drawing.Size(121, 24);
+            this.HandleComboBox.TabIndex = 6;
+            // 
+            // btn_OpenDevice
+            // 
+            this.btn_OpenDevice.Location = new System.Drawing.Point(15, 212);
+            this.btn_OpenDevice.Name = "btn_OpenDevice";
+            this.btn_OpenDevice.Size = new System.Drawing.Size(127, 25);
+            this.btn_OpenDevice.TabIndex = 5;
+            this.btn_OpenDevice.Text = "Open Device";
+            this.btn_OpenDevice.UseVisualStyleBackColor = true;
+            this.btn_OpenDevice.Click += new System.EventHandler(this.btn_OpenDevice_Click);
+            // 
+            // DeviceListBox
+            // 
+            this.DeviceListBox.FormattingEnabled = true;
+            this.DeviceListBox.ItemHeight = 16;
+            this.DeviceListBox.Location = new System.Drawing.Point(15, 62);
+            this.DeviceListBox.Margin = new System.Windows.Forms.Padding(4);
+            this.DeviceListBox.Name = "DeviceListBox";
+            this.DeviceListBox.Size = new System.Drawing.Size(128, 132);
+            this.DeviceListBox.TabIndex = 4;
+            // 
+            // btn_ScanUSB
+            // 
+            this.btn_ScanUSB.Location = new System.Drawing.Point(15, 22);
+            this.btn_ScanUSB.Name = "btn_ScanUSB";
+            this.btn_ScanUSB.Size = new System.Drawing.Size(128, 23);
+            this.btn_ScanUSB.TabIndex = 0;
+            this.btn_ScanUSB.Text = "Scan USB";
+            this.btn_ScanUSB.UseVisualStyleBackColor = true;
+            this.btn_ScanUSB.Click += new System.EventHandler(this.btn_ScanUSB_Click);
             // 
             // grpbx_TalikserLaser
             // 
+            this.grpbx_TalikserLaser.Controls.Add(this.lbl_AOMGateStatus);
+            this.grpbx_TalikserLaser.Controls.Add(this.lbl_WPATT);
+            this.grpbx_TalikserLaser.Controls.Add(this.btn_AOMGATE);
+            this.grpbx_TalikserLaser.Controls.Add(this.lbl_AOMGateText);
+            this.grpbx_TalikserLaser.Controls.Add(this.lbl_TaliskerATT);
+            this.grpbx_TalikserLaser.Controls.Add(this.lbl_WPATTText);
+            this.grpbx_TalikserLaser.Controls.Add(this.lbl_TaliskerATTText);
+            this.grpbx_TalikserLaser.Controls.Add(this.txtbx_RequestedWPATT);
+            this.grpbx_TalikserLaser.Controls.Add(this.txtbx_RequestedTaliskerATT);
+            this.grpbx_TalikserLaser.Controls.Add(this.lbl_RequestedWPATTText);
+            this.grpbx_TalikserLaser.Controls.Add(this.lbl_RequestedTaliskerATTText);
+            this.grpbx_TalikserLaser.Controls.Add(this.lbl_AOMMode);
+            this.grpbx_TalikserLaser.Controls.Add(this.lbl_aommodetext);
+            this.grpbx_TalikserLaser.Controls.Add(this.btn_aommode2);
+            this.grpbx_TalikserLaser.Controls.Add(this.btn_aommode3);
+            this.grpbx_TalikserLaser.Controls.Add(this.btn_aommode0);
+            this.grpbx_TalikserLaser.Controls.Add(this.lbl_ShutterStatus);
+            this.grpbx_TalikserLaser.Controls.Add(this.btn_Shutter);
             this.grpbx_TalikserLaser.Controls.Add(this.lbl_ShutterStatusText);
             this.grpbx_TalikserLaser.Location = new System.Drawing.Point(525, 494);
             this.grpbx_TalikserLaser.Name = "grpbx_TalikserLaser";
@@ -1429,15 +1465,199 @@
             this.grpbx_TalikserLaser.TabStop = false;
             this.grpbx_TalikserLaser.Text = "Talisker Laser";
             // 
+            // lbl_AOMMode
+            // 
+            this.lbl_AOMMode.BackColor = System.Drawing.Color.White;
+            this.lbl_AOMMode.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbl_AOMMode.Location = new System.Drawing.Point(486, 56);
+            this.lbl_AOMMode.Name = "lbl_AOMMode";
+            this.lbl_AOMMode.Size = new System.Drawing.Size(75, 29);
+            this.lbl_AOMMode.TabIndex = 8;
+            this.lbl_AOMMode.Text = "Unknown";
+            this.lbl_AOMMode.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // lbl_aommodetext
+            // 
+            this.lbl_aommodetext.AutoSize = true;
+            this.lbl_aommodetext.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbl_aommodetext.Location = new System.Drawing.Point(387, 62);
+            this.lbl_aommodetext.Name = "lbl_aommodetext";
+            this.lbl_aommodetext.Size = new System.Drawing.Size(100, 17);
+            this.lbl_aommodetext.TabIndex = 7;
+            this.lbl_aommodetext.Text = "AOM Mode =";
+            // 
+            // btn_aommode2
+            // 
+            this.btn_aommode2.Location = new System.Drawing.Point(138, 56);
+            this.btn_aommode2.Name = "btn_aommode2";
+            this.btn_aommode2.Size = new System.Drawing.Size(104, 28);
+            this.btn_aommode2.TabIndex = 5;
+            this.btn_aommode2.Text = "Divided";
+            this.btn_aommode2.UseVisualStyleBackColor = true;
+            this.btn_aommode2.Click += new System.EventHandler(this.btn_aommode2_Click);
+            // 
+            // btn_aommode3
+            // 
+            this.btn_aommode3.Location = new System.Drawing.Point(263, 56);
+            this.btn_aommode3.Name = "btn_aommode3";
+            this.btn_aommode3.Size = new System.Drawing.Size(104, 28);
+            this.btn_aommode3.TabIndex = 4;
+            this.btn_aommode3.Text = "Burst";
+            this.btn_aommode3.UseVisualStyleBackColor = true;
+            this.btn_aommode3.Click += new System.EventHandler(this.btn_aommode3_Click);
+            // 
+            // btn_aommode0
+            // 
+            this.btn_aommode0.Location = new System.Drawing.Point(13, 56);
+            this.btn_aommode0.Name = "btn_aommode0";
+            this.btn_aommode0.Size = new System.Drawing.Size(104, 28);
+            this.btn_aommode0.TabIndex = 3;
+            this.btn_aommode0.Text = "Continuous";
+            this.btn_aommode0.UseVisualStyleBackColor = true;
+            this.btn_aommode0.Click += new System.EventHandler(this.btn_aommode0_Click);
+            // 
+            // lbl_ShutterStatus
+            // 
+            this.lbl_ShutterStatus.BackColor = System.Drawing.Color.Lime;
+            this.lbl_ShutterStatus.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbl_ShutterStatus.Location = new System.Drawing.Point(486, 22);
+            this.lbl_ShutterStatus.Name = "lbl_ShutterStatus";
+            this.lbl_ShutterStatus.Size = new System.Drawing.Size(75, 29);
+            this.lbl_ShutterStatus.TabIndex = 2;
+            this.lbl_ShutterStatus.Text = "Unknown";
+            this.lbl_ShutterStatus.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // btn_Shutter
+            // 
+            this.btn_Shutter.Location = new System.Drawing.Point(13, 22);
+            this.btn_Shutter.Name = "btn_Shutter";
+            this.btn_Shutter.Size = new System.Drawing.Size(104, 28);
+            this.btn_Shutter.TabIndex = 1;
+            this.btn_Shutter.Text = "Open Shutter";
+            this.btn_Shutter.UseVisualStyleBackColor = true;
+            this.btn_Shutter.Click += new System.EventHandler(this.btn_Shutter_Click);
+            // 
             // lbl_ShutterStatusText
             // 
             this.lbl_ShutterStatusText.AutoSize = true;
             this.lbl_ShutterStatusText.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbl_ShutterStatusText.Location = new System.Drawing.Point(9, 29);
+            this.lbl_ShutterStatusText.Location = new System.Drawing.Point(375, 28);
             this.lbl_ShutterStatusText.Name = "lbl_ShutterStatusText";
             this.lbl_ShutterStatusText.Size = new System.Drawing.Size(112, 17);
             this.lbl_ShutterStatusText.TabIndex = 0;
             this.lbl_ShutterStatusText.Text = "Shutter Status";
+            // 
+            // lbl_RequestedTaliskerATTText
+            // 
+            this.lbl_RequestedTaliskerATTText.AutoSize = true;
+            this.lbl_RequestedTaliskerATTText.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbl_RequestedTaliskerATTText.Location = new System.Drawing.Point(55, 96);
+            this.lbl_RequestedTaliskerATTText.Name = "lbl_RequestedTaliskerATTText";
+            this.lbl_RequestedTaliskerATTText.Size = new System.Drawing.Size(206, 17);
+            this.lbl_RequestedTaliskerATTText.TabIndex = 9;
+            this.lbl_RequestedTaliskerATTText.Text = "Requested Talisker Atten =";
+            this.lbl_RequestedTaliskerATTText.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // txtbx_RequestedTaliskerATT
+            // 
+            this.txtbx_RequestedTaliskerATT.Location = new System.Drawing.Point(259, 93);
+            this.txtbx_RequestedTaliskerATT.Name = "txtbx_RequestedTaliskerATT";
+            this.txtbx_RequestedTaliskerATT.Size = new System.Drawing.Size(60, 22);
+            this.txtbx_RequestedTaliskerATT.TabIndex = 10;
+            this.txtbx_RequestedTaliskerATT.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtbx_RequestedTaliskerATT_KeyDown);
+            // 
+            // lbl_TaliskerATTText
+            // 
+            this.lbl_TaliskerATTText.AutoSize = true;
+            this.lbl_TaliskerATTText.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbl_TaliskerATTText.Location = new System.Drawing.Point(364, 96);
+            this.lbl_TaliskerATTText.Name = "lbl_TaliskerATTText";
+            this.lbl_TaliskerATTText.Size = new System.Drawing.Size(123, 17);
+            this.lbl_TaliskerATTText.TabIndex = 11;
+            this.lbl_TaliskerATTText.Text = "Talisker Atten =";
+            this.lbl_TaliskerATTText.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // lbl_TaliskerATT
+            // 
+            this.lbl_TaliskerATT.BackColor = System.Drawing.Color.White;
+            this.lbl_TaliskerATT.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbl_TaliskerATT.Location = new System.Drawing.Point(485, 90);
+            this.lbl_TaliskerATT.Name = "lbl_TaliskerATT";
+            this.lbl_TaliskerATT.Size = new System.Drawing.Size(75, 29);
+            this.lbl_TaliskerATT.TabIndex = 12;
+            this.lbl_TaliskerATT.Text = "Unknown";
+            this.lbl_TaliskerATT.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // lbl_WPATT
+            // 
+            this.lbl_WPATT.BackColor = System.Drawing.Color.White;
+            this.lbl_WPATT.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbl_WPATT.Location = new System.Drawing.Point(485, 124);
+            this.lbl_WPATT.Name = "lbl_WPATT";
+            this.lbl_WPATT.Size = new System.Drawing.Size(75, 29);
+            this.lbl_WPATT.TabIndex = 56;
+            this.lbl_WPATT.Text = "Unknown";
+            this.lbl_WPATT.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // lbl_WPATTText
+            // 
+            this.lbl_WPATTText.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbl_WPATTText.Location = new System.Drawing.Point(319, 130);
+            this.lbl_WPATTText.Name = "lbl_WPATTText";
+            this.lbl_WPATTText.Size = new System.Drawing.Size(168, 17);
+            this.lbl_WPATTText.TabIndex = 55;
+            this.lbl_WPATTText.Text = "WattPilot Atten =";
+            this.lbl_WPATTText.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // txtbx_RequestedWPATT
+            // 
+            this.txtbx_RequestedWPATT.Location = new System.Drawing.Point(259, 127);
+            this.txtbx_RequestedWPATT.Name = "txtbx_RequestedWPATT";
+            this.txtbx_RequestedWPATT.Size = new System.Drawing.Size(60, 22);
+            this.txtbx_RequestedWPATT.TabIndex = 54;
+            this.txtbx_RequestedWPATT.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtbx_RequestedWPATT_KeyDown);
+            // 
+            // lbl_RequestedWPATTText
+            // 
+            this.lbl_RequestedWPATTText.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbl_RequestedWPATTText.Location = new System.Drawing.Point(10, 130);
+            this.lbl_RequestedWPATTText.MaximumSize = new System.Drawing.Size(251, 0);
+            this.lbl_RequestedWPATTText.Name = "lbl_RequestedWPATTText";
+            this.lbl_RequestedWPATTText.Size = new System.Drawing.Size(251, 17);
+            this.lbl_RequestedWPATTText.TabIndex = 53;
+            this.lbl_RequestedWPATTText.Text = "Requested WattPilot Atten =";
+            this.lbl_RequestedWPATTText.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // lbl_AOMGateStatus
+            // 
+            this.lbl_AOMGateStatus.BackColor = System.Drawing.Color.White;
+            this.lbl_AOMGateStatus.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbl_AOMGateStatus.Location = new System.Drawing.Point(486, 158);
+            this.lbl_AOMGateStatus.Name = "lbl_AOMGateStatus";
+            this.lbl_AOMGateStatus.Size = new System.Drawing.Size(75, 29);
+            this.lbl_AOMGateStatus.TabIndex = 55;
+            this.lbl_AOMGateStatus.Text = "Unknown";
+            this.lbl_AOMGateStatus.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // btn_AOMGATE
+            // 
+            this.btn_AOMGATE.Location = new System.Drawing.Point(6, 154);
+            this.btn_AOMGATE.Name = "btn_AOMGATE";
+            this.btn_AOMGATE.Size = new System.Drawing.Size(122, 28);
+            this.btn_AOMGATE.TabIndex = 54;
+            this.btn_AOMGATE.Text = "AOMGate - High";
+            this.btn_AOMGATE.UseVisualStyleBackColor = true;
+            this.btn_AOMGATE.Click += new System.EventHandler(this.btn_AOMGATE_Click);
+            // 
+            // lbl_AOMGateText
+            // 
+            this.lbl_AOMGateText.AutoSize = true;
+            this.lbl_AOMGateText.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbl_AOMGateText.Location = new System.Drawing.Point(353, 166);
+            this.lbl_AOMGateText.Name = "lbl_AOMGateText";
+            this.lbl_AOMGateText.Size = new System.Drawing.Size(128, 17);
+            this.lbl_AOMGateText.TabIndex = 53;
+            this.lbl_AOMGateText.Text = "AOMGate Status";
             // 
             // Form1
             // 
@@ -1594,6 +1814,24 @@
         internal System.Windows.Forms.Label label20;
         private System.Windows.Forms.GroupBox grpbx_TalikserLaser;
         private System.Windows.Forms.Label lbl_ShutterStatusText;
+        private System.Windows.Forms.Button btn_Shutter;
+        private System.Windows.Forms.Label lbl_ShutterStatus;
+        private System.Windows.Forms.Button btn_aommode2;
+        private System.Windows.Forms.Button btn_aommode3;
+        private System.Windows.Forms.Button btn_aommode0;
+        private System.Windows.Forms.Label lbl_aommodetext;
+        private System.Windows.Forms.Label lbl_AOMMode;
+        private System.Windows.Forms.Label lbl_RequestedTaliskerATTText;
+        private System.Windows.Forms.Label lbl_TaliskerATT;
+        private System.Windows.Forms.Label lbl_TaliskerATTText;
+        private System.Windows.Forms.TextBox txtbx_RequestedTaliskerATT;
+        private System.Windows.Forms.Label lbl_WPATT;
+        private System.Windows.Forms.Label lbl_WPATTText;
+        private System.Windows.Forms.TextBox txtbx_RequestedWPATT;
+        private System.Windows.Forms.Label lbl_RequestedWPATTText;
+        private System.Windows.Forms.Label lbl_AOMGateStatus;
+        private System.Windows.Forms.Button btn_AOMGATE;
+        private System.Windows.Forms.Label lbl_AOMGateText;
     }
 }
 
