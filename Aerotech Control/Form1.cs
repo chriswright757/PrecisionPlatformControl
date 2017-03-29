@@ -1555,7 +1555,7 @@ namespace Aerotech_Control
             string command = "g " + steps + "\r";
             WattPilot_1064.Write(command);
             Thread.Sleep(5000);
-            lbl_WPATT.Text = (100 - value).ToString("0.0");
+            lbl_WPATT.Text = (value).ToString("0.0");
         }
 
 
@@ -1866,7 +1866,7 @@ namespace Aerotech_Control
         {
             if (e.KeyCode == Keys.Enter)
             {
-                watt_pilot_attenuation(Convert.ToDouble(txtbx_RequestedTaliskerATT));
+                watt_pilot_attenuation(Convert.ToDouble(txtbx_RequestedWPATT.Text));
             }
         }
 
@@ -1874,7 +1874,7 @@ namespace Aerotech_Control
         {
             if (e.KeyCode == Keys.Enter)
             {
-                talisker_attenuation(Convert.ToInt32(txtbx_RequestedTaliskerATT));
+                talisker_attenuation(Convert.ToInt32(txtbx_RequestedTaliskerATT.Text));
             }
         }
 
