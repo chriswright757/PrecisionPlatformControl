@@ -139,49 +139,53 @@ namespace Aerotech_Control
 
             lbl_JogValue.Text = JogValue.ToString() + " mm";
 
-            ////Initialising Microscope Camera
+            //Initialising Microscope Camera
 
-            //if (!icImagingControl1.DeviceValid)
-            //{
-            //    icImagingControl1.ShowDeviceSettingsDialog();
+            if (!icImagingControl1.DeviceValid)
+            {
+                icImagingControl1.ShowDeviceSettingsDialog();
 
-            //    if (!icImagingControl1.DeviceValid)
-            //    {
-            //        MessageBox.Show("No device was selected.", "Grabbing an Image",
-            //                         MessageBoxButtons.OK, MessageBoxIcon.Information);
-            //        this.Close();
-            //    }
-            //}
-            //else
-            //{
-            //    //if (ImagingControl.DeviceFlipHorizontalAvailable)
-            //    //{
-            //    //ImagingControl.DeviceFlipHorizontal = true;
-            //    //}
-            //    icImagingControl1.LiveStart();
-            //}
+                if (!icImagingControl1.DeviceValid)
+                {
+                    MessageBox.Show("No device was selected.", "Grabbing an Image",
+                                     MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    this.Close();
+                }
+            }
+            else
+            {
+                //if (ImagingControl.DeviceFlipHorizontalAvailable)
+                //{
+                //ImagingControl.DeviceFlipHorizontal = true;
+                //}
+                icImagingControl1.LiveStart();
+            }
 
-            //// Used for background thread process
+            // Used for background thread process
 
-            //Control.CheckForIllegalCrossThreadCalls = false;
+            Control.CheckForIllegalCrossThreadCalls = false;
 
             //// Initialise Serial Control
 
             //// Talisker
 
-            //TalikserLaser.PortName = "COM18";
-            //TalikserLaser.BaudRate = 115200;
+            TalikserLaser.PortName = "COM18";
+            TalikserLaser.BaudRate = 115200;
 
-            //TalikserLaser.Close();
-            //TalikserLaser.Open();
+            TalikserLaser.Close();
+            TalikserLaser.Open();
 
             //// Watt Pilot
 
-            //WattPilot_1064.PortName = "COM6";
-            //WattPilot_1064.BaudRate = 38400;
+            WattPilot_1064.PortName = "COM6";
+            WattPilot_1064.BaudRate = 38400;
 
-            //WattPilot_1064.Close();
-            //WattPilot_1064.Open();
+            WattPilot_1064.Close();
+            WattPilot_1064.Open();
+
+            //Laser and Button Initialisation
+
+            laserbtninitialisation();
 
             // Ophir Device
 
@@ -1889,8 +1893,6 @@ namespace Aerotech_Control
             aommode_3();
         }
 
-        #endregion
-
         private void btn_AOMGATE_Click(object sender, EventArgs e)
         {
             if (lbl_AOMGateStatus.Text == "High")
@@ -1902,6 +1904,17 @@ namespace Aerotech_Control
                 aomgate_high_trigger();
             }
         }
+
+        private void laserbtninitialisation()
+        {
+            shutter_closed();
+            watt_pilot_attenuation(100);
+            talisker_attenuation(100);
+            aommode_0();
+            aomgate_high_trigger();
+        }
+
+        #endregion
     }
 
 
