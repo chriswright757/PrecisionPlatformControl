@@ -4081,8 +4081,8 @@
   <data name="icImagingControl1.DeviceState" xml:space="preserve">
     <value>&lt;device_state libver="3.4" filemajor="1" fileminor="0"&gt;
     &lt;device name="DMK 72AUC02" base_name="DMK 72AUC02" unique_name="DMK 72AUC02 50310198"&gt;
-        &lt;videoformat&gt;Y800 (2592x1944)&lt;/videoformat&gt;
-        &lt;fps&gt;5.9870022181843216558&lt;/fps&gt;
+        &lt;videoformat&gt;Y800 (1024x768) [Binning 2x]&lt;/videoformat&gt;
+        &lt;fps&gt;26.706049187201394091&lt;/fps&gt;
         &lt;vcdpropertyitems&gt;
             &lt;item guid="{284C0E06-010B-45BF-8291-09D90A459B28}" name="Brightness"&gt;
                 &lt;element guid="{B57D3000-0AC6-4819-A609-272A33140ACA}" name="Value"&gt;

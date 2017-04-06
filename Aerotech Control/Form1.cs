@@ -78,6 +78,18 @@ namespace Aerotech_Control
         double D_Zaxis = 0;
         double D_Daxis = 0;
 
+        double Point1_Xaxis;
+        double Point1_Yaxis;
+        double Point1_Zaxis;
+        double Point1_Daxis;
+
+        double Point2_Xaxis;
+        double Point2_Yaxis;
+        double Point2_Zaxis;
+        double Point2_Daxis;
+
+        double CentreRot_Z;
+
         int hold = 0;
         double theta_hold = 0;
         double phi_hold = 0;
@@ -1436,7 +1448,7 @@ namespace Aerotech_Control
 
         #region Finding Centre of Rotation
 
-        private void Rotation_Centre()
+        private void btn_RotationalCentre_Click(object sender, EventArgs e)
         {
             double CentreTestRotation = 10;
 
@@ -1451,22 +1463,55 @@ namespace Aerotech_Control
             myController.Commands.Motion.Setup.Incremental();
             myController.Commands.Motion.Linear("B", CentreTestRotation, 1);
 
-            // Centre marker and find focus
+            MessageBox.Show("When marker is aligned press Point 1 button");
 
+            btn_point1.Enabled = true;
+            btn_RotationalCentre.Text = "Calculate Centre";
+        }
 
+        private void btn_point1_Click(object sender, EventArgs e)
+        {
+            double CentreTestRotation = 10;
+
+            Point1_Xaxis = myController.Commands.Status.AxisStatus("X", AxisStatusSignal.ProgramPositionFeedback);
+            Point1_Yaxis = myController.Commands.Status.AxisStatus("Y", AxisStatusSignal.ProgramPositionFeedback);
+            Point1_Zaxis = myController.Commands.Status.AxisStatus("Z", AxisStatusSignal.ProgramPositionFeedback);
+            Point1_Daxis = myController.Commands.Status.AxisStatus("D", AxisStatusSignal.ProgramPositionFeedback);
 
             // Apply -10 degree rotation
 
             myController.Commands.Motion.Setup.Incremental();
             myController.Commands.Motion.Linear("B", -2 * CentreTestRotation, 1);
+        }
 
-            // Calculate centre of rotation 
+        private void btn_Point2_Click(object sender, EventArgs e)
+        {
+            double CentreTestRotation = 10;
+
+            Point2_Xaxis = myController.Commands.Status.AxisStatus("X", AxisStatusSignal.ProgramPositionFeedback);
+            Point2_Yaxis = myController.Commands.Status.AxisStatus("Y", AxisStatusSignal.ProgramPositionFeedback);
+            Point2_Zaxis = myController.Commands.Status.AxisStatus("Z", AxisStatusSignal.ProgramPositionFeedback);
+            Point2_Daxis = myController.Commands.Status.AxisStatus("D", AxisStatusSignal.ProgramPositionFeedback);
 
             double Gradient = Math.Tan(CentreTestRotation * Math.PI / 180);
 
-            //double Y_Centre = 
-        }
+            // Linear Constant for Point 1
 
+            double Point1_Const = Point1_Daxis - (Gradient * Point1_Yaxis);
+
+            // Linear Constant for Point 2
+
+            double Point2_Const = Point2_Daxis - (-Gradient * Point2_Yaxis);
+
+            // Find intercept co-ords for centre of rotation
+
+            double CentreRot_Y = (Point2_Const - Point1_Const) / (2 * Gradient);
+            double CentreRot_D = Gradient * CentreRot_Y + Point1_Const;
+            CentreRot_Z = 76.7038 - CentreRot_Y; // ****Check Value****
+
+            lbl_CentreRotZ.Text = CentreRot_Z.ToString();
+        }
+                
         #endregion
 
         #region Talisker and Watt Pilot Control Functions
@@ -1914,7 +1959,11 @@ namespace Aerotech_Control
             aomgate_high_trigger();
         }
 
+
+
         #endregion
+
+
     }
 
 

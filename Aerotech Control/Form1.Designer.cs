@@ -110,6 +110,9 @@
             this.btn_PosJogX = new System.Windows.Forms.Button();
             this.btn_NegJogX = new System.Windows.Forms.Button();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.btn_Point2 = new System.Windows.Forms.Button();
+            this.btn_point1 = new System.Windows.Forms.Button();
+            this.btn_RotationalCentre = new System.Windows.Forms.Button();
             this.btn_FindFocus = new System.Windows.Forms.Button();
             this.btn_MarkerAligned = new System.Windows.Forms.Button();
             this.btn_StartAlignment = new System.Windows.Forms.Button();
@@ -139,6 +142,7 @@
             this.DeviceListBox = new System.Windows.Forms.ListBox();
             this.btn_ScanUSB = new System.Windows.Forms.Button();
             this.grpbx_TalikserLaser = new System.Windows.Forms.GroupBox();
+            this.txtbx_RequestedWPATT = new System.Windows.Forms.TextBox();
             this.lbl_AOMGateStatus = new System.Windows.Forms.Label();
             this.lbl_WPATT = new System.Windows.Forms.Label();
             this.btn_AOMGATE = new System.Windows.Forms.Button();
@@ -146,7 +150,6 @@
             this.lbl_TaliskerATT = new System.Windows.Forms.Label();
             this.lbl_WPATTText = new System.Windows.Forms.Label();
             this.lbl_TaliskerATTText = new System.Windows.Forms.Label();
-            this.txtbx_RequestedWPATT = new System.Windows.Forms.TextBox();
             this.txtbx_RequestedTaliskerATT = new System.Windows.Forms.TextBox();
             this.lbl_RequestedWPATTText = new System.Windows.Forms.Label();
             this.lbl_RequestedTaliskerATTText = new System.Windows.Forms.Label();
@@ -158,6 +161,7 @@
             this.lbl_ShutterStatus = new System.Windows.Forms.Label();
             this.btn_Shutter = new System.Windows.Forms.Button();
             this.lbl_ShutterStatusText = new System.Windows.Forms.Label();
+            this.lbl_CentreRotZ = new System.Windows.Forms.Label();
             this.grpbx_AxVel.SuspendLayout();
             this.grpbx_AxPos.SuspendLayout();
             this.grpbx_AxisStatus.SuspendLayout();
@@ -855,7 +859,7 @@
             this.grpbx_JogAxes.Controls.Add(this.btn_NegJogX);
             this.grpbx_JogAxes.Location = new System.Drawing.Point(394, 226);
             this.grpbx_JogAxes.Name = "grpbx_JogAxes";
-            this.grpbx_JogAxes.Size = new System.Drawing.Size(429, 169);
+            this.grpbx_JogAxes.Size = new System.Drawing.Size(429, 195);
             this.grpbx_JogAxes.TabIndex = 47;
             this.grpbx_JogAxes.TabStop = false;
             this.grpbx_JogAxes.Text = "Jog Axes";
@@ -864,7 +868,7 @@
             // 
             this.lbl_JogValue.BackColor = System.Drawing.Color.White;
             this.lbl_JogValue.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.lbl_JogValue.Location = new System.Drawing.Point(89, 107);
+            this.lbl_JogValue.Location = new System.Drawing.Point(89, 123);
             this.lbl_JogValue.Name = "lbl_JogValue";
             this.lbl_JogValue.Size = new System.Drawing.Size(70, 15);
             this.lbl_JogValue.TabIndex = 63;
@@ -874,7 +878,7 @@
             // 
             this.label3.AutoSize = true;
             this.label3.BackColor = System.Drawing.Color.White;
-            this.label3.Location = new System.Drawing.Point(87, 107);
+            this.label3.Location = new System.Drawing.Point(87, 123);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(0, 13);
             this.label3.TabIndex = 62;
@@ -882,7 +886,7 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(6, 107);
+            this.label1.Location = new System.Drawing.Point(6, 123);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(83, 13);
             this.label1.TabIndex = 61;
@@ -890,7 +894,7 @@
             // 
             // btn_jog1
             // 
-            this.btn_jog1.Location = new System.Drawing.Point(341, 133);
+            this.btn_jog1.Location = new System.Drawing.Point(341, 149);
             this.btn_jog1.Name = "btn_jog1";
             this.btn_jog1.Size = new System.Drawing.Size(79, 25);
             this.btn_jog1.TabIndex = 57;
@@ -900,7 +904,7 @@
             // 
             // btn_jog01
             // 
-            this.btn_jog01.Location = new System.Drawing.Point(258, 133);
+            this.btn_jog01.Location = new System.Drawing.Point(258, 149);
             this.btn_jog01.Name = "btn_jog01";
             this.btn_jog01.Size = new System.Drawing.Size(79, 25);
             this.btn_jog01.TabIndex = 58;
@@ -910,7 +914,7 @@
             // 
             // btn_jog001
             // 
-            this.btn_jog001.Location = new System.Drawing.Point(175, 133);
+            this.btn_jog001.Location = new System.Drawing.Point(175, 149);
             this.btn_jog001.Name = "btn_jog001";
             this.btn_jog001.Size = new System.Drawing.Size(79, 25);
             this.btn_jog001.TabIndex = 59;
@@ -920,7 +924,7 @@
             // 
             // btn_jog0001
             // 
-            this.btn_jog0001.Location = new System.Drawing.Point(92, 133);
+            this.btn_jog0001.Location = new System.Drawing.Point(92, 149);
             this.btn_jog0001.Name = "btn_jog0001";
             this.btn_jog0001.Size = new System.Drawing.Size(79, 25);
             this.btn_jog0001.TabIndex = 60;
@@ -930,7 +934,7 @@
             // 
             // btn_jog00001
             // 
-            this.btn_jog00001.Location = new System.Drawing.Point(9, 133);
+            this.btn_jog00001.Location = new System.Drawing.Point(9, 149);
             this.btn_jog00001.Name = "btn_jog00001";
             this.btn_jog00001.Size = new System.Drawing.Size(79, 25);
             this.btn_jog00001.TabIndex = 56;
@@ -940,7 +944,7 @@
             // 
             // btn_PosJogB
             // 
-            this.btn_PosJogB.Location = new System.Drawing.Point(367, 17);
+            this.btn_PosJogB.Location = new System.Drawing.Point(367, 33);
             this.btn_PosJogB.Name = "btn_PosJogB";
             this.btn_PosJogB.Size = new System.Drawing.Size(54, 20);
             this.btn_PosJogB.TabIndex = 49;
@@ -949,7 +953,7 @@
             // 
             // btn_NegJogB
             // 
-            this.btn_NegJogB.Location = new System.Drawing.Point(367, 75);
+            this.btn_NegJogB.Location = new System.Drawing.Point(367, 91);
             this.btn_NegJogB.Name = "btn_NegJogB";
             this.btn_NegJogB.Size = new System.Drawing.Size(54, 20);
             this.btn_NegJogB.TabIndex = 48;
@@ -958,7 +962,7 @@
             // 
             // btn_PosJogA
             // 
-            this.btn_PosJogA.Location = new System.Drawing.Point(307, 17);
+            this.btn_PosJogA.Location = new System.Drawing.Point(307, 33);
             this.btn_PosJogA.Name = "btn_PosJogA";
             this.btn_PosJogA.Size = new System.Drawing.Size(54, 20);
             this.btn_PosJogA.TabIndex = 49;
@@ -968,7 +972,7 @@
             // 
             // btn_NegJogA
             // 
-            this.btn_NegJogA.Location = new System.Drawing.Point(307, 75);
+            this.btn_NegJogA.Location = new System.Drawing.Point(307, 91);
             this.btn_NegJogA.Name = "btn_NegJogA";
             this.btn_NegJogA.Size = new System.Drawing.Size(54, 20);
             this.btn_NegJogA.TabIndex = 48;
@@ -977,7 +981,7 @@
             // 
             // btn_PosJogD
             // 
-            this.btn_PosJogD.Location = new System.Drawing.Point(247, 19);
+            this.btn_PosJogD.Location = new System.Drawing.Point(247, 35);
             this.btn_PosJogD.Name = "btn_PosJogD";
             this.btn_PosJogD.Size = new System.Drawing.Size(54, 20);
             this.btn_PosJogD.TabIndex = 51;
@@ -987,7 +991,7 @@
             // 
             // btn_NegJogD
             // 
-            this.btn_NegJogD.Location = new System.Drawing.Point(247, 75);
+            this.btn_NegJogD.Location = new System.Drawing.Point(247, 91);
             this.btn_NegJogD.Name = "btn_NegJogD";
             this.btn_NegJogD.Size = new System.Drawing.Size(54, 20);
             this.btn_NegJogD.TabIndex = 50;
@@ -997,7 +1001,7 @@
             // 
             // btn_PosJogZ
             // 
-            this.btn_PosJogZ.Location = new System.Drawing.Point(187, 21);
+            this.btn_PosJogZ.Location = new System.Drawing.Point(187, 37);
             this.btn_PosJogZ.Name = "btn_PosJogZ";
             this.btn_PosJogZ.Size = new System.Drawing.Size(54, 20);
             this.btn_PosJogZ.TabIndex = 53;
@@ -1007,7 +1011,7 @@
             // 
             // btn_NegJogZ
             // 
-            this.btn_NegJogZ.Location = new System.Drawing.Point(187, 75);
+            this.btn_NegJogZ.Location = new System.Drawing.Point(187, 91);
             this.btn_NegJogZ.Name = "btn_NegJogZ";
             this.btn_NegJogZ.Size = new System.Drawing.Size(54, 20);
             this.btn_NegJogZ.TabIndex = 52;
@@ -1017,7 +1021,7 @@
             // 
             // btn_PosJogY
             // 
-            this.btn_PosJogY.Location = new System.Drawing.Point(66, 23);
+            this.btn_PosJogY.Location = new System.Drawing.Point(66, 39);
             this.btn_PosJogY.Name = "btn_PosJogY";
             this.btn_PosJogY.Size = new System.Drawing.Size(54, 20);
             this.btn_PosJogY.TabIndex = 55;
@@ -1027,7 +1031,7 @@
             // 
             // btn_NegJogY
             // 
-            this.btn_NegJogY.Location = new System.Drawing.Point(66, 75);
+            this.btn_NegJogY.Location = new System.Drawing.Point(66, 91);
             this.btn_NegJogY.Name = "btn_NegJogY";
             this.btn_NegJogY.Size = new System.Drawing.Size(54, 20);
             this.btn_NegJogY.TabIndex = 54;
@@ -1037,7 +1041,7 @@
             // 
             // btn_PosJogX
             // 
-            this.btn_PosJogX.Location = new System.Drawing.Point(117, 49);
+            this.btn_PosJogX.Location = new System.Drawing.Point(117, 65);
             this.btn_PosJogX.Name = "btn_PosJogX";
             this.btn_PosJogX.Size = new System.Drawing.Size(54, 20);
             this.btn_PosJogX.TabIndex = 1;
@@ -1047,7 +1051,7 @@
             // 
             // btn_NegJogX
             // 
-            this.btn_NegJogX.Location = new System.Drawing.Point(9, 50);
+            this.btn_NegJogX.Location = new System.Drawing.Point(9, 66);
             this.btn_NegJogX.Name = "btn_NegJogX";
             this.btn_NegJogX.Size = new System.Drawing.Size(54, 20);
             this.btn_NegJogX.TabIndex = 0;
@@ -1057,6 +1061,10 @@
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.lbl_CentreRotZ);
+            this.groupBox1.Controls.Add(this.btn_Point2);
+            this.groupBox1.Controls.Add(this.btn_point1);
+            this.groupBox1.Controls.Add(this.btn_RotationalCentre);
             this.groupBox1.Controls.Add(this.btn_FindFocus);
             this.groupBox1.Controls.Add(this.btn_MarkerAligned);
             this.groupBox1.Controls.Add(this.btn_StartAlignment);
@@ -1069,10 +1077,42 @@
             this.groupBox1.Controls.Add(this.btn_cornerA);
             this.groupBox1.Location = new System.Drawing.Point(12, 226);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(372, 169);
+            this.groupBox1.Size = new System.Drawing.Size(372, 195);
             this.groupBox1.TabIndex = 48;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Sample Alignment";
+            // 
+            // btn_Point2
+            // 
+            this.btn_Point2.Enabled = false;
+            this.btn_Point2.Location = new System.Drawing.Point(202, 162);
+            this.btn_Point2.Name = "btn_Point2";
+            this.btn_Point2.Size = new System.Drawing.Size(50, 23);
+            this.btn_Point2.TabIndex = 60;
+            this.btn_Point2.Text = "Point 2";
+            this.btn_Point2.UseVisualStyleBackColor = true;
+            this.btn_Point2.Click += new System.EventHandler(this.btn_Point2_Click);
+            // 
+            // btn_point1
+            // 
+            this.btn_point1.Enabled = false;
+            this.btn_point1.Location = new System.Drawing.Point(146, 162);
+            this.btn_point1.Name = "btn_point1";
+            this.btn_point1.Size = new System.Drawing.Size(50, 23);
+            this.btn_point1.TabIndex = 59;
+            this.btn_point1.Text = "Point 1";
+            this.btn_point1.UseVisualStyleBackColor = true;
+            this.btn_point1.Click += new System.EventHandler(this.btn_point1_Click);
+            // 
+            // btn_RotationalCentre
+            // 
+            this.btn_RotationalCentre.Location = new System.Drawing.Point(11, 162);
+            this.btn_RotationalCentre.Name = "btn_RotationalCentre";
+            this.btn_RotationalCentre.Size = new System.Drawing.Size(122, 23);
+            this.btn_RotationalCentre.TabIndex = 58;
+            this.btn_RotationalCentre.Text = "Find Rotational Centre";
+            this.btn_RotationalCentre.UseVisualStyleBackColor = true;
+            this.btn_RotationalCentre.Click += new System.EventHandler(this.btn_RotationalCentre_Click);
             // 
             // btn_FindFocus
             // 
@@ -1218,7 +1258,7 @@
             this.grpbx_OphirControl.Controls.Add(this.btn_OpenDevice);
             this.grpbx_OphirControl.Controls.Add(this.DeviceListBox);
             this.grpbx_OphirControl.Controls.Add(this.btn_ScanUSB);
-            this.grpbx_OphirControl.Location = new System.Drawing.Point(12, 401);
+            this.grpbx_OphirControl.Location = new System.Drawing.Point(12, 422);
             this.grpbx_OphirControl.Margin = new System.Windows.Forms.Padding(2);
             this.grpbx_OphirControl.Name = "grpbx_OphirControl";
             this.grpbx_OphirControl.Padding = new System.Windows.Forms.Padding(2);
@@ -1310,10 +1350,10 @@
             // 
             // btn_OpenDevice
             // 
-            this.btn_OpenDevice.Location = new System.Drawing.Point(11, 172);
+            this.btn_OpenDevice.Location = new System.Drawing.Point(11, 166);
             this.btn_OpenDevice.Margin = new System.Windows.Forms.Padding(2);
             this.btn_OpenDevice.Name = "btn_OpenDevice";
-            this.btn_OpenDevice.Size = new System.Drawing.Size(95, 20);
+            this.btn_OpenDevice.Size = new System.Drawing.Size(95, 23);
             this.btn_OpenDevice.TabIndex = 5;
             this.btn_OpenDevice.Text = "Open Device";
             this.btn_OpenDevice.UseVisualStyleBackColor = true;
@@ -1359,7 +1399,7 @@
             this.grpbx_TalikserLaser.Controls.Add(this.lbl_ShutterStatus);
             this.grpbx_TalikserLaser.Controls.Add(this.btn_Shutter);
             this.grpbx_TalikserLaser.Controls.Add(this.lbl_ShutterStatusText);
-            this.grpbx_TalikserLaser.Location = new System.Drawing.Point(394, 401);
+            this.grpbx_TalikserLaser.Location = new System.Drawing.Point(394, 422);
             this.grpbx_TalikserLaser.Margin = new System.Windows.Forms.Padding(2);
             this.grpbx_TalikserLaser.Name = "grpbx_TalikserLaser";
             this.grpbx_TalikserLaser.Padding = new System.Windows.Forms.Padding(2);
@@ -1367,6 +1407,15 @@
             this.grpbx_TalikserLaser.TabIndex = 52;
             this.grpbx_TalikserLaser.TabStop = false;
             this.grpbx_TalikserLaser.Text = "Talisker Laser";
+            // 
+            // txtbx_RequestedWPATT
+            // 
+            this.txtbx_RequestedWPATT.Location = new System.Drawing.Point(197, 103);
+            this.txtbx_RequestedWPATT.Margin = new System.Windows.Forms.Padding(2);
+            this.txtbx_RequestedWPATT.Name = "txtbx_RequestedWPATT";
+            this.txtbx_RequestedWPATT.Size = new System.Drawing.Size(46, 20);
+            this.txtbx_RequestedWPATT.TabIndex = 54;
+            this.txtbx_RequestedWPATT.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtbx_RequestedWPATT_KeyDown);
             // 
             // lbl_AOMGateStatus
             // 
@@ -1448,15 +1497,6 @@
             this.lbl_TaliskerATTText.TabIndex = 11;
             this.lbl_TaliskerATTText.Text = "Talisker Atten =";
             this.lbl_TaliskerATTText.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // txtbx_RequestedWPATT
-            // 
-            this.txtbx_RequestedWPATT.Location = new System.Drawing.Point(197, 103);
-            this.txtbx_RequestedWPATT.Margin = new System.Windows.Forms.Padding(2);
-            this.txtbx_RequestedWPATT.Name = "txtbx_RequestedWPATT";
-            this.txtbx_RequestedWPATT.Size = new System.Drawing.Size(46, 20);
-            this.txtbx_RequestedWPATT.TabIndex = 54;
-            this.txtbx_RequestedWPATT.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtbx_RequestedWPATT_KeyDown);
             // 
             // txtbx_RequestedTaliskerATT
             // 
@@ -1579,6 +1619,15 @@
             this.lbl_ShutterStatusText.Size = new System.Drawing.Size(88, 13);
             this.lbl_ShutterStatusText.TabIndex = 0;
             this.lbl_ShutterStatusText.Text = "Shutter Status";
+            // 
+            // lbl_CentreRotZ
+            // 
+            this.lbl_CentreRotZ.Location = new System.Drawing.Point(252, 162);
+            this.lbl_CentreRotZ.Name = "lbl_CentreRotZ";
+            this.lbl_CentreRotZ.Size = new System.Drawing.Size(114, 23);
+            this.lbl_CentreRotZ.TabIndex = 61;
+            this.lbl_CentreRotZ.Text = "Rotational Centre -Z";
+            this.lbl_CentreRotZ.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // Form1
             // 
@@ -1752,6 +1801,10 @@
         private System.Windows.Forms.Label lbl_AOMGateStatus;
         private System.Windows.Forms.Button btn_AOMGATE;
         private System.Windows.Forms.Label lbl_AOMGateText;
+        private System.Windows.Forms.Button btn_Point2;
+        private System.Windows.Forms.Button btn_point1;
+        private System.Windows.Forms.Button btn_RotationalCentre;
+        private System.Windows.Forms.Label lbl_CentreRotZ;
     }
 }
 
