@@ -101,7 +101,7 @@ namespace Aerotech_Control
         double MarkLength = 0.25;
 
         double Z_Scan_length = 0.5;
-        double Mark_Number = 10;
+        int Mark_Number = 10;
         double Line_Spacing = 0.25;
 
         double ablation_focus;
@@ -119,6 +119,8 @@ namespace Aerotech_Control
         double[] LaserFocus_Xaxis = new double[8];
         double[] LaserFocus_Yaxis = new double[8];
         double[] LaserFocus_Zaxis = new double[8];
+
+        double ablation_focus_accurate;
 
         int command_delay = 1000;
 
@@ -244,6 +246,8 @@ namespace Aerotech_Control
                 // register task state and diagPackect arrived events
                 this.myController.ControlCenter.TaskStates.NewTaskStatesArrived += new EventHandler<NewTaskStatesArrivedEventArgs>(TaskStates_NewTaskStatesArrived);
                 this.myController.ControlCenter.Diagnostics.NewDiagPacketArrived += new EventHandler<NewDiagPacketArrivedEventArgs>(Diagnostics_NewDiagPacketArrived);
+                
+                myController.Commands.IO.DigitalOutputBit(0, "X", 1);
 
             }
             catch (A3200Exception exception)
@@ -691,11 +695,6 @@ namespace Aerotech_Control
             myController.Commands.Axes["B"].Motion.Home();
         }
 
-        private void btn_EnableAir_Click(object sender, EventArgs e)
-        {
-            myController.Commands.IO.DigitalOutputBit(0, "X", 1);
-        }
-
         private void btn_XHome_Click(object sender, EventArgs e)
         {
             try
@@ -874,14 +873,28 @@ namespace Aerotech_Control
         private void btn_StartAlignment_Click(object sender, EventArgs e)
         {
 
-            ablation_focus = Convert.ToDouble(File.ReadAllText("C:/Users/User/Desktop/Share/Chris/TEST/Aerotech Control/Reference Values/ABLATION_FOCUS.txt", Encoding.UTF8)); /// SPECIFY PATH
-            microscope_focus = Convert.ToDouble(File.ReadAllText("C:/Users/User/Desktop/Share/Chris/TEST/Aerotech Control/Reference Values/MICROSCOPE.txt", Encoding.UTF8)); /// SPECIFY PATH
+            ablation_focus = Convert.ToDouble(File.ReadAllText("C:/Users/User/Documents/GitHub/PrecisionPlatformControl/Reference Values/ABLATION_FOCUS.txt", Encoding.UTF8)); /// SPECIFY PATH
+            microscope_focus = Convert.ToDouble(File.ReadAllText("C:/Users/User/Documents/GitHub/PrecisionPlatformControl/Reference Values/MICROSCOPE.txt", Encoding.UTF8)); /// SPECIFY PATH
 
             double Start_Xaxis = -36;
             double Start_Yaxis = -21.5;
 
             myController.Commands.Motion.Setup.Absolute();
             myController.Commands.Axes["X", "Y", "Z", "D", "A", "B"].Motion.Linear(new double[] { Start_Xaxis, Start_Yaxis, ablation_focus, microscope_focus, 0, 0 }, 2.5);
+
+            //Disable Buttons
+
+            btn_PosJogD.Enabled = false;
+            btn_NegJogD.Enabled = false;
+
+            btn_PosJogA.Enabled = false;
+            btn_NegJogA.Enabled = false;
+
+            btn_PosJogB.Enabled = false;
+            btn_NegJogB.Enabled = false;
+
+            btn_cornerA.Enabled = true;
+            btn_StartAlignment.Enabled = false;   
 
         }
 
@@ -899,6 +912,7 @@ namespace Aerotech_Control
             CornersZ.WriteLine(A_Zaxis);
 
             btn_cornerA.Enabled = false;
+            btn_cornerB.Enabled = true;
         }
 
         private void btn_cornerB_Click(object sender, EventArgs e)
@@ -913,6 +927,7 @@ namespace Aerotech_Control
             CornersZ.WriteLine(B_Zaxis);
 
             btn_cornerB.Enabled = false;
+            btn_cornerC.Enabled = true;
         }
 
         private void btn_cornerC_Click(object sender, EventArgs e)
@@ -927,6 +942,7 @@ namespace Aerotech_Control
             CornersZ.WriteLine(B_Zaxis);
 
             btn_cornerC.Enabled = false;
+            btn_cornerD.Enabled = true;
         }
 
         private void btn_cornerD_Click(object sender, EventArgs e)
@@ -958,6 +974,8 @@ namespace Aerotech_Control
 
             MessageBox.Show("Realign and refocus corner");
 
+            btn_TiltCorrection.Enabled = false;
+
             btn_UpdateCoords.Enabled = true;
 
             CornerAlignmentEvent.Set();
@@ -970,7 +988,7 @@ namespace Aerotech_Control
             // Set enviroment for matlab instance
             var activationContext = Type.GetTypeFromProgID("matlab.application.single");
             var matlab = (MLApp.MLApp)Activator.CreateInstance(activationContext);
-            string tilt_path = "cd('C:/Users/User/Desktop/Share/Chris/TEST/Aerotech Control/Matlab Code')"; // change to path on UP PC
+            string tilt_path = "cd('C:/Users/User/Documents/GitHub/PrecisionPlatformControl/Matlab Code')"; // change to path on UP PC
             matlab.Execute(tilt_path);
 
             // Send corner coordinates to Matlab
@@ -994,9 +1012,9 @@ namespace Aerotech_Control
             // Apply rotation angles
 
             myController.Commands.Motion.Setup.Absolute();
-            MessageBox.Show(theta_hold.ToString());
+            //MessageBox.Show(theta_hold.ToString());
             myController.Commands.Motion.Linear("A", theta_hold, 1);
-            MessageBox.Show(phi_hold.ToString());
+            //MessageBox.Show(phi_hold.ToString());
             myController.Commands.Motion.Linear("B", phi_hold, 1);
         }
 
@@ -1044,8 +1062,9 @@ namespace Aerotech_Control
                 {
                     btn_UpdateCoords.Text = "Corners Reaquired";
                     btn_UpdateCoords.Enabled = false;
-                    MessageBox.Show("Calculating new tilt");
+                    //MessageBox.Show("Calculating new tilt");
                     PlaneFit();
+                    MessageBox.Show("Adjust microscope focus using D axis");
                 }
             }
             hold = 0;
@@ -1085,9 +1104,18 @@ namespace Aerotech_Control
                 D_Zaxis = myController.Commands.Status.AxisStatus("Z", AxisStatusSignal.ProgramPositionFeedback);
                 D_Daxis = myController.Commands.Status.AxisStatus("D", AxisStatusSignal.ProgramPositionFeedback);
                 microscope_focus = (A_Daxis + B_Daxis + C_Daxis + D_Daxis) / 4;
+                btn_PosJogD.Enabled = true;
+                btn_NegJogD.Enabled = true;
+                myController.Commands.Motion.Linear("Z", ablation_focus, 1);                
             }
 
             CornerAlignmentEvent.Set();
+        }
+
+        private void btn_SetuScopeFocus_Click(object sender, EventArgs e)
+        {
+            microscope_focus = myController.Commands.Status.AxisStatus("D", AxisStatusSignal.ProgramPositionFeedback);
+            btn_SetuScopeFocus.Enabled = false;
         }
 
         #endregion
@@ -1096,6 +1124,8 @@ namespace Aerotech_Control
 
         private void btn_AlignLaseruScope_Click(object sender, EventArgs e)
         {
+            btn_AlignLaseruScope.Enabled = false;
+            
             // Find X dimensions
 
             if (A_Xaxis > B_Xaxis)
@@ -1146,8 +1176,8 @@ namespace Aerotech_Control
 
             // Find previous offset 
 
-            Offset_Xaxis = Convert.ToDouble(File.ReadAllText("C:/Users/User/Desktop/Share/Chris/TEST/Aerotech Control/Reference Values/OFFSETX.txt", Encoding.UTF8));
-            Offset_Yaxis = Convert.ToDouble(File.ReadAllText("C:/Users/User/Desktop/Share/Chris/TEST/Aerotech Control/Reference Values/OFFSETY.txt", Encoding.UTF8));
+            Offset_Xaxis = Convert.ToDouble(File.ReadAllText("C:/Users/User/Documents/GitHub/PrecisionPlatformControl/Reference Values/OFFSETX.txt", Encoding.UTF8));
+            Offset_Yaxis = Convert.ToDouble(File.ReadAllText("C:/Users/User/Documents/GitHub/PrecisionPlatformControl/Reference Values/OFFSETY.txt", Encoding.UTF8));
 
             // Set laser parameters
 
@@ -1158,7 +1188,7 @@ namespace Aerotech_Control
             aommode_0();
             aomgate_high_trigger();
             talisker_attenuation(80);
-            watt_pilot_attenuation(100);
+            watt_pilot_attenuation(0);
 
             // Mark Fiducial Markers
 
@@ -1170,6 +1200,8 @@ namespace Aerotech_Control
             MarkCross();
             myController.Commands.Axes["X", "Y"].Motion.Linear(new double[] { Refined_Xaxis[3] - Offset_Xaxis, Refined_Yaxis[3] - Offset_Yaxis }, 5);
             MarkCross();
+
+            shutter_closed();
 
             // Check Alignment
 
@@ -1190,23 +1222,34 @@ namespace Aerotech_Control
                 hold = i;
 
                 myController.Commands.Motion.Setup.Absolute();
-                myController.Commands.Axes["X", "Y"].Motion.Linear(new double[] { Refined_Xaxis[i], Refined_Yaxis[i] }, 1);
-                myController.Commands.Axes["D"].Motion.Linear(new double[] { microscope_focus });
-
-                if (i == 3)
-                {
-                    MessageBox.Show("Calculating Accurate offset");
-                    OffsetAccurate_Xaxis = Offset_Xaxis + Correction_Xaxis.Sum();
-                    OffsetAccurate_Yaxis = Offset_Yaxis + Correction_Xaxis.Sum();
-                    btn_MarkerAligned.Enabled = false;
-                }
+                myController.Commands.Axes["X", "Y"].Motion.Linear(new double[] { Refined_Xaxis[i], Refined_Yaxis[i] }, 5);
+                myController.Commands.Axes["D"].Motion.Linear(new double[] { microscope_focus });                
             }
         }
 
         private void btn_MarkerAligned_Click(object sender, EventArgs e)
         {
             Correction_Xaxis[hold] = (myController.Commands.Status.AxisStatus("X", AxisStatusSignal.ProgramPositionFeedback) - Refined_Xaxis[hold]);
+
+            MessageBox.Show(Correction_Xaxis[hold].ToString());
+
             Correction_Yaxis[hold] = (myController.Commands.Status.AxisStatus("Y", AxisStatusSignal.ProgramPositionFeedback) - Refined_Yaxis[hold]);
+
+            MessageBox.Show(Correction_Yaxis[hold].ToString());
+
+            if (hold == 3)
+            {
+                MessageBox.Show("Calculating Accurate offset");
+                OffsetAccurate_Xaxis = Offset_Xaxis + Correction_Xaxis.Sum() / 4; 
+                MessageBox.Show("Original Offset X axis = " + Offset_Xaxis.ToString() + " New Offset X axis = " + OffsetAccurate_Xaxis.ToString());
+                OffsetAccurate_Yaxis = Offset_Yaxis + Correction_Yaxis.Sum() / 4;
+                MessageBox.Show("Orignial Offset Y axis = " + Offset_Yaxis.ToString() + " New Offset Y axis = " + OffsetAccurate_Yaxis.ToString());
+                btn_MarkerAligned.Enabled = false;
+
+                File.WriteAllText("C:/Users/User/Documents/GitHub/PrecisionPlatformControl/Reference Values/OFFSETX.txt", OffsetAccurate_Xaxis.ToString());
+                File.WriteAllText("C:/Users/User/Documents/GitHub/PrecisionPlatformControl/Reference Values/OFFSETY.txt", OffsetAccurate_Yaxis.ToString());
+            }
+
             LaserAlignEvent.Set();
         }
 
@@ -1232,7 +1275,25 @@ namespace Aerotech_Control
         private void btn_FindFocus_Click(object sender, EventArgs e)
         {
             FindFocus_Xaxis();
-            FindFocus_Yaxis();
+
+            //FindFocus_Yaxis(); 
+
+            // calculate average focus height
+
+            //MessageBox.Show(LaserFocus_Zaxis.Sum().ToString());
+
+            ablation_focus_accurate = LaserFocus_Zaxis.Sum() / 4;
+
+            //MessageBox.Show(ablation_focus_accurate.ToString());
+
+            myController.Commands.Motion.Setup.Absolute();
+
+            myController.Commands.Motion.Linear("Z", ablation_focus_accurate, 1);
+
+            MessageBox.Show("Reset Microscope Focus");
+
+            btn_SetuScopeFocus.Enabled = true;
+
         }
 
         private void FindFocus_Xaxis()
@@ -1240,45 +1301,53 @@ namespace Aerotech_Control
             double Current_X = 0;
             double Current_Y = 0;
 
+            int pos_count = 0; // Variable for recording position of minimum track width - starts on zero for X
+
             myController.Commands.Motion.Linear("D", 0, 1);
 
             shutter_open();
             aommode_0();
             aomgate_high_trigger();
             talisker_attenuation(90);
-            watt_pilot_attenuation(100);
+            watt_pilot_attenuation(0);
 
             for (int hold = 0; hold < 4; hold++)
             {
-                myController.Commands.Motion.Linear("X", Refined_Xaxis[hold] + MarkLength / 2 - OffsetAccurate_Xaxis, 1);
+                myController.Commands.Motion.Linear("X", Refined_Xaxis[hold] + MarkLength / 2 - OffsetAccurate_Xaxis, 5);
 
                 if (hold == 0)
                 {
-                    myController.Commands.Motion.Linear("Y", Refined_Yaxis[hold] - 0.5 - OffsetAccurate_Yaxis, 1);
+                    myController.Commands.Motion.Linear("Y", Refined_Yaxis[hold] - 0.5 - OffsetAccurate_Yaxis, 5);
                 }
                 else if (hold == 1)
                 {
-                    myController.Commands.Motion.Linear("Y", Refined_Yaxis[hold] + (Line_Spacing * Mark_Number) + 0.5 - OffsetAccurate_Yaxis, 1);
+                    myController.Commands.Motion.Linear("Y", Refined_Yaxis[hold] + (Line_Spacing * Mark_Number) + 0.5 - OffsetAccurate_Yaxis, 5);
                 }
                 else if (hold == 2)
                 {
-                    myController.Commands.Motion.Linear("Y", Refined_Yaxis[hold] + (Line_Spacing * Mark_Number) + 0.5 - OffsetAccurate_Yaxis, 1);
+                    myController.Commands.Motion.Linear("Y", Refined_Yaxis[hold] + (Line_Spacing * Mark_Number) + 0.5 - OffsetAccurate_Yaxis, 5);
                 }
                 else if (hold == 3)
                 {
-                    myController.Commands.Motion.Linear("Y", Refined_Yaxis[hold] - 0.5 - OffsetAccurate_Yaxis, 1);
+                    myController.Commands.Motion.Linear("Y", Refined_Yaxis[hold] - 0.5 - OffsetAccurate_Yaxis, 5);
                 }
+
+                // Ensure Z axis is at rough focus minus half scan length
+
+                myController.Commands.Motion.Linear("Z", ablation_focus - (Z_Scan_length / 2), 1);
+
                 // X axis find focus 
                 for (int i = 0; i < Mark_Number; i++)
                 {
                     // Change Z height
                     myController.Commands.Motion.Setup.Incremental();
-                    myController.Commands.Motion.Linear("Z", -Z_Scan_length / 2 + Z_Scan_length / Mark_Number * i, 1);
-                    myController.Commands.Motion.Linear("Y", -(Line_Spacing * hold), 1);
+                    myController.Commands.Motion.Linear("Z", (Z_Scan_length / Mark_Number), 1);
+                    //MessageBox.Show(myController.Commands.Status.AxisStatus("Z", AxisStatusSignal.ProgramPositionFeedback).ToString());                  
                     myController.Commands.PSO.Control("X", Aerotech.A3200.Commands.PsoMode.On);
-                    myController.Commands.Motion.Linear("X", MarkLength, 1);
-                    myController.Commands.PSO.Control("X", Aerotech.A3200.Commands.PsoMode.Off);
                     myController.Commands.Motion.Linear("X", -MarkLength, 1);
+                    myController.Commands.PSO.Control("X", Aerotech.A3200.Commands.PsoMode.Off);
+                    myController.Commands.Motion.Linear("X", +MarkLength, 1);
+                    myController.Commands.Motion.Linear("Y", -(Line_Spacing), 1);
                     myController.Commands.Motion.Setup.Absolute();
                 }
             }
@@ -1287,9 +1356,9 @@ namespace Aerotech_Control
 
             for (int hold = 0; hold < 4; hold++)
             {
-                Current_X = Refined_Xaxis[hold] + MarkLength / 2;
+                Current_X = Refined_Xaxis[hold];
 
-                myController.Commands.Motion.Linear("X", Current_X, 1);
+                myController.Commands.Motion.Linear("X", Current_X, 5);
 
                 if (hold == 0)
                 {
@@ -1308,28 +1377,32 @@ namespace Aerotech_Control
                     Current_Y = Refined_Yaxis[hold] - 0.5;
                 }
 
-                myController.Commands.Motion.Linear("Y", Current_Y, 1);
+                myController.Commands.Motion.Linear("Y", Current_Y, 5);
 
                 // Bring microscope into focus
 
                 myController.Commands.Motion.Linear("D", microscope_focus, 1);
 
-                int pos_count = 0; // Variable for recording position
+                // Bring Z stage to intial ablation focus
+
+                myController.Commands.Motion.Linear("Z", ablation_focus, 1);                
 
                 for (int i = 0; i < Mark_Number; i++)
                 {
                     myController.Commands.Motion.Setup.Incremental();
-                    myController.Commands.Motion.Linear("X", -MarkLength / 2, 1);
-                    myController.Commands.Motion.Linear("Y", -(Line_Spacing * hold), 1);
+                    //myController.Commands.Motion.Linear("X", -MarkLength / 2, 1);
                     DialogResult Focus_Result = MessageBox.Show("Is this result larger than the previous result?", "Important Question", MessageBoxButtons.YesNo);
                     if (Focus_Result == DialogResult.Yes)
                     {
                         // Recording position of focus point
                         LaserFocus_Xaxis[pos_count] = Current_X - MarkLength / 2;
-                        LaserFocus_Yaxis[pos_count] = Current_Y - (Line_Spacing * (hold - 1));
-                        LaserFocus_Zaxis[pos_count] = ablation_focus - Z_Scan_length / 2 + Z_Scan_length / Mark_Number * (i - 1);
-                        pos_count++;
+                        LaserFocus_Yaxis[pos_count] = Current_Y - Line_Spacing * (i - 1);
+                        LaserFocus_Zaxis[pos_count] = ablation_focus - Z_Scan_length / 2 + Z_Scan_length / Mark_Number * i;
+                        //MessageBox.Show(LaserFocus_Zaxis[pos_count].ToString());
+                        pos_count = pos_count + 1;
+                        i = Mark_Number; 
                     }
+                    myController.Commands.Motion.Linear("Y", -(Line_Spacing), 1);
                     myController.Commands.Motion.Setup.Absolute();
                 }
             }
@@ -1343,34 +1416,40 @@ namespace Aerotech_Control
             double Current_X = 0;
             double Current_Y = 0;
 
+            myController.Commands.Motion.Setup.Absolute();
+
             myController.Commands.Motion.Linear("D", 0, 1);
 
             shutter_open();
             aommode_0();
             aomgate_high_trigger();
-            talisker_attenuation(90);
-            watt_pilot_attenuation(100);
+            talisker_attenuation(80);
+            watt_pilot_attenuation(0);
 
             for (int hold = 0; hold < 4; hold++)
             {
-                myController.Commands.Motion.Linear("Y", Refined_Yaxis[hold] + MarkLength / 2 - OffsetAccurate_Yaxis, 1);
+                myController.Commands.Motion.Linear("Y", Refined_Yaxis[hold] + MarkLength / 2 - OffsetAccurate_Yaxis, 5);
 
                 if (hold == 0)
                 {
-                    myController.Commands.Motion.Linear("X", Refined_Xaxis[hold] - (Line_Spacing * Mark_Number) - 0.5 - OffsetAccurate_Xaxis, 1);
+                    myController.Commands.Motion.Linear("X", Refined_Xaxis[hold] + 0.5 - OffsetAccurate_Xaxis, 5);
                 }
                 else if (hold == 1)
                 {
-                    myController.Commands.Motion.Linear("X", Refined_Xaxis[hold] - (Line_Spacing * Mark_Number) - 0.5 - OffsetAccurate_Xaxis, 1);
+                    myController.Commands.Motion.Linear("X", Refined_Xaxis[hold] + 0.5 - OffsetAccurate_Xaxis, 5);
                 }
                 else if (hold == 2)
                 {
-                    myController.Commands.Motion.Linear("X", Refined_Xaxis[hold] + 0.5 - OffsetAccurate_Xaxis, 1);
+                    myController.Commands.Motion.Linear("X", Refined_Xaxis[hold] - (Line_Spacing * Mark_Number) - 0.5 - OffsetAccurate_Xaxis, 5);
                 }
                 else if (hold == 3)
                 {
-                    myController.Commands.Motion.Linear("X", Refined_Xaxis[hold] + 0.5 - OffsetAccurate_Xaxis, 1);
+                    myController.Commands.Motion.Linear("X", Refined_Xaxis[hold] - (Line_Spacing * Mark_Number) - 0.5 - OffsetAccurate_Xaxis, 5);
                 }
+
+                // Ensure Z axis is at rough focus minus half scan length
+
+                myController.Commands.Motion.Linear("Z", ablation_focus - (Z_Scan_length / 2), 1);
 
                 // Mark lines
 
@@ -1378,12 +1457,12 @@ namespace Aerotech_Control
                 {
                     // Change Z height
                     myController.Commands.Motion.Setup.Incremental();
-                    myController.Commands.Motion.Linear("Z", ablation_focus - Z_Scan_length / 2 + Z_Scan_length / Mark_Number * i, 1);
-                    myController.Commands.Motion.Linear("X", (Line_Spacing * hold), 1);
+                    myController.Commands.Motion.Linear("Z", (Z_Scan_length / Mark_Number), 1);                    
                     myController.Commands.PSO.Control("X", Aerotech.A3200.Commands.PsoMode.On);
                     myController.Commands.Motion.Linear("Y", -MarkLength, 1);
                     myController.Commands.PSO.Control("X", Aerotech.A3200.Commands.PsoMode.Off);
                     myController.Commands.Motion.Linear("Y", MarkLength, 1);
+                    myController.Commands.Motion.Linear("X", Line_Spacing, 1);
                     myController.Commands.Motion.Setup.Absolute();
                 }
             }
@@ -1395,49 +1474,53 @@ namespace Aerotech_Control
 
                 Current_Y = Refined_Yaxis[hold] + MarkLength / 2;
 
-                myController.Commands.Motion.Linear("Y", Current_Y, 1);
+                myController.Commands.Motion.Linear("Y", Current_Y, 5);
 
                 if (hold == 0)
                 {
-                    Current_X = Refined_Xaxis[hold] - (Line_Spacing * Mark_Number) - 0.5;
+                    Current_X = Refined_Xaxis[hold] + 0.5;
                 }
                 else if (hold == 1)
                 {
-                    Current_X = Refined_Xaxis[hold] - (Line_Spacing * Mark_Number) - 0.5;
+                    Current_X = Refined_Xaxis[hold] + 0.5;
                 }
                 else if (hold == 2)
                 {
-                    Current_X = Refined_Xaxis[hold] + 0.5;
+                    Current_X = Refined_Xaxis[hold] - (Line_Spacing * Mark_Number) - 0.5;
                 }
                 else if (hold == 3)
                 {
-                    Current_X = Refined_Xaxis[hold] + 0.5;
+                    Current_X = Refined_Xaxis[hold] - (Line_Spacing * Mark_Number) - 0.5;
                 }
 
-                myController.Commands.Motion.Linear("X", Current_X, 1);
+                myController.Commands.Motion.Linear("X", Current_X, 5);
 
                 // Bring microscope into focus
 
                 myController.Commands.Motion.Linear("D", microscope_focus, 1);
 
-                int pos_count = 4; // Variable for recording position
+                // Bring Z stage to intial ablation focus
+
+                myController.Commands.Motion.Linear("Z", ablation_focus, 1);
+
+                int pos_count = 4; // Variable for recording position - starts with 4 for Y axis 
 
                 // Y axis find focus 
                 for (int i = 0; i < Mark_Number; i++)
-                {
-                    // Change Z height
-                    myController.Commands.Motion.Setup.Incremental();
-                    myController.Commands.Motion.Linear("X", (Line_Spacing * hold), 1);
-                    myController.Commands.Motion.Linear("Y", -MarkLength / 2, 1);
+                {                    
+                    myController.Commands.Motion.Setup.Incremental();                    
+                    //myController.Commands.Motion.Linear("Y", -MarkLength / 2, 1);
                     DialogResult Focus_Result = MessageBox.Show("Is this result larger than the previous result?", "Important Question", MessageBoxButtons.YesNo);
                     if (Focus_Result == DialogResult.Yes)
                     {
                         // Recording position of focus point
-                        LaserFocus_Xaxis[pos_count] = Current_X + (Line_Spacing * (hold - 1));
+                        LaserFocus_Xaxis[pos_count] = Current_X + (Line_Spacing * (i - 1));
                         LaserFocus_Yaxis[pos_count] = Current_Y - MarkLength / 2;
-                        LaserFocus_Zaxis[pos_count] = ablation_focus - Z_Scan_length / 2 + Z_Scan_length / Mark_Number * (i - 1);
+                        LaserFocus_Zaxis[pos_count] = ablation_focus - Z_Scan_length / 2 + Z_Scan_length / Mark_Number * i;
                         pos_count++;
+                        i = Mark_Number;
                     }
+                    myController.Commands.Motion.Linear("X", (Line_Spacing * hold), 1);
                     myController.Commands.Motion.Setup.Absolute();
                 }
             }
@@ -1450,13 +1533,16 @@ namespace Aerotech_Control
 
         private void btn_RotationalCentre_Click(object sender, EventArgs e)
         {
+            btn_PosJogD.Enabled = false;
+            btn_NegJogD.Enabled = false;
+
             double CentreTestRotation = 10;
 
             // Move to rough marker position 
 
             myController.Commands.Motion.Setup.Absolute();
             myController.Commands.Axes["X", "Y"].Motion.Linear(new double[] { Refined_Xaxis[1], Refined_Yaxis[1] }, 1);
-            myController.Commands.Motion.Linear("D", 15, 1);
+            myController.Commands.Motion.Linear("D", 36.5, 1);
 
             // Apply +10 degree rotation 
 
@@ -1478,15 +1564,42 @@ namespace Aerotech_Control
             Point1_Zaxis = myController.Commands.Status.AxisStatus("Z", AxisStatusSignal.ProgramPositionFeedback);
             Point1_Daxis = myController.Commands.Status.AxisStatus("D", AxisStatusSignal.ProgramPositionFeedback);
 
-            // Apply -10 degree rotation
+            // Write all variables to text file 
+
+            using (StreamWriter writer = new StreamWriter("C:/Users/User/Documents/GitHub/PrecisionPlatformControl/Reference Values/Rotpoints.txt", true))
+            {
+                writer.WriteLine("Rotation = " + CentreTestRotation.ToString());
+
+                writer.WriteLine("Reference Y = " + Refined_Yaxis[1].ToString());
+                writer.WriteLine("Reference Z = " + ablation_focus_accurate.ToString());
+
+                writer.WriteLine("Point 1 X = " + Point1_Yaxis.ToString());
+                writer.WriteLine("Point 1 Z = " + Point1_Zaxis.ToString());
+            }
+
+                // Apply -10 degree rotation
 
             myController.Commands.Motion.Setup.Incremental();
             myController.Commands.Motion.Linear("B", -2 * CentreTestRotation, 1);
+
+            btn_point1.Enabled = false;
+            btn_Point2.Enabled = true;
+
+            double theta_rad = CentreTestRotation * (Math.PI / 180); // Radians
+
+            //Converting D Axis measurement to Z axis equivalent 
+
+            double Z_Offset = ((Point1_Zaxis - ablation_focus_accurate) / 2) + ((Math.Sin(theta_rad) * (Point1_Yaxis - Refined_Yaxis[1])) / (2 * (1 - Math.Cos(theta_rad))));
+
+            double Y_Offset = (-0.5 * (Point1_Yaxis - Refined_Yaxis[1])) + ((Point1_Zaxis - ablation_focus_accurate) * (1 - Math.Cos(theta_rad)) / (2 * Math.Sin(theta_rad))); 
+
+            MessageBox.Show("Trig Method - Z Centre = " + Z_Offset.ToString());
+            MessageBox.Show("Trig Method - Y Centre = " + Y_Offset.ToString());
         }
 
         private void btn_Point2_Click(object sender, EventArgs e)
         {
-            double CentreTestRotation = 10;
+            double CentreTestRotation = 10; // Degrees
 
             Point2_Xaxis = myController.Commands.Status.AxisStatus("X", AxisStatusSignal.ProgramPositionFeedback);
             Point2_Yaxis = myController.Commands.Status.AxisStatus("Y", AxisStatusSignal.ProgramPositionFeedback);
@@ -1507,9 +1620,13 @@ namespace Aerotech_Control
 
             double CentreRot_Y = (Point2_Const - Point1_Const) / (2 * Gradient);
             double CentreRot_D = Gradient * CentreRot_Y + Point1_Const;
-            CentreRot_Z = 76.7038 - CentreRot_Y; // ****Check Value****
+            CentreRot_Z = (ablation_focus_accurate + microscope_focus) - CentreRot_D; // ****Check Value****
+
+            btn_Point2.Enabled = false;
 
             lbl_CentreRotZ.Text = CentreRot_Z.ToString();
+
+            MessageBox.Show("Line Gradient Method - Centre = " + CentreRot_Z.ToString());            
         }
                 
         #endregion
@@ -1961,14 +2078,10 @@ namespace Aerotech_Control
 
 
 
+
         #endregion
-
-
+        
     }
-
-
-
-
-
+    
 }
 

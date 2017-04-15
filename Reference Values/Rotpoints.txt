@@ -1,0 +1,5 @@
+Rotation = 10
+Reference Y = -29.0299955502982
+Reference Z = 37.449859
+Point 1 X = -29.0859966164807
+Point 1 Z = 37.4498635702765

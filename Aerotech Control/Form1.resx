@@ -4081,7 +4081,7 @@
   <data name="icImagingControl1.DeviceState" xml:space="preserve">
     <value>&lt;device_state libver="3.4" filemajor="1" fileminor="0"&gt;
     &lt;device name="DMK 72AUC02" base_name="DMK 72AUC02" unique_name="DMK 72AUC02 50310198"&gt;
-        &lt;videoformat&gt;Y800 (1024x768) [Binning 2x]&lt;/videoformat&gt;
+        &lt;videoformat&gt;RGB24 (1024x768) [Binning 2x]&lt;/videoformat&gt;
         &lt;fps&gt;26.706049187201394091&lt;/fps&gt;
         &lt;vcdpropertyitems&gt;
             &lt;item guid="{284C0E06-010B-45BF-8291-09D90A459B28}" name="Brightness"&gt;
@@ -4144,8 +4144,14 @@
                 &lt;/element&gt;
             &lt;/item&gt;
             &lt;item guid="{2CED6FD6-AB4D-4C74-904C-D682E53B9CC5}" name="Partial scan"&gt;
+                &lt;element guid="{87FB6C02-98A8-46B0-B18D-6442D9775CD3}" name="Y Offset"&gt;
+                    &lt;itf guid="{99B44940-BFE1-4083-ADA1-BE703F4B8E03}" value="0" /&gt;
+                &lt;/element&gt;
+                &lt;element guid="{5E59F654-7B47-4458-B4C6-5D4F0D175FC1}" name="X Offset"&gt;
+                    &lt;itf guid="{99B44940-BFE1-4083-ADA1-BE703F4B8E03}" value="0" /&gt;
+                &lt;/element&gt;
                 &lt;element guid="{36EAA683-3321-44BE-9D73-E1FD4C3FDB87}" name="Auto-center"&gt;
-                    &lt;itf guid="{99B44940-BFE1-4083-ADA1-BE703F4B8E04}" value="1" /&gt;
+                    &lt;itf guid="{99B44940-BFE1-4083-ADA1-BE703F4B8E04}" value="0" /&gt;
                 &lt;/element&gt;
             &lt;/item&gt;
             &lt;item guid="{DC320EDE-DF2E-4A90-B926-71417C71C57C}" name="Strobe"&gt;
