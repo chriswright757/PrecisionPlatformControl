@@ -87,7 +87,6 @@
             this.btn_XOnOff = new System.Windows.Forms.Button();
             this.lbl_YInfo = new System.Windows.Forms.Label();
             this.lbl_XInfo = new System.Windows.Forms.Label();
-            this.btn_EnableAir = new System.Windows.Forms.Button();
             this.grpbx_JogAxes = new System.Windows.Forms.GroupBox();
             this.lbl_JogValue = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
@@ -110,6 +109,8 @@
             this.btn_PosJogX = new System.Windows.Forms.Button();
             this.btn_NegJogX = new System.Windows.Forms.Button();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.btn_SetuScopeFocus = new System.Windows.Forms.Button();
+            this.lbl_CentreRotZ = new System.Windows.Forms.Label();
             this.btn_Point2 = new System.Windows.Forms.Button();
             this.btn_point1 = new System.Windows.Forms.Button();
             this.btn_RotationalCentre = new System.Windows.Forms.Button();
@@ -161,7 +162,6 @@
             this.lbl_ShutterStatus = new System.Windows.Forms.Label();
             this.btn_Shutter = new System.Windows.Forms.Button();
             this.lbl_ShutterStatusText = new System.Windows.Forms.Label();
-            this.lbl_CentreRotZ = new System.Windows.Forms.Label();
             this.grpbx_AxVel.SuspendLayout();
             this.grpbx_AxPos.SuspendLayout();
             this.grpbx_AxisStatus.SuspendLayout();
@@ -825,16 +825,6 @@
             this.lbl_XInfo.Text = "X";
             this.lbl_XInfo.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // btn_EnableAir
-            // 
-            this.btn_EnableAir.Location = new System.Drawing.Point(12, 135);
-            this.btn_EnableAir.Name = "btn_EnableAir";
-            this.btn_EnableAir.Size = new System.Drawing.Size(95, 23);
-            this.btn_EnableAir.TabIndex = 46;
-            this.btn_EnableAir.Text = "Enable Air";
-            this.btn_EnableAir.UseVisualStyleBackColor = true;
-            this.btn_EnableAir.Click += new System.EventHandler(this.btn_EnableAir_Click);
-            // 
             // grpbx_JogAxes
             // 
             this.grpbx_JogAxes.Controls.Add(this.lbl_JogValue);
@@ -1061,6 +1051,7 @@
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.btn_SetuScopeFocus);
             this.groupBox1.Controls.Add(this.lbl_CentreRotZ);
             this.groupBox1.Controls.Add(this.btn_Point2);
             this.groupBox1.Controls.Add(this.btn_point1);
@@ -1082,6 +1073,25 @@
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Sample Alignment";
             // 
+            // btn_SetuScopeFocus
+            // 
+            this.btn_SetuScopeFocus.Location = new System.Drawing.Point(11, 76);
+            this.btn_SetuScopeFocus.Name = "btn_SetuScopeFocus";
+            this.btn_SetuScopeFocus.Size = new System.Drawing.Size(130, 23);
+            this.btn_SetuScopeFocus.TabIndex = 62;
+            this.btn_SetuScopeFocus.Text = "Set uScope Focus";
+            this.btn_SetuScopeFocus.UseVisualStyleBackColor = true;
+            this.btn_SetuScopeFocus.Click += new System.EventHandler(this.btn_SetuScopeFocus_Click);
+            // 
+            // lbl_CentreRotZ
+            // 
+            this.lbl_CentreRotZ.Location = new System.Drawing.Point(252, 162);
+            this.lbl_CentreRotZ.Name = "lbl_CentreRotZ";
+            this.lbl_CentreRotZ.Size = new System.Drawing.Size(114, 23);
+            this.lbl_CentreRotZ.TabIndex = 61;
+            this.lbl_CentreRotZ.Text = "Rotational Centre -Z";
+            this.lbl_CentreRotZ.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
             // btn_Point2
             // 
             this.btn_Point2.Enabled = false;
@@ -1096,7 +1106,7 @@
             // btn_point1
             // 
             this.btn_point1.Enabled = false;
-            this.btn_point1.Location = new System.Drawing.Point(146, 162);
+            this.btn_point1.Location = new System.Drawing.Point(144, 162);
             this.btn_point1.Name = "btn_point1";
             this.btn_point1.Size = new System.Drawing.Size(50, 23);
             this.btn_point1.TabIndex = 59;
@@ -1108,7 +1118,7 @@
             // 
             this.btn_RotationalCentre.Location = new System.Drawing.Point(11, 162);
             this.btn_RotationalCentre.Name = "btn_RotationalCentre";
-            this.btn_RotationalCentre.Size = new System.Drawing.Size(122, 23);
+            this.btn_RotationalCentre.Size = new System.Drawing.Size(130, 23);
             this.btn_RotationalCentre.TabIndex = 58;
             this.btn_RotationalCentre.Text = "Find Rotational Centre";
             this.btn_RotationalCentre.UseVisualStyleBackColor = true;
@@ -1118,7 +1128,7 @@
             // 
             this.btn_FindFocus.Location = new System.Drawing.Point(11, 133);
             this.btn_FindFocus.Name = "btn_FindFocus";
-            this.btn_FindFocus.Size = new System.Drawing.Size(75, 23);
+            this.btn_FindFocus.Size = new System.Drawing.Size(130, 23);
             this.btn_FindFocus.TabIndex = 57;
             this.btn_FindFocus.Text = "Find Focus";
             this.btn_FindFocus.UseVisualStyleBackColor = true;
@@ -1126,7 +1136,7 @@
             // 
             // btn_MarkerAligned
             // 
-            this.btn_MarkerAligned.Location = new System.Drawing.Point(144, 106);
+            this.btn_MarkerAligned.Location = new System.Drawing.Point(144, 105);
             this.btn_MarkerAligned.Name = "btn_MarkerAligned";
             this.btn_MarkerAligned.Size = new System.Drawing.Size(121, 23);
             this.btn_MarkerAligned.TabIndex = 56;
@@ -1138,7 +1148,7 @@
             // 
             this.btn_StartAlignment.Location = new System.Drawing.Point(11, 18);
             this.btn_StartAlignment.Name = "btn_StartAlignment";
-            this.btn_StartAlignment.Size = new System.Drawing.Size(99, 23);
+            this.btn_StartAlignment.Size = new System.Drawing.Size(130, 23);
             this.btn_StartAlignment.TabIndex = 55;
             this.btn_StartAlignment.Text = "Start Alignment";
             this.btn_StartAlignment.UseVisualStyleBackColor = true;
@@ -1146,7 +1156,7 @@
             // 
             // btn_UpdateCoords
             // 
-            this.btn_UpdateCoords.Location = new System.Drawing.Point(144, 80);
+            this.btn_UpdateCoords.Location = new System.Drawing.Point(144, 46);
             this.btn_UpdateCoords.Name = "btn_UpdateCoords";
             this.btn_UpdateCoords.Size = new System.Drawing.Size(122, 23);
             this.btn_UpdateCoords.TabIndex = 54;
@@ -1156,9 +1166,9 @@
             // 
             // btn_AlignLaseruScope
             // 
-            this.btn_AlignLaseruScope.Location = new System.Drawing.Point(11, 106);
+            this.btn_AlignLaseruScope.Location = new System.Drawing.Point(11, 105);
             this.btn_AlignLaseruScope.Name = "btn_AlignLaseruScope";
-            this.btn_AlignLaseruScope.Size = new System.Drawing.Size(128, 22);
+            this.btn_AlignLaseruScope.Size = new System.Drawing.Size(130, 23);
             this.btn_AlignLaseruScope.TabIndex = 53;
             this.btn_AlignLaseruScope.Text = "Align laser and uScope";
             this.btn_AlignLaseruScope.UseVisualStyleBackColor = true;
@@ -1166,9 +1176,9 @@
             // 
             // btn_TiltCorrection
             // 
-            this.btn_TiltCorrection.Location = new System.Drawing.Point(11, 80);
+            this.btn_TiltCorrection.Location = new System.Drawing.Point(11, 46);
             this.btn_TiltCorrection.Name = "btn_TiltCorrection";
-            this.btn_TiltCorrection.Size = new System.Drawing.Size(129, 23);
+            this.btn_TiltCorrection.Size = new System.Drawing.Size(130, 23);
             this.btn_TiltCorrection.TabIndex = 52;
             this.btn_TiltCorrection.Text = "Perform Tilt Correction";
             this.btn_TiltCorrection.UseVisualStyleBackColor = true;
@@ -1176,9 +1186,10 @@
             // 
             // btn_cornerD
             // 
-            this.btn_cornerD.Location = new System.Drawing.Point(281, 51);
+            this.btn_cornerD.Enabled = false;
+            this.btn_cornerD.Location = new System.Drawing.Point(306, 19);
             this.btn_cornerD.Name = "btn_cornerD";
-            this.btn_cornerD.Size = new System.Drawing.Size(75, 23);
+            this.btn_cornerD.Size = new System.Drawing.Size(50, 23);
             this.btn_cornerD.TabIndex = 49;
             this.btn_cornerD.Text = "D";
             this.btn_cornerD.UseVisualStyleBackColor = true;
@@ -1186,9 +1197,10 @@
             // 
             // btn_cornerC
             // 
-            this.btn_cornerC.Location = new System.Drawing.Point(191, 51);
+            this.btn_cornerC.Enabled = false;
+            this.btn_cornerC.Location = new System.Drawing.Point(252, 18);
             this.btn_cornerC.Name = "btn_cornerC";
-            this.btn_cornerC.Size = new System.Drawing.Size(75, 23);
+            this.btn_cornerC.Size = new System.Drawing.Size(50, 23);
             this.btn_cornerC.TabIndex = 50;
             this.btn_cornerC.Text = "C";
             this.btn_cornerC.UseVisualStyleBackColor = true;
@@ -1196,9 +1208,10 @@
             // 
             // btn_cornerB
             // 
-            this.btn_cornerB.Location = new System.Drawing.Point(101, 51);
+            this.btn_cornerB.Enabled = false;
+            this.btn_cornerB.Location = new System.Drawing.Point(198, 18);
             this.btn_cornerB.Name = "btn_cornerB";
-            this.btn_cornerB.Size = new System.Drawing.Size(75, 23);
+            this.btn_cornerB.Size = new System.Drawing.Size(50, 23);
             this.btn_cornerB.TabIndex = 51;
             this.btn_cornerB.Text = "B";
             this.btn_cornerB.UseVisualStyleBackColor = true;
@@ -1206,9 +1219,10 @@
             // 
             // btn_cornerA
             // 
-            this.btn_cornerA.Location = new System.Drawing.Point(11, 51);
+            this.btn_cornerA.Enabled = false;
+            this.btn_cornerA.Location = new System.Drawing.Point(144, 18);
             this.btn_cornerA.Name = "btn_cornerA";
-            this.btn_cornerA.Size = new System.Drawing.Size(75, 23);
+            this.btn_cornerA.Size = new System.Drawing.Size(50, 23);
             this.btn_cornerA.TabIndex = 1;
             this.btn_cornerA.Text = "A";
             this.btn_cornerA.UseVisualStyleBackColor = true;
@@ -1237,7 +1251,7 @@
             // 
             // btn_HomeProcedure
             // 
-            this.btn_HomeProcedure.Location = new System.Drawing.Point(12, 164);
+            this.btn_HomeProcedure.Location = new System.Drawing.Point(12, 132);
             this.btn_HomeProcedure.Name = "btn_HomeProcedure";
             this.btn_HomeProcedure.Size = new System.Drawing.Size(95, 23);
             this.btn_HomeProcedure.TabIndex = 50;
@@ -1620,15 +1634,6 @@
             this.lbl_ShutterStatusText.TabIndex = 0;
             this.lbl_ShutterStatusText.Text = "Shutter Status";
             // 
-            // lbl_CentreRotZ
-            // 
-            this.lbl_CentreRotZ.Location = new System.Drawing.Point(252, 162);
-            this.lbl_CentreRotZ.Name = "lbl_CentreRotZ";
-            this.lbl_CentreRotZ.Size = new System.Drawing.Size(114, 23);
-            this.lbl_CentreRotZ.TabIndex = 61;
-            this.lbl_CentreRotZ.Text = "Rotational Centre -Z";
-            this.lbl_CentreRotZ.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1640,7 +1645,6 @@
             this.Controls.Add(this.icImagingControl1);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.grpbx_JogAxes);
-            this.Controls.Add(this.btn_EnableAir);
             this.Controls.Add(this.grpbx_AxVel);
             this.Controls.Add(this.grpbx_AxPos);
             this.Controls.Add(this.grpbx_AxisStatus);
@@ -1652,7 +1656,7 @@
             this.Controls.Add(this.btn_ConnectController);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Name = "Form1";
-            this.Text = "Precision Platform Control";
+            this.Text = " ";
             this.Load += new System.EventHandler(this.Form1_Load);
             this.grpbx_AxVel.ResumeLayout(false);
             this.grpbx_AxPos.ResumeLayout(false);
@@ -1729,7 +1733,6 @@
         private System.Windows.Forms.Label lbl_APosUnit;
         private System.Windows.Forms.Label lbl_BPos;
         private System.Windows.Forms.Label lbl_APos;
-        private System.Windows.Forms.Button btn_EnableAir;
         private System.Windows.Forms.GroupBox grpbx_JogAxes;
         private System.Windows.Forms.Button btn_PosJogB;
         private System.Windows.Forms.Button btn_NegJogB;
@@ -1805,6 +1808,7 @@
         private System.Windows.Forms.Button btn_point1;
         private System.Windows.Forms.Button btn_RotationalCentre;
         private System.Windows.Forms.Label lbl_CentreRotZ;
+        private System.Windows.Forms.Button btn_SetuScopeFocus;
     }
 }
 
