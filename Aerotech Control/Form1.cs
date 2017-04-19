@@ -122,6 +122,12 @@ namespace Aerotech_Control
 
         double ablation_focus_accurate;
 
+        double Z_Offset;
+        double Y_Offset;
+
+        double Rot_Z_Coords;
+        double Rot_Y_Coords;
+
         int command_delay = 1000;
 
         private static AutoResetEvent CornerAlignmentEvent = new AutoResetEvent(false);
@@ -1231,19 +1237,19 @@ namespace Aerotech_Control
         {
             Correction_Xaxis[hold] = (myController.Commands.Status.AxisStatus("X", AxisStatusSignal.ProgramPositionFeedback) - Refined_Xaxis[hold]);
 
-            MessageBox.Show(Correction_Xaxis[hold].ToString());
+            //MessageBox.Show(Correction_Xaxis[hold].ToString());
 
             Correction_Yaxis[hold] = (myController.Commands.Status.AxisStatus("Y", AxisStatusSignal.ProgramPositionFeedback) - Refined_Yaxis[hold]);
 
-            MessageBox.Show(Correction_Yaxis[hold].ToString());
+            //MessageBox.Show(Correction_Yaxis[hold].ToString());
 
             if (hold == 3)
             {
                 MessageBox.Show("Calculating Accurate offset");
                 OffsetAccurate_Xaxis = Offset_Xaxis + Correction_Xaxis.Sum() / 4; 
-                MessageBox.Show("Original Offset X axis = " + Offset_Xaxis.ToString() + " New Offset X axis = " + OffsetAccurate_Xaxis.ToString());
+                //MessageBox.Show("Original Offset X axis = " + Offset_Xaxis.ToString() + " New Offset X axis = " + OffsetAccurate_Xaxis.ToString());
                 OffsetAccurate_Yaxis = Offset_Yaxis + Correction_Yaxis.Sum() / 4;
-                MessageBox.Show("Orignial Offset Y axis = " + Offset_Yaxis.ToString() + " New Offset Y axis = " + OffsetAccurate_Yaxis.ToString());
+                //MessageBox.Show("Orignial Offset Y axis = " + Offset_Yaxis.ToString() + " New Offset Y axis = " + OffsetAccurate_Yaxis.ToString());
                 btn_MarkerAligned.Enabled = false;
 
                 File.WriteAllText("C:/Users/User/Documents/GitHub/PrecisionPlatformControl/Reference Values/OFFSETX.txt", OffsetAccurate_Xaxis.ToString());
@@ -1542,17 +1548,17 @@ namespace Aerotech_Control
 
             myController.Commands.Motion.Setup.Absolute();
             myController.Commands.Axes["X", "Y"].Motion.Linear(new double[] { Refined_Xaxis[1], Refined_Yaxis[1] }, 1);
-            myController.Commands.Motion.Linear("D", 36.5, 1);
+            myController.Commands.Motion.Linear("D", microscope_focus, 1);
+            myController.Commands.Motion.Linear("Z", ablation_focus_accurate - 5, 1);
 
             // Apply +10 degree rotation 
 
-            myController.Commands.Motion.Setup.Incremental();
-            myController.Commands.Motion.Linear("B", CentreTestRotation, 1);
+            myController.Commands.Motion.Setup.Absolute();
+            myController.Commands.Motion.Linear("B", CentreTestRotation + phi_hold, 1);
 
             MessageBox.Show("When marker is aligned press Point 1 button");
 
-            btn_point1.Enabled = true;
-            btn_RotationalCentre.Text = "Calculate Centre";
+            btn_point1.Enabled = true;            
         }
 
         private void btn_point1_Click(object sender, EventArgs e)
@@ -1561,8 +1567,43 @@ namespace Aerotech_Control
 
             Point1_Xaxis = myController.Commands.Status.AxisStatus("X", AxisStatusSignal.ProgramPositionFeedback);
             Point1_Yaxis = myController.Commands.Status.AxisStatus("Y", AxisStatusSignal.ProgramPositionFeedback);
-            Point1_Zaxis = myController.Commands.Status.AxisStatus("Z", AxisStatusSignal.ProgramPositionFeedback);
-            Point1_Daxis = myController.Commands.Status.AxisStatus("D", AxisStatusSignal.ProgramPositionFeedback);
+            Point1_Daxis = myController.Commands.Status.AxisStatus("D", AxisStatusSignal.ProgramPositionFeedback);   
+
+            // Due to having to Lower Z to find the marker which is higher than the ablation focus this has to be adjusted
+
+            double Point1_Zaxis_Measured = myController.Commands.Status.AxisStatus("Z", AxisStatusSignal.ProgramPositionFeedback);
+            Point1_Zaxis = (ablation_focus_accurate - Point1_Zaxis_Measured) + ablation_focus_accurate;
+            
+            btn_point1.Enabled = false;          
+
+            double theta_rad = CentreTestRotation * (Math.PI / 180); // Radians
+
+            // Calculate Z Offset
+
+            double p = -1 * ((Point1_Yaxis - Refined_Yaxis[1]) * Math.Sin(theta_rad) / (1 - Math.Cos(theta_rad)));
+
+            double q = (Point1_Zaxis - ablation_focus_accurate);
+
+            Z_Offset = 0.5 * (p + q);
+
+            // Calculate Y Offset
+
+            double a = (Point1_Yaxis - Refined_Yaxis[1]);
+
+            double b = (Point1_Zaxis - ablation_focus_accurate) * (1 + Math.Cos(theta_rad)) / Math.Sin(theta_rad);
+
+            Y_Offset = 0.5 * (a + b);
+
+            Rot_Z_Coords = ablation_focus_accurate + Z_Offset;
+
+            Rot_Y_Coords = Refined_Yaxis[1] + Y_Offset;
+
+            MessageBox.Show("Rot Y = " + Rot_Y_Coords.ToString());
+            MessageBox.Show("Rot Z = " + Rot_Z_Coords.ToString());
+
+            // Delete previous reference file 
+
+            File.Delete("C:/Users/User/Documents/GitHub/PrecisionPlatformControl/Reference Values/Rotpoints.txt");
 
             // Write all variables to text file 
 
@@ -1572,63 +1613,75 @@ namespace Aerotech_Control
 
                 writer.WriteLine("Reference Y = " + Refined_Yaxis[1].ToString());
                 writer.WriteLine("Reference Z = " + ablation_focus_accurate.ToString());
+                writer.WriteLine("Microscope at ablation focus  = " + microscope_focus.ToString());
 
-                writer.WriteLine("Point 1 X = " + Point1_Yaxis.ToString());
+                writer.WriteLine("Point 1 Y = " + Point1_Yaxis.ToString());
+                writer.WriteLine("Point 1 Z Measured = " + Point1_Zaxis_Measured.ToString());
                 writer.WriteLine("Point 1 Z = " + Point1_Zaxis.ToString());
+
+                writer.WriteLine("Z Offset = " + Z_Offset.ToString());
+                writer.WriteLine("Y Offset = " + Y_Offset.ToString());
+
+                writer.WriteLine("Z Rot Centre = " + Rot_Z_Coords.ToString());
+                writer.WriteLine("Y Rot Centre = " + Rot_Y_Coords.ToString());
             }
 
-                // Apply -10 degree rotation
-
-            myController.Commands.Motion.Setup.Incremental();
-            myController.Commands.Motion.Linear("B", -2 * CentreTestRotation, 1);
-
-            btn_point1.Enabled = false;
-            btn_Point2.Enabled = true;
-
-            double theta_rad = CentreTestRotation * (Math.PI / 180); // Radians
-
-            //Converting D Axis measurement to Z axis equivalent 
-
-            double Z_Offset = ((Point1_Zaxis - ablation_focus_accurate) / 2) + ((Math.Sin(theta_rad) * (Point1_Yaxis - Refined_Yaxis[1])) / (2 * (1 - Math.Cos(theta_rad))));
-
-            double Y_Offset = (-0.5 * (Point1_Yaxis - Refined_Yaxis[1])) + ((Point1_Zaxis - ablation_focus_accurate) * (1 - Math.Cos(theta_rad)) / (2 * Math.Sin(theta_rad))); 
-
-            MessageBox.Show("Trig Method - Z Centre = " + Z_Offset.ToString());
-            MessageBox.Show("Trig Method - Y Centre = " + Y_Offset.ToString());
+            myController.Commands.Motion.Setup.Absolute();
+            myController.Commands.Motion.Linear("B", phi_hold, 1);
+            myController.Commands.Motion.Setup.Absolute();
         }
 
-        private void btn_Point2_Click(object sender, EventArgs e)
+        private void btn_RotationTest_Click(object sender, EventArgs e)
         {
-            double CentreTestRotation = 10; // Degrees
+            // Move to have marker in focus at accurate ablation focus and visible on the microscope 
 
-            Point2_Xaxis = myController.Commands.Status.AxisStatus("X", AxisStatusSignal.ProgramPositionFeedback);
-            Point2_Yaxis = myController.Commands.Status.AxisStatus("Y", AxisStatusSignal.ProgramPositionFeedback);
-            Point2_Zaxis = myController.Commands.Status.AxisStatus("Z", AxisStatusSignal.ProgramPositionFeedback);
-            Point2_Daxis = myController.Commands.Status.AxisStatus("D", AxisStatusSignal.ProgramPositionFeedback);
+            myController.Commands.Motion.Setup.Absolute();
+            myController.Commands.Axes["X", "Y", "Z", "D"].Motion.Linear(new double[] { Refined_Xaxis[1], Refined_Yaxis[1], ablation_focus_accurate, microscope_focus}, 5);
+            myController.Commands.Motion.Linear("B", phi_hold, 1);
 
-            double Gradient = Math.Tan(CentreTestRotation * Math.PI / 180);
+            MessageBox.Show("Is marker in focus and visible?");
 
-            // Linear Constant for Point 1
+            double Rotation = Convert.ToDouble(txtbx_rotangle.Text);
 
-            double Point1_Const = Point1_Daxis - (Gradient * Point1_Yaxis);
+            double theta_rad = Rotation * (Math.PI / 180); // Radians            
 
-            // Linear Constant for Point 2
+            //Refined_Yaxis[1] is the input used to calcualte the correction for both Y and Z
 
-            double Point2_Const = Point2_Daxis - (-Gradient * Point2_Yaxis);
+            // Y distance from point of interest and rotational centre
 
-            // Find intercept co-ords for centre of rotation
+            double PointOffset_Y = Math.Abs(Refined_Yaxis[1] - Rot_Y_Coords);
 
-            double CentreRot_Y = (Point2_Const - Point1_Const) / (2 * Gradient);
-            double CentreRot_D = Gradient * CentreRot_Y + Point1_Const;
-            CentreRot_Z = (ablation_focus_accurate + microscope_focus) - CentreRot_D; // ****Check Value****
+            double Point_calc_Y = Refined_Yaxis[1] + PointOffset_Y * (1 - Math.Cos(theta_rad)) - Z_Offset * Math.Sin(theta_rad);
 
-            btn_Point2.Enabled = false;
+            double Point_calc_Z = ablation_focus_accurate + (Z_Offset * (1 - Math.Cos(theta_rad))) + (PointOffset_Y * Math.Sin(theta_rad));            
 
-            lbl_CentreRotZ.Text = CentreRot_Z.ToString();
+            double Correction_Z = Point_calc_Z - ablation_focus_accurate;
 
-            MessageBox.Show("Line Gradient Method - Centre = " + CentreRot_Z.ToString());            
+            double Movement_z = ablation_focus_accurate - Correction_Z;
+
+            using (StreamWriter writer = new StreamWriter("C:/Users/User/Documents/GitHub/PrecisionPlatformControl/Reference Values/Rotpoints.txt", true))
+            {
+                writer.WriteLine("Point Offset Y = " + PointOffset_Y.ToString());
+                writer.WriteLine("Point Calc Y = " + Point_calc_Y.ToString());
+                writer.WriteLine("Point Calc Z = " + Point_calc_Z.ToString());
+
+            }
+
+
+            // Perform Rotation and correction
+
+            myController.Commands.Motion.Linear("D", 30, 2);
+
+            myController.Commands.Motion.Linear("B", Rotation + phi_hold, 1);
+
+            myController.Commands.Motion.Linear("Z", Movement_z, 1);
+
+            myController.Commands.Motion.Linear("Y", Point_calc_Y);
+
+            myController.Commands.Motion.Linear("D", microscope_focus, 2);
+
         }
-                
+
         #endregion
 
         #region Talisker and Watt Pilot Control Functions
@@ -2079,8 +2132,10 @@ namespace Aerotech_Control
 
 
 
+
         #endregion
-        
+
+
     }
     
 }

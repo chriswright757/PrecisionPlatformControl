@@ -110,8 +110,6 @@
             this.btn_NegJogX = new System.Windows.Forms.Button();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.btn_SetuScopeFocus = new System.Windows.Forms.Button();
-            this.lbl_CentreRotZ = new System.Windows.Forms.Label();
-            this.btn_Point2 = new System.Windows.Forms.Button();
             this.btn_point1 = new System.Windows.Forms.Button();
             this.btn_RotationalCentre = new System.Windows.Forms.Button();
             this.btn_FindFocus = new System.Windows.Forms.Button();
@@ -162,6 +160,8 @@
             this.lbl_ShutterStatus = new System.Windows.Forms.Label();
             this.btn_Shutter = new System.Windows.Forms.Button();
             this.lbl_ShutterStatusText = new System.Windows.Forms.Label();
+            this.btn_RotationTest = new System.Windows.Forms.Button();
+            this.txtbx_rotangle = new System.Windows.Forms.TextBox();
             this.grpbx_AxVel.SuspendLayout();
             this.grpbx_AxPos.SuspendLayout();
             this.grpbx_AxisStatus.SuspendLayout();
@@ -1051,9 +1051,9 @@
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.txtbx_rotangle);
+            this.groupBox1.Controls.Add(this.btn_RotationTest);
             this.groupBox1.Controls.Add(this.btn_SetuScopeFocus);
-            this.groupBox1.Controls.Add(this.lbl_CentreRotZ);
-            this.groupBox1.Controls.Add(this.btn_Point2);
             this.groupBox1.Controls.Add(this.btn_point1);
             this.groupBox1.Controls.Add(this.btn_RotationalCentre);
             this.groupBox1.Controls.Add(this.btn_FindFocus);
@@ -1082,26 +1082,6 @@
             this.btn_SetuScopeFocus.Text = "Set uScope Focus";
             this.btn_SetuScopeFocus.UseVisualStyleBackColor = true;
             this.btn_SetuScopeFocus.Click += new System.EventHandler(this.btn_SetuScopeFocus_Click);
-            // 
-            // lbl_CentreRotZ
-            // 
-            this.lbl_CentreRotZ.Location = new System.Drawing.Point(252, 162);
-            this.lbl_CentreRotZ.Name = "lbl_CentreRotZ";
-            this.lbl_CentreRotZ.Size = new System.Drawing.Size(114, 23);
-            this.lbl_CentreRotZ.TabIndex = 61;
-            this.lbl_CentreRotZ.Text = "Rotational Centre -Z";
-            this.lbl_CentreRotZ.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // btn_Point2
-            // 
-            this.btn_Point2.Enabled = false;
-            this.btn_Point2.Location = new System.Drawing.Point(202, 162);
-            this.btn_Point2.Name = "btn_Point2";
-            this.btn_Point2.Size = new System.Drawing.Size(50, 23);
-            this.btn_Point2.TabIndex = 60;
-            this.btn_Point2.Text = "Point 2";
-            this.btn_Point2.UseVisualStyleBackColor = true;
-            this.btn_Point2.Click += new System.EventHandler(this.btn_Point2_Click);
             // 
             // btn_point1
             // 
@@ -1634,6 +1614,24 @@
             this.lbl_ShutterStatusText.TabIndex = 0;
             this.lbl_ShutterStatusText.Text = "Shutter Status";
             // 
+            // btn_RotationTest
+            // 
+            this.btn_RotationTest.Location = new System.Drawing.Point(201, 162);
+            this.btn_RotationTest.Name = "btn_RotationTest";
+            this.btn_RotationTest.Size = new System.Drawing.Size(75, 23);
+            this.btn_RotationTest.TabIndex = 63;
+            this.btn_RotationTest.Text = "rot test";
+            this.btn_RotationTest.UseVisualStyleBackColor = true;
+            this.btn_RotationTest.Click += new System.EventHandler(this.btn_RotationTest_Click);
+            // 
+            // txtbx_rotangle
+            // 
+            this.txtbx_rotangle.Location = new System.Drawing.Point(294, 162);
+            this.txtbx_rotangle.Name = "txtbx_rotangle";
+            this.txtbx_rotangle.Size = new System.Drawing.Size(62, 20);
+            this.txtbx_rotangle.TabIndex = 64;
+            this.txtbx_rotangle.Text = "10";
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1665,6 +1663,7 @@
             this.grpbx_JogAxes.ResumeLayout(false);
             this.grpbx_JogAxes.PerformLayout();
             this.groupBox1.ResumeLayout(false);
+            this.groupBox1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.icImagingControl1)).EndInit();
             this.grpbx_OphirControl.ResumeLayout(false);
             this.grpbx_OphirControl.PerformLayout();
@@ -1804,11 +1803,11 @@
         private System.Windows.Forms.Label lbl_AOMGateStatus;
         private System.Windows.Forms.Button btn_AOMGATE;
         private System.Windows.Forms.Label lbl_AOMGateText;
-        private System.Windows.Forms.Button btn_Point2;
         private System.Windows.Forms.Button btn_point1;
         private System.Windows.Forms.Button btn_RotationalCentre;
-        private System.Windows.Forms.Label lbl_CentreRotZ;
         private System.Windows.Forms.Button btn_SetuScopeFocus;
+        private System.Windows.Forms.Button btn_RotationTest;
+        private System.Windows.Forms.TextBox txtbx_rotangle;
     }
 }
 
