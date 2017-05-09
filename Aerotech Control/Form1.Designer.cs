@@ -109,6 +109,8 @@
             this.btn_PosJogX = new System.Windows.Forms.Button();
             this.btn_NegJogX = new System.Windows.Forms.Button();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.txtbx_rotangle = new System.Windows.Forms.TextBox();
+            this.btn_RotationTest = new System.Windows.Forms.Button();
             this.btn_SetuScopeFocus = new System.Windows.Forms.Button();
             this.btn_point1 = new System.Windows.Forms.Button();
             this.btn_RotationalCentre = new System.Windows.Forms.Button();
@@ -160,8 +162,9 @@
             this.lbl_ShutterStatus = new System.Windows.Forms.Label();
             this.btn_Shutter = new System.Windows.Forms.Button();
             this.lbl_ShutterStatusText = new System.Windows.Forms.Label();
-            this.btn_RotationTest = new System.Windows.Forms.Button();
-            this.txtbx_rotangle = new System.Windows.Forms.TextBox();
+            this.btn_BoxAblation = new System.Windows.Forms.Button();
+            this.lbl_AngForBoxAblation = new System.Windows.Forms.Label();
+            this.txtbx_AngForAblation = new System.Windows.Forms.TextBox();
             this.grpbx_AxVel.SuspendLayout();
             this.grpbx_AxPos.SuspendLayout();
             this.grpbx_AxisStatus.SuspendLayout();
@@ -1051,6 +1054,9 @@
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.txtbx_AngForAblation);
+            this.groupBox1.Controls.Add(this.lbl_AngForBoxAblation);
+            this.groupBox1.Controls.Add(this.btn_BoxAblation);
             this.groupBox1.Controls.Add(this.txtbx_rotangle);
             this.groupBox1.Controls.Add(this.btn_RotationTest);
             this.groupBox1.Controls.Add(this.btn_SetuScopeFocus);
@@ -1068,10 +1074,28 @@
             this.groupBox1.Controls.Add(this.btn_cornerA);
             this.groupBox1.Location = new System.Drawing.Point(12, 226);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(372, 195);
+            this.groupBox1.Size = new System.Drawing.Size(372, 247);
             this.groupBox1.TabIndex = 48;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Sample Alignment";
+            // 
+            // txtbx_rotangle
+            // 
+            this.txtbx_rotangle.Location = new System.Drawing.Point(294, 163);
+            this.txtbx_rotangle.Name = "txtbx_rotangle";
+            this.txtbx_rotangle.Size = new System.Drawing.Size(62, 20);
+            this.txtbx_rotangle.TabIndex = 64;
+            this.txtbx_rotangle.Text = "10";
+            // 
+            // btn_RotationTest
+            // 
+            this.btn_RotationTest.Location = new System.Drawing.Point(201, 162);
+            this.btn_RotationTest.Name = "btn_RotationTest";
+            this.btn_RotationTest.Size = new System.Drawing.Size(75, 23);
+            this.btn_RotationTest.TabIndex = 63;
+            this.btn_RotationTest.Text = "rot test";
+            this.btn_RotationTest.UseVisualStyleBackColor = true;
+            this.btn_RotationTest.Click += new System.EventHandler(this.btn_RotationTest_Click);
             // 
             // btn_SetuScopeFocus
             // 
@@ -1252,7 +1276,7 @@
             this.grpbx_OphirControl.Controls.Add(this.btn_OpenDevice);
             this.grpbx_OphirControl.Controls.Add(this.DeviceListBox);
             this.grpbx_OphirControl.Controls.Add(this.btn_ScanUSB);
-            this.grpbx_OphirControl.Location = new System.Drawing.Point(12, 422);
+            this.grpbx_OphirControl.Location = new System.Drawing.Point(12, 488);
             this.grpbx_OphirControl.Margin = new System.Windows.Forms.Padding(2);
             this.grpbx_OphirControl.Name = "grpbx_OphirControl";
             this.grpbx_OphirControl.Padding = new System.Windows.Forms.Padding(2);
@@ -1393,7 +1417,7 @@
             this.grpbx_TalikserLaser.Controls.Add(this.lbl_ShutterStatus);
             this.grpbx_TalikserLaser.Controls.Add(this.btn_Shutter);
             this.grpbx_TalikserLaser.Controls.Add(this.lbl_ShutterStatusText);
-            this.grpbx_TalikserLaser.Location = new System.Drawing.Point(394, 422);
+            this.grpbx_TalikserLaser.Location = new System.Drawing.Point(394, 488);
             this.grpbx_TalikserLaser.Margin = new System.Windows.Forms.Padding(2);
             this.grpbx_TalikserLaser.Name = "grpbx_TalikserLaser";
             this.grpbx_TalikserLaser.Padding = new System.Windows.Forms.Padding(2);
@@ -1614,23 +1638,32 @@
             this.lbl_ShutterStatusText.TabIndex = 0;
             this.lbl_ShutterStatusText.Text = "Shutter Status";
             // 
-            // btn_RotationTest
+            // btn_BoxAblation
             // 
-            this.btn_RotationTest.Location = new System.Drawing.Point(201, 162);
-            this.btn_RotationTest.Name = "btn_RotationTest";
-            this.btn_RotationTest.Size = new System.Drawing.Size(75, 23);
-            this.btn_RotationTest.TabIndex = 63;
-            this.btn_RotationTest.Text = "rot test";
-            this.btn_RotationTest.UseVisualStyleBackColor = true;
-            this.btn_RotationTest.Click += new System.EventHandler(this.btn_RotationTest_Click);
+            this.btn_BoxAblation.Location = new System.Drawing.Point(11, 192);
+            this.btn_BoxAblation.Name = "btn_BoxAblation";
+            this.btn_BoxAblation.Size = new System.Drawing.Size(130, 23);
+            this.btn_BoxAblation.TabIndex = 65;
+            this.btn_BoxAblation.Text = "Box Ablation";
+            this.btn_BoxAblation.UseVisualStyleBackColor = true;
+            this.btn_BoxAblation.Click += new System.EventHandler(this.btn_BoxAblation_Click);
             // 
-            // txtbx_rotangle
+            // lbl_AngForBoxAblation
             // 
-            this.txtbx_rotangle.Location = new System.Drawing.Point(294, 162);
-            this.txtbx_rotangle.Name = "txtbx_rotangle";
-            this.txtbx_rotangle.Size = new System.Drawing.Size(62, 20);
-            this.txtbx_rotangle.TabIndex = 64;
-            this.txtbx_rotangle.Text = "10";
+            this.lbl_AngForBoxAblation.Location = new System.Drawing.Point(148, 192);
+            this.lbl_AngForBoxAblation.Name = "lbl_AngForBoxAblation";
+            this.lbl_AngForBoxAblation.Size = new System.Drawing.Size(118, 23);
+            this.lbl_AngForBoxAblation.TabIndex = 67;
+            this.lbl_AngForBoxAblation.Text = "Angle for Box Ablation";
+            this.lbl_AngForBoxAblation.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // txtbx_AngForAblation
+            // 
+            this.txtbx_AngForAblation.Location = new System.Drawing.Point(294, 192);
+            this.txtbx_AngForAblation.Name = "txtbx_AngForAblation";
+            this.txtbx_AngForAblation.Size = new System.Drawing.Size(62, 20);
+            this.txtbx_AngForAblation.TabIndex = 68;
+            this.txtbx_AngForAblation.Text = "0";
             // 
             // Form1
             // 
@@ -1808,6 +1841,9 @@
         private System.Windows.Forms.Button btn_SetuScopeFocus;
         private System.Windows.Forms.Button btn_RotationTest;
         private System.Windows.Forms.TextBox txtbx_rotangle;
+        private System.Windows.Forms.TextBox txtbx_AngForAblation;
+        private System.Windows.Forms.Label lbl_AngForBoxAblation;
+        private System.Windows.Forms.Button btn_BoxAblation;
     }
 }
 

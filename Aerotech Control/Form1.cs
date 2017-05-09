@@ -82,12 +82,7 @@ namespace Aerotech_Control
         double Point1_Yaxis;
         double Point1_Zaxis;
         double Point1_Daxis;
-
-        double Point2_Xaxis;
-        double Point2_Yaxis;
-        double Point2_Zaxis;
-        double Point2_Daxis;
-
+        
         double CentreRot_Z;
 
         int hold = 0;
@@ -1122,6 +1117,9 @@ namespace Aerotech_Control
         {
             microscope_focus = myController.Commands.Status.AxisStatus("D", AxisStatusSignal.ProgramPositionFeedback);
             btn_SetuScopeFocus.Enabled = false;
+
+            btn_PosJogD.Enabled = false;
+            btn_NegJogD.Enabled = false;
         }
 
         #endregion
@@ -1236,10 +1234,12 @@ namespace Aerotech_Control
         private void btn_MarkerAligned_Click(object sender, EventArgs e)
         {
             Correction_Xaxis[hold] = (myController.Commands.Status.AxisStatus("X", AxisStatusSignal.ProgramPositionFeedback) - Refined_Xaxis[hold]);
+            Refined_Xaxis[hold] = myController.Commands.Status.AxisStatus("X", AxisStatusSignal.ProgramPositionFeedback);
 
             //MessageBox.Show(Correction_Xaxis[hold].ToString());
 
             Correction_Yaxis[hold] = (myController.Commands.Status.AxisStatus("Y", AxisStatusSignal.ProgramPositionFeedback) - Refined_Yaxis[hold]);
+            Refined_Yaxis[hold] = myController.Commands.Status.AxisStatus("Y", AxisStatusSignal.ProgramPositionFeedback);
 
             //MessageBox.Show(Correction_Yaxis[hold].ToString());
 
@@ -1254,6 +1254,9 @@ namespace Aerotech_Control
 
                 File.WriteAllText("C:/Users/User/Documents/GitHub/PrecisionPlatformControl/Reference Values/OFFSETX.txt", OffsetAccurate_Xaxis.ToString());
                 File.WriteAllText("C:/Users/User/Documents/GitHub/PrecisionPlatformControl/Reference Values/OFFSETY.txt", OffsetAccurate_Yaxis.ToString());
+
+                Offset_Xaxis = OffsetAccurate_Xaxis;
+                Offset_Yaxis = OffsetAccurate_Yaxis;
             }
 
             LaserAlignEvent.Set();
@@ -1286,11 +1289,12 @@ namespace Aerotech_Control
 
             // calculate average focus height
 
-            //MessageBox.Show(LaserFocus_Zaxis.Sum().ToString());
+            ablation_focus_accurate = LaserFocus_Zaxis.Sum() / 4; // Change 4 to number of recorded positions
 
-            ablation_focus_accurate = LaserFocus_Zaxis.Sum() / 4;
-
-            //MessageBox.Show(ablation_focus_accurate.ToString());
+            using (StreamWriter AF = new StreamWriter("C:/Users/User/Documents/GitHub/PrecisionPlatformControl/Reference Values/ABLATION_FOCUS.txt",false))
+            {
+                AF.Write(ablation_focus_accurate.ToString());
+            }
 
             myController.Commands.Motion.Setup.Absolute();
 
@@ -1298,7 +1302,11 @@ namespace Aerotech_Control
 
             MessageBox.Show("Reset Microscope Focus");
 
+            btn_FindFocus.Enabled = false;
+
             btn_SetuScopeFocus.Enabled = true;
+            btn_PosJogD.Enabled = true;
+            btn_NegJogD.Enabled = true;
 
         }
 
@@ -1636,50 +1644,158 @@ namespace Aerotech_Control
             // Move to have marker in focus at accurate ablation focus and visible on the microscope 
 
             myController.Commands.Motion.Setup.Absolute();
-            myController.Commands.Axes["X", "Y", "Z", "D"].Motion.Linear(new double[] { Refined_Xaxis[1], Refined_Yaxis[1], ablation_focus_accurate, microscope_focus}, 5);
+            myController.Commands.Axes["X", "Y", "Z", "D"].Motion.Linear(new double[] { Refined_Xaxis[2], Refined_Yaxis[2], ablation_focus_accurate, microscope_focus}, 5);
             myController.Commands.Motion.Linear("B", phi_hold, 1);
 
             MessageBox.Show("Is marker in focus and visible?");
 
             double Rotation = Convert.ToDouble(txtbx_rotangle.Text);
 
-            double theta_rad = Rotation * (Math.PI / 180); // Radians            
+            Movement_3D_uScope(Refined_Xaxis[2], Refined_Yaxis[2], Rotation);
+
+            myController.Commands.Motion.Linear("D", microscope_focus, 2);
+
+        }
+
+        private void Movement_3D_uScope(double X, double Y, double B)
+        {
+            // X, Y, B are all the requested coordinates
+
+            double theta_rad = B * (Math.PI / 180); // Radians            
 
             //Refined_Yaxis[1] is the input used to calcualte the correction for both Y and Z
 
             // Y distance from point of interest and rotational centre
 
-            double PointOffset_Y = Math.Abs(Refined_Yaxis[1] - Rot_Y_Coords);
+            double PointOffset_Y = Math.Abs(Y - Rot_Y_Coords);
 
-            double Point_calc_Y = Refined_Yaxis[1] + PointOffset_Y * (1 - Math.Cos(theta_rad)) - Z_Offset * Math.Sin(theta_rad);
+            double Point_calc_Y = Y + PointOffset_Y * (1 - Math.Cos(theta_rad)) - Z_Offset * Math.Sin(theta_rad);
 
-            double Point_calc_Z = ablation_focus_accurate + (Z_Offset * (1 - Math.Cos(theta_rad))) + (PointOffset_Y * Math.Sin(theta_rad));            
+            double Point_calc_Z = ablation_focus_accurate + (Z_Offset * (1 - Math.Cos(theta_rad))) + (PointOffset_Y * Math.Sin(theta_rad));
 
             double Correction_Z = Point_calc_Z - ablation_focus_accurate;
 
             double Movement_z = ablation_focus_accurate - Correction_Z;
 
-            using (StreamWriter writer = new StreamWriter("C:/Users/User/Documents/GitHub/PrecisionPlatformControl/Reference Values/Rotpoints.txt", true))
-            {
-                writer.WriteLine("Point Offset Y = " + PointOffset_Y.ToString());
-                writer.WriteLine("Point Calc Y = " + Point_calc_Y.ToString());
-                writer.WriteLine("Point Calc Z = " + Point_calc_Z.ToString());
+            // Perform compensated movement 
 
-            }
-
-
-            // Perform Rotation and correction
-
-            myController.Commands.Motion.Linear("D", 30, 2);
-
-            myController.Commands.Motion.Linear("B", Rotation + phi_hold, 1);
+            myController.Commands.Motion.Setup.Absolute();            
 
             myController.Commands.Motion.Linear("Z", Movement_z, 1);
 
+            myController.Commands.Motion.Linear("B", B + phi_hold, 1);
+
             myController.Commands.Motion.Linear("Y", Point_calc_Y);
 
-            myController.Commands.Motion.Linear("D", microscope_focus, 2);
+            myController.Commands.Motion.Linear("X", X);
 
+            myController.Commands.Motion.Linear("D", microscope_focus, 2);
+        }
+
+        private void Movement_3D_ablation(double X, double Y, double B, double Speed)
+        {
+            // X, Y, B are all the requested coordinates
+
+            double theta_rad = B * (Math.PI / 180); // Radians            
+
+            //Refined_Yaxis[1] is the input used to calcualte the correction for both Y and Z
+
+            // Y distance from point of interest and rotational centre
+
+            double PointOffset_Y = Math.Abs(Y - Rot_Y_Coords);
+
+            double Point_calc_Y = Y + PointOffset_Y * (1 - Math.Cos(theta_rad)) - Z_Offset * Math.Sin(theta_rad);
+
+            double Point_calc_Z = ablation_focus_accurate + (Z_Offset * (1 - Math.Cos(theta_rad))) + (PointOffset_Y * Math.Sin(theta_rad));
+
+            double Correction_Z = Point_calc_Z - ablation_focus_accurate;
+
+            double Movement_z = ablation_focus_accurate - Correction_Z;
+
+            // Perform compensated movement 
+
+            myController.Commands.Motion.Setup.Absolute();
+
+            myController.Commands.Motion.Linear("D", 0, 2);
+
+            myController.Commands.Motion.Linear("Z", Movement_z, 1);
+
+            myController.Commands.Motion.Linear("B", B + phi_hold, 1);
+
+            myController.Commands.Motion.Linear("Y", Point_calc_Y - OffsetAccurate_Yaxis, Speed);
+
+            myController.Commands.Motion.Linear("X", X - OffsetAccurate_Xaxis, Speed);
+        }
+
+        private void btn_BoxAblation_Click(object sender, EventArgs e)
+        {
+            double box_width  = 0.5;
+            double overlap = 10;
+            double increment_total = 0;
+
+            double angle = Convert.ToDouble(txtbx_AngForAblation.Text);
+
+            double speed = 1;
+            int talikser_attentuation_value = 90;
+            double wattpilot_attenutation_value = 0;
+
+            talisker_attenuation(talikser_attentuation_value);
+            watt_pilot_attenuation(wattpilot_attenutation_value);
+
+            shutter_open();
+            aommode_0();
+            aomgate_high_trigger();
+
+            // Drill Single line and inspect
+
+            angle = 0;
+
+            Movement_3D_ablation(Refined_Xaxis[1] + 0.5, Refined_Yaxis[1] + 0.5, angle, 5);
+            myController.Commands.PSO.Control("X", Aerotech.A3200.Commands.PsoMode.On);
+            Movement_3D_ablation(Refined_Xaxis[1] + 0.5 + 0.25, Refined_Yaxis[1] + 0.5, angle, 5);
+            myController.Commands.PSO.Control("X", Aerotech.A3200.Commands.PsoMode.Off);
+            Movement_3D_uScope(Refined_Xaxis[1] + 0.5, Refined_Yaxis[1] + 0.5, 0);
+
+            angle = 20;
+
+            Movement_3D_ablation(Refined_Xaxis[1] + 0.5, Refined_Yaxis[1] + 0.75, angle, 5);
+            myController.Commands.PSO.Control("X", Aerotech.A3200.Commands.PsoMode.On);
+            Movement_3D_ablation(Refined_Xaxis[1] + 0.5 + 0.25, Refined_Yaxis[1] + 0.75, angle, 5);
+            myController.Commands.PSO.Control("X", Aerotech.A3200.Commands.PsoMode.Off);
+            Movement_3D_uScope(Refined_Xaxis[1] + 0.5, Refined_Yaxis[1] + 0.75, 0);
+
+            shutter_closed();
+
+            // Drill holes a varying angles and inspect each one 
+
+            //for (int count = 0; count < 10; count++)
+            //{
+            //    // Drill
+
+            //    angle = 5 * count;
+            //    Movement_3D_ablation(Refined_Xaxis[1] + 0.5, Refined_Yaxis[1] + 0.5 + increment_total, angle, speed);
+            //    myController.Commands.PSO.Control("X", Aerotech.A3200.Commands.PsoMode.On);
+            //    Thread.Sleep(100);
+            //    myController.Commands.PSO.Control("X", Aerotech.A3200.Commands.PsoMode.Off);
+            //    increment_total = increment_total + 0.25;
+
+            //    // Inspect
+
+            //    Movement_3D_uScope(Refined_Xaxis[1] + 0.5, Refined_Yaxis[1] + 0.5 + increment_total, 0);
+            //    MessageBox.Show("Dilled hole visible?");
+            //}
+
+
+            // Machines a single square at a single angle 
+
+            //for (int count = 0; count < 10; count++)
+            //{
+            //    Movement_3D_ablation(Refined_Xaxis[1] + 0.5, Refined_Yaxis[1] + 0.5 + increment_total, angle, speed);
+            //    myController.Commands.PSO.Control("X", Aerotech.A3200.Commands.PsoMode.On);
+            //    Movement_3D_ablation(Refined_Xaxis[1] + 0.5 + box_width, Refined_Yaxis[1] + 0.5 + increment_total, angle, speed);
+            //    myController.Commands.PSO.Control("X", Aerotech.A3200.Commands.PsoMode.Off);
+            //    increment_total = increment_total + (box_width / overlap);
+            //}
         }
 
         #endregion
@@ -2128,6 +2244,7 @@ namespace Aerotech_Control
             aommode_0();
             aomgate_high_trigger();
         }
+
 
 
 
