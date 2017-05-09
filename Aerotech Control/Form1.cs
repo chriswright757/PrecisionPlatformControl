@@ -128,9 +128,9 @@ namespace Aerotech_Control
         private static AutoResetEvent CornerAlignmentEvent = new AutoResetEvent(false);
         private static AutoResetEvent LaserAlignEvent = new AutoResetEvent(false);
 
-        TextWriter CornersX = new StreamWriter("//CIM-UP/Share/Chris/TEST/Aerotech Control/Reference Values/CornersX.txt");
-        TextWriter CornersY = new StreamWriter("//CIM-UP/Share/Chris/TEST/Aerotech Control/Reference Values/CornersY.txt");
-        TextWriter CornersZ = new StreamWriter("//CIM-UP/Share/Chris/TEST/Aerotech Control/Reference Values/CornersZ.txt");
+        TextWriter CornersX = new StreamWriter("C:/Users/User/Documents/GitHub/PrecisionPlatformControl/Reference Values/CornersX.txt");
+        TextWriter CornersY = new StreamWriter("C:/Users/User/Documents/GitHub/PrecisionPlatformControl/Reference Values/CornersY.txt");
+        TextWriter CornersZ = new StreamWriter("C:/Users/User/Documents/GitHub/PrecisionPlatformControl/Reference Values/CornersZ.txt");
 
         #endregion
 
@@ -1169,8 +1169,8 @@ namespace Aerotech_Control
 
             if (B_Yaxis > C_Xaxis)
             {
-                Refined_Yaxis[1] = B_Yaxis - StepIn;
-                Refined_Yaxis[2] = B_Yaxis - StepIn;
+                Refined_Yaxis[1] = B_Yaxis + StepIn;
+                Refined_Yaxis[2] = B_Yaxis + StepIn;
             }
             else
             {
