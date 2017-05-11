@@ -148,6 +148,9 @@ namespace Aerotech_Control
 
         private void Form1_Load(object sender, EventArgs e)
         {
+
+
+
             btn_UpdateCoords.Enabled = false;
 
             // Set initial stage jog value
@@ -1730,7 +1733,7 @@ namespace Aerotech_Control
         private void btn_BoxAblation_Click(object sender, EventArgs e)
         {
             double box_width  = 0.5;
-            double overlap = 10;
+            double overlap = 50;
             double increment_total = 0;
 
             double angle = Convert.ToDouble(txtbx_AngForAblation.Text);
@@ -1748,23 +1751,22 @@ namespace Aerotech_Control
 
             // Drill Single line and inspect
 
-            angle = 0;
+            //angle = 0;
 
-            Movement_3D_ablation(Refined_Xaxis[1] + 0.5, Refined_Yaxis[1] + 0.5, angle, 5);
-            myController.Commands.PSO.Control("X", Aerotech.A3200.Commands.PsoMode.On);
-            Movement_3D_ablation(Refined_Xaxis[1] + 0.5 + 0.25, Refined_Yaxis[1] + 0.5, angle, 5);
-            myController.Commands.PSO.Control("X", Aerotech.A3200.Commands.PsoMode.Off);
-            Movement_3D_uScope(Refined_Xaxis[1] + 0.5, Refined_Yaxis[1] + 0.5, 0);
+            //Movement_3D_ablation(Refined_Xaxis[1] + 0.5, Refined_Yaxis[1] + 0.5, angle, 5);
+            //myController.Commands.PSO.Control("X", Aerotech.A3200.Commands.PsoMode.On);
+            //Movement_3D_ablation(Refined_Xaxis[1] + 0.5 + 0.25, Refined_Yaxis[1] + 0.5, angle, 5);
+            //myController.Commands.PSO.Control("X", Aerotech.A3200.Commands.PsoMode.Off);
+            //Movement_3D_uScope(Refined_Xaxis[1] + 0.5, Refined_Yaxis[1] + 0.5, 0);
 
-            angle = 20;
+            //angle = 20;
 
-            Movement_3D_ablation(Refined_Xaxis[1] + 0.5, Refined_Yaxis[1] + 0.75, angle, 5);
-            myController.Commands.PSO.Control("X", Aerotech.A3200.Commands.PsoMode.On);
-            Movement_3D_ablation(Refined_Xaxis[1] + 0.5 + 0.25, Refined_Yaxis[1] + 0.75, angle, 5);
-            myController.Commands.PSO.Control("X", Aerotech.A3200.Commands.PsoMode.Off);
-            Movement_3D_uScope(Refined_Xaxis[1] + 0.5, Refined_Yaxis[1] + 0.75, 0);
-
-            shutter_closed();
+            //Movement_3D_ablation(Refined_Xaxis[1] + 0.5, Refined_Yaxis[1] + 0.75, angle, 5);
+            //myController.Commands.PSO.Control("X", Aerotech.A3200.Commands.PsoMode.On);
+            //Movement_3D_ablation(Refined_Xaxis[1] + 0.5 + 0.25, Refined_Yaxis[1] + 0.75, angle, 5);
+            //myController.Commands.PSO.Control("X", Aerotech.A3200.Commands.PsoMode.Off);
+            //Movement_3D_uScope(Refined_Xaxis[1] + 0.5, Refined_Yaxis[1] + 0.75, 0);
+                        
 
             // Drill holes a varying angles and inspect each one 
 
@@ -1788,14 +1790,60 @@ namespace Aerotech_Control
 
             // Machines a single square at a single angle 
 
-            //for (int count = 0; count < 10; count++)
-            //{
-            //    Movement_3D_ablation(Refined_Xaxis[1] + 0.5, Refined_Yaxis[1] + 0.5 + increment_total, angle, speed);
-            //    myController.Commands.PSO.Control("X", Aerotech.A3200.Commands.PsoMode.On);
-            //    Movement_3D_ablation(Refined_Xaxis[1] + 0.5 + box_width, Refined_Yaxis[1] + 0.5 + increment_total, angle, speed);
-            //    myController.Commands.PSO.Control("X", Aerotech.A3200.Commands.PsoMode.Off);
-            //    increment_total = increment_total + (box_width / overlap);
-            //}
+            angle = 30;
+            increment_total = 0;
+            double Y_Start = 0.5;
+
+
+            for (int count = 0; count < overlap; count++)
+            {
+                Movement_3D_ablation(Refined_Xaxis[1] + 0.5, Refined_Yaxis[1] + Y_Start + increment_total, angle, speed);
+                myController.Commands.PSO.Control("X", Aerotech.A3200.Commands.PsoMode.On);
+                Movement_3D_ablation(Refined_Xaxis[1] + 0.5 + box_width, Refined_Yaxis[1] + Y_Start + increment_total, angle, speed);
+                myController.Commands.PSO.Control("X", Aerotech.A3200.Commands.PsoMode.Off);
+                increment_total = increment_total + (box_width / overlap);
+            }
+
+            angle = 20;
+            increment_total = 0;
+            Y_Start = 1.5;
+
+            for (int count = 0; count < overlap; count++)
+            {
+                Movement_3D_ablation(Refined_Xaxis[1] + 0.5, Refined_Yaxis[1] + Y_Start + increment_total, angle, speed);
+                myController.Commands.PSO.Control("X", Aerotech.A3200.Commands.PsoMode.On);
+                Movement_3D_ablation(Refined_Xaxis[1] + 0.5 + box_width, Refined_Yaxis[1] + Y_Start + increment_total, angle, speed);
+                myController.Commands.PSO.Control("X", Aerotech.A3200.Commands.PsoMode.Off);
+                increment_total = increment_total + (box_width / overlap);
+            }
+
+            angle = 10;
+            increment_total = 0;
+            Y_Start = 2.5;
+
+            for (int count = 0; count < overlap; count++)
+            {
+                Movement_3D_ablation(Refined_Xaxis[1] + 0.5, Refined_Yaxis[1] + Y_Start + increment_total, angle, speed);
+                myController.Commands.PSO.Control("X", Aerotech.A3200.Commands.PsoMode.On);
+                Movement_3D_ablation(Refined_Xaxis[1] + 0.5 + box_width, Refined_Yaxis[1] + Y_Start + increment_total, angle, speed);
+                myController.Commands.PSO.Control("X", Aerotech.A3200.Commands.PsoMode.Off);
+                increment_total = increment_total + (box_width / overlap);
+            }
+
+            angle = 0;
+            increment_total = 0;
+            Y_Start = 3.5;
+
+            for (int count = 0; count < overlap; count++)
+            {
+                Movement_3D_ablation(Refined_Xaxis[1] + 0.5, Refined_Yaxis[1] + Y_Start + increment_total, angle, speed);
+                myController.Commands.PSO.Control("X", Aerotech.A3200.Commands.PsoMode.On);
+                Movement_3D_ablation(Refined_Xaxis[1] + 0.5 + box_width, Refined_Yaxis[1] + Y_Start + increment_total, angle, speed);
+                myController.Commands.PSO.Control("X", Aerotech.A3200.Commands.PsoMode.Off);
+                increment_total = increment_total + (box_width / overlap);
+            }
+
+            shutter_closed();
         }
 
         #endregion
