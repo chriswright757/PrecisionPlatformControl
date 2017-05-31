@@ -109,6 +109,9 @@
             this.btn_PosJogX = new System.Windows.Forms.Button();
             this.btn_NegJogX = new System.Windows.Forms.Button();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.txtbx_AngForAblation = new System.Windows.Forms.TextBox();
+            this.lbl_AngForBoxAblation = new System.Windows.Forms.Label();
+            this.btn_BoxAblation = new System.Windows.Forms.Button();
             this.txtbx_rotangle = new System.Windows.Forms.TextBox();
             this.btn_RotationTest = new System.Windows.Forms.Button();
             this.btn_SetuScopeFocus = new System.Windows.Forms.Button();
@@ -143,9 +146,17 @@
             this.DeviceListBox = new System.Windows.Forms.ListBox();
             this.btn_ScanUSB = new System.Windows.Forms.Button();
             this.grpbx_TalikserLaser = new System.Windows.Forms.GroupBox();
+            this.lbl_RepRate = new System.Windows.Forms.Label();
+            this.lbl_BurstPulses = new System.Windows.Forms.Label();
+            this.lbl_RepRateText = new System.Windows.Forms.Label();
             this.txtbx_RequestedWPATT = new System.Windows.Forms.TextBox();
+            this.txtbx_RequestedRepRate = new System.Windows.Forms.TextBox();
+            this.lbl_BurstPulsesText = new System.Windows.Forms.Label();
+            this.lbl_RequestedRepRateText = new System.Windows.Forms.Label();
             this.lbl_AOMGateStatus = new System.Windows.Forms.Label();
+            this.txtbx_RequestedBurstPulses = new System.Windows.Forms.TextBox();
             this.lbl_WPATT = new System.Windows.Forms.Label();
+            this.lbl_RequestedBurstPulsesText = new System.Windows.Forms.Label();
             this.btn_AOMGATE = new System.Windows.Forms.Button();
             this.lbl_AOMGateText = new System.Windows.Forms.Label();
             this.lbl_TaliskerATT = new System.Windows.Forms.Label();
@@ -162,9 +173,6 @@
             this.lbl_ShutterStatus = new System.Windows.Forms.Label();
             this.btn_Shutter = new System.Windows.Forms.Button();
             this.lbl_ShutterStatusText = new System.Windows.Forms.Label();
-            this.btn_BoxAblation = new System.Windows.Forms.Button();
-            this.lbl_AngForBoxAblation = new System.Windows.Forms.Label();
-            this.txtbx_AngForAblation = new System.Windows.Forms.TextBox();
             this.grpbx_AxVel.SuspendLayout();
             this.grpbx_AxPos.SuspendLayout();
             this.grpbx_AxisStatus.SuspendLayout();
@@ -1079,6 +1087,33 @@
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Sample Alignment";
             // 
+            // txtbx_AngForAblation
+            // 
+            this.txtbx_AngForAblation.Location = new System.Drawing.Point(294, 192);
+            this.txtbx_AngForAblation.Name = "txtbx_AngForAblation";
+            this.txtbx_AngForAblation.Size = new System.Drawing.Size(62, 20);
+            this.txtbx_AngForAblation.TabIndex = 68;
+            this.txtbx_AngForAblation.Text = "0";
+            // 
+            // lbl_AngForBoxAblation
+            // 
+            this.lbl_AngForBoxAblation.Location = new System.Drawing.Point(148, 192);
+            this.lbl_AngForBoxAblation.Name = "lbl_AngForBoxAblation";
+            this.lbl_AngForBoxAblation.Size = new System.Drawing.Size(118, 23);
+            this.lbl_AngForBoxAblation.TabIndex = 67;
+            this.lbl_AngForBoxAblation.Text = "Angle for Box Ablation";
+            this.lbl_AngForBoxAblation.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // btn_BoxAblation
+            // 
+            this.btn_BoxAblation.Location = new System.Drawing.Point(11, 192);
+            this.btn_BoxAblation.Name = "btn_BoxAblation";
+            this.btn_BoxAblation.Size = new System.Drawing.Size(130, 23);
+            this.btn_BoxAblation.TabIndex = 65;
+            this.btn_BoxAblation.Text = "Box Ablation";
+            this.btn_BoxAblation.UseVisualStyleBackColor = true;
+            this.btn_BoxAblation.Click += new System.EventHandler(this.btn_BoxAblation_Click);
+            // 
             // txtbx_rotangle
             // 
             this.txtbx_rotangle.Location = new System.Drawing.Point(294, 163);
@@ -1398,9 +1433,17 @@
             // 
             // grpbx_TalikserLaser
             // 
+            this.grpbx_TalikserLaser.Controls.Add(this.lbl_RepRate);
+            this.grpbx_TalikserLaser.Controls.Add(this.lbl_BurstPulses);
+            this.grpbx_TalikserLaser.Controls.Add(this.lbl_RepRateText);
             this.grpbx_TalikserLaser.Controls.Add(this.txtbx_RequestedWPATT);
+            this.grpbx_TalikserLaser.Controls.Add(this.txtbx_RequestedRepRate);
+            this.grpbx_TalikserLaser.Controls.Add(this.lbl_BurstPulsesText);
+            this.grpbx_TalikserLaser.Controls.Add(this.lbl_RequestedRepRateText);
             this.grpbx_TalikserLaser.Controls.Add(this.lbl_AOMGateStatus);
+            this.grpbx_TalikserLaser.Controls.Add(this.txtbx_RequestedBurstPulses);
             this.grpbx_TalikserLaser.Controls.Add(this.lbl_WPATT);
+            this.grpbx_TalikserLaser.Controls.Add(this.lbl_RequestedBurstPulsesText);
             this.grpbx_TalikserLaser.Controls.Add(this.btn_AOMGATE);
             this.grpbx_TalikserLaser.Controls.Add(this.lbl_AOMGateText);
             this.grpbx_TalikserLaser.Controls.Add(this.lbl_TaliskerATT);
@@ -1421,25 +1464,94 @@
             this.grpbx_TalikserLaser.Margin = new System.Windows.Forms.Padding(2);
             this.grpbx_TalikserLaser.Name = "grpbx_TalikserLaser";
             this.grpbx_TalikserLaser.Padding = new System.Windows.Forms.Padding(2);
-            this.grpbx_TalikserLaser.Size = new System.Drawing.Size(429, 197);
+            this.grpbx_TalikserLaser.Size = new System.Drawing.Size(429, 244);
             this.grpbx_TalikserLaser.TabIndex = 52;
             this.grpbx_TalikserLaser.TabStop = false;
             this.grpbx_TalikserLaser.Text = "Talisker Laser";
             // 
+            // lbl_RepRate
+            // 
+            this.lbl_RepRate.BackColor = System.Drawing.Color.White;
+            this.lbl_RepRate.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbl_RepRate.Location = new System.Drawing.Point(360, 73);
+            this.lbl_RepRate.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.lbl_RepRate.Name = "lbl_RepRate";
+            this.lbl_RepRate.Size = new System.Drawing.Size(65, 24);
+            this.lbl_RepRate.TabIndex = 60;
+            this.lbl_RepRate.Text = "Unknown";
+            this.lbl_RepRate.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // lbl_BurstPulses
+            // 
+            this.lbl_BurstPulses.BackColor = System.Drawing.Color.White;
+            this.lbl_BurstPulses.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbl_BurstPulses.Location = new System.Drawing.Point(360, 120);
+            this.lbl_BurstPulses.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.lbl_BurstPulses.Name = "lbl_BurstPulses";
+            this.lbl_BurstPulses.Size = new System.Drawing.Size(65, 24);
+            this.lbl_BurstPulses.TabIndex = 56;
+            this.lbl_BurstPulses.Text = "Unknown";
+            this.lbl_BurstPulses.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // lbl_RepRateText
+            // 
+            this.lbl_RepRateText.AutoSize = true;
+            this.lbl_RepRateText.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbl_RepRateText.Location = new System.Drawing.Point(262, 78);
+            this.lbl_RepRateText.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.lbl_RepRateText.Name = "lbl_RepRateText";
+            this.lbl_RepRateText.Size = new System.Drawing.Size(72, 13);
+            this.lbl_RepRateText.TabIndex = 59;
+            this.lbl_RepRateText.Text = "Rep Rate =";
+            this.lbl_RepRateText.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
             // txtbx_RequestedWPATT
             // 
-            this.txtbx_RequestedWPATT.Location = new System.Drawing.Point(197, 103);
+            this.txtbx_RequestedWPATT.Location = new System.Drawing.Point(197, 180);
             this.txtbx_RequestedWPATT.Margin = new System.Windows.Forms.Padding(2);
             this.txtbx_RequestedWPATT.Name = "txtbx_RequestedWPATT";
             this.txtbx_RequestedWPATT.Size = new System.Drawing.Size(46, 20);
             this.txtbx_RequestedWPATT.TabIndex = 54;
             this.txtbx_RequestedWPATT.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtbx_RequestedWPATT_KeyDown);
             // 
+            // txtbx_RequestedRepRate
+            // 
+            this.txtbx_RequestedRepRate.Location = new System.Drawing.Point(197, 80);
+            this.txtbx_RequestedRepRate.Margin = new System.Windows.Forms.Padding(2);
+            this.txtbx_RequestedRepRate.Name = "txtbx_RequestedRepRate";
+            this.txtbx_RequestedRepRate.Size = new System.Drawing.Size(46, 20);
+            this.txtbx_RequestedRepRate.TabIndex = 58;
+            this.txtbx_RequestedRepRate.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtbx_RequestedRepRate_KeyDown);
+            // 
+            // lbl_BurstPulsesText
+            // 
+            this.lbl_BurstPulsesText.AutoSize = true;
+            this.lbl_BurstPulsesText.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbl_BurstPulsesText.Location = new System.Drawing.Point(262, 125);
+            this.lbl_BurstPulsesText.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.lbl_BurstPulsesText.Name = "lbl_BurstPulsesText";
+            this.lbl_BurstPulsesText.Size = new System.Drawing.Size(88, 13);
+            this.lbl_BurstPulsesText.TabIndex = 55;
+            this.lbl_BurstPulsesText.Text = "Burst Pulses =";
+            this.lbl_BurstPulsesText.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // lbl_RequestedRepRateText
+            // 
+            this.lbl_RequestedRepRateText.AutoSize = true;
+            this.lbl_RequestedRepRateText.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbl_RequestedRepRateText.Location = new System.Drawing.Point(26, 82);
+            this.lbl_RequestedRepRateText.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.lbl_RequestedRepRateText.Name = "lbl_RequestedRepRateText";
+            this.lbl_RequestedRepRateText.Size = new System.Drawing.Size(145, 13);
+            this.lbl_RequestedRepRateText.TabIndex = 57;
+            this.lbl_RequestedRepRateText.Text = "Requested Rep Rate   =";
+            this.lbl_RequestedRepRateText.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
             // lbl_AOMGateStatus
             // 
             this.lbl_AOMGateStatus.BackColor = System.Drawing.Color.White;
             this.lbl_AOMGateStatus.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbl_AOMGateStatus.Location = new System.Drawing.Point(360, 128);
+            this.lbl_AOMGateStatus.Location = new System.Drawing.Point(360, 205);
             this.lbl_AOMGateStatus.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.lbl_AOMGateStatus.Name = "lbl_AOMGateStatus";
             this.lbl_AOMGateStatus.Size = new System.Drawing.Size(65, 24);
@@ -1447,11 +1559,20 @@
             this.lbl_AOMGateStatus.Text = "Unknown";
             this.lbl_AOMGateStatus.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
+            // txtbx_RequestedBurstPulses
+            // 
+            this.txtbx_RequestedBurstPulses.Location = new System.Drawing.Point(197, 127);
+            this.txtbx_RequestedBurstPulses.Margin = new System.Windows.Forms.Padding(2);
+            this.txtbx_RequestedBurstPulses.Name = "txtbx_RequestedBurstPulses";
+            this.txtbx_RequestedBurstPulses.Size = new System.Drawing.Size(46, 20);
+            this.txtbx_RequestedBurstPulses.TabIndex = 54;
+            this.txtbx_RequestedBurstPulses.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtbx_RequestedBurstPulses_KeyDown);
+            // 
             // lbl_WPATT
             // 
             this.lbl_WPATT.BackColor = System.Drawing.Color.White;
             this.lbl_WPATT.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbl_WPATT.Location = new System.Drawing.Point(360, 101);
+            this.lbl_WPATT.Location = new System.Drawing.Point(360, 178);
             this.lbl_WPATT.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.lbl_WPATT.Name = "lbl_WPATT";
             this.lbl_WPATT.Size = new System.Drawing.Size(65, 24);
@@ -1459,9 +1580,21 @@
             this.lbl_WPATT.Text = "Unknown";
             this.lbl_WPATT.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
+            // lbl_RequestedBurstPulsesText
+            // 
+            this.lbl_RequestedBurstPulsesText.AutoSize = true;
+            this.lbl_RequestedBurstPulsesText.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbl_RequestedBurstPulsesText.Location = new System.Drawing.Point(26, 129);
+            this.lbl_RequestedBurstPulsesText.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.lbl_RequestedBurstPulsesText.Name = "lbl_RequestedBurstPulsesText";
+            this.lbl_RequestedBurstPulsesText.Size = new System.Drawing.Size(161, 13);
+            this.lbl_RequestedBurstPulsesText.TabIndex = 53;
+            this.lbl_RequestedBurstPulsesText.Text = "Requested Burst Pulses   =";
+            this.lbl_RequestedBurstPulsesText.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
             // btn_AOMGATE
             // 
-            this.btn_AOMGATE.Location = new System.Drawing.Point(10, 128);
+            this.btn_AOMGATE.Location = new System.Drawing.Point(10, 205);
             this.btn_AOMGATE.Margin = new System.Windows.Forms.Padding(2);
             this.btn_AOMGATE.Name = "btn_AOMGATE";
             this.btn_AOMGATE.Size = new System.Drawing.Size(131, 23);
@@ -1474,7 +1607,7 @@
             // 
             this.lbl_AOMGateText.AutoSize = true;
             this.lbl_AOMGateText.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbl_AOMGateText.Location = new System.Drawing.Point(254, 135);
+            this.lbl_AOMGateText.Location = new System.Drawing.Point(254, 212);
             this.lbl_AOMGateText.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.lbl_AOMGateText.Name = "lbl_AOMGateText";
             this.lbl_AOMGateText.Size = new System.Drawing.Size(101, 13);
@@ -1485,7 +1618,7 @@
             // 
             this.lbl_TaliskerATT.BackColor = System.Drawing.Color.White;
             this.lbl_TaliskerATT.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbl_TaliskerATT.Location = new System.Drawing.Point(360, 73);
+            this.lbl_TaliskerATT.Location = new System.Drawing.Point(360, 150);
             this.lbl_TaliskerATT.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.lbl_TaliskerATT.Name = "lbl_TaliskerATT";
             this.lbl_TaliskerATT.Size = new System.Drawing.Size(65, 24);
@@ -1496,7 +1629,7 @@
             // lbl_WPATTText
             // 
             this.lbl_WPATTText.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbl_WPATTText.Location = new System.Drawing.Point(228, 106);
+            this.lbl_WPATTText.Location = new System.Drawing.Point(228, 183);
             this.lbl_WPATTText.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.lbl_WPATTText.Name = "lbl_WPATTText";
             this.lbl_WPATTText.Size = new System.Drawing.Size(126, 14);
@@ -1508,7 +1641,7 @@
             // 
             this.lbl_TaliskerATTText.AutoSize = true;
             this.lbl_TaliskerATTText.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbl_TaliskerATTText.Location = new System.Drawing.Point(262, 78);
+            this.lbl_TaliskerATTText.Location = new System.Drawing.Point(262, 155);
             this.lbl_TaliskerATTText.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.lbl_TaliskerATTText.Name = "lbl_TaliskerATTText";
             this.lbl_TaliskerATTText.Size = new System.Drawing.Size(97, 13);
@@ -1518,7 +1651,7 @@
             // 
             // txtbx_RequestedTaliskerATT
             // 
-            this.txtbx_RequestedTaliskerATT.Location = new System.Drawing.Point(197, 80);
+            this.txtbx_RequestedTaliskerATT.Location = new System.Drawing.Point(197, 157);
             this.txtbx_RequestedTaliskerATT.Margin = new System.Windows.Forms.Padding(2);
             this.txtbx_RequestedTaliskerATT.Name = "txtbx_RequestedTaliskerATT";
             this.txtbx_RequestedTaliskerATT.Size = new System.Drawing.Size(46, 20);
@@ -1528,7 +1661,7 @@
             // lbl_RequestedWPATTText
             // 
             this.lbl_RequestedWPATTText.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbl_RequestedWPATTText.Location = new System.Drawing.Point(7, 100);
+            this.lbl_RequestedWPATTText.Location = new System.Drawing.Point(7, 177);
             this.lbl_RequestedWPATTText.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.lbl_RequestedWPATTText.Name = "lbl_RequestedWPATTText";
             this.lbl_RequestedWPATTText.Size = new System.Drawing.Size(188, 20);
@@ -1540,7 +1673,7 @@
             // 
             this.lbl_RequestedTaliskerATTText.AutoSize = true;
             this.lbl_RequestedTaliskerATTText.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbl_RequestedTaliskerATTText.Location = new System.Drawing.Point(26, 82);
+            this.lbl_RequestedTaliskerATTText.Location = new System.Drawing.Point(26, 159);
             this.lbl_RequestedTaliskerATTText.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.lbl_RequestedTaliskerATTText.Name = "lbl_RequestedTaliskerATTText";
             this.lbl_RequestedTaliskerATTText.Size = new System.Drawing.Size(170, 13);
@@ -1637,33 +1770,6 @@
             this.lbl_ShutterStatusText.Size = new System.Drawing.Size(88, 13);
             this.lbl_ShutterStatusText.TabIndex = 0;
             this.lbl_ShutterStatusText.Text = "Shutter Status";
-            // 
-            // btn_BoxAblation
-            // 
-            this.btn_BoxAblation.Location = new System.Drawing.Point(11, 192);
-            this.btn_BoxAblation.Name = "btn_BoxAblation";
-            this.btn_BoxAblation.Size = new System.Drawing.Size(130, 23);
-            this.btn_BoxAblation.TabIndex = 65;
-            this.btn_BoxAblation.Text = "Box Ablation";
-            this.btn_BoxAblation.UseVisualStyleBackColor = true;
-            this.btn_BoxAblation.Click += new System.EventHandler(this.btn_BoxAblation_Click);
-            // 
-            // lbl_AngForBoxAblation
-            // 
-            this.lbl_AngForBoxAblation.Location = new System.Drawing.Point(148, 192);
-            this.lbl_AngForBoxAblation.Name = "lbl_AngForBoxAblation";
-            this.lbl_AngForBoxAblation.Size = new System.Drawing.Size(118, 23);
-            this.lbl_AngForBoxAblation.TabIndex = 67;
-            this.lbl_AngForBoxAblation.Text = "Angle for Box Ablation";
-            this.lbl_AngForBoxAblation.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // txtbx_AngForAblation
-            // 
-            this.txtbx_AngForAblation.Location = new System.Drawing.Point(294, 192);
-            this.txtbx_AngForAblation.Name = "txtbx_AngForAblation";
-            this.txtbx_AngForAblation.Size = new System.Drawing.Size(62, 20);
-            this.txtbx_AngForAblation.TabIndex = 68;
-            this.txtbx_AngForAblation.Text = "0";
             // 
             // Form1
             // 
@@ -1844,6 +1950,14 @@
         private System.Windows.Forms.TextBox txtbx_AngForAblation;
         private System.Windows.Forms.Label lbl_AngForBoxAblation;
         private System.Windows.Forms.Button btn_BoxAblation;
+        private System.Windows.Forms.Label lbl_BurstPulses;
+        private System.Windows.Forms.Label lbl_BurstPulsesText;
+        private System.Windows.Forms.TextBox txtbx_RequestedBurstPulses;
+        private System.Windows.Forms.Label lbl_RequestedBurstPulsesText;
+        private System.Windows.Forms.Label lbl_RepRate;
+        private System.Windows.Forms.Label lbl_RepRateText;
+        private System.Windows.Forms.TextBox txtbx_RequestedRepRate;
+        private System.Windows.Forms.Label lbl_RequestedRepRateText;
     }
 }
 

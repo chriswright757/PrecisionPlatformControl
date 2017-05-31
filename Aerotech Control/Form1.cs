@@ -88,6 +88,7 @@ namespace Aerotech_Control
         int hold = 0;
         double theta_hold = 0;
         double phi_hold = 0;
+        double B_hold = 0;
 
         double[] Refined_Xaxis = new double[4];
         double[] Refined_Yaxis = new double[4];
@@ -884,13 +885,15 @@ namespace Aerotech_Control
             double Start_Yaxis = -21.5;
 
             myController.Commands.Motion.Setup.Absolute();
-            myController.Commands.Axes["X", "Y", "Z", "D", "A", "B"].Motion.Linear(new double[] { Start_Xaxis, Start_Yaxis, ablation_focus, microscope_focus, 0, 0 }, 2.5);
+            myController.Commands.Motion.Linear("D", 0, 2);
+            myController.Commands.Axes["X", "Y", "Z", "D", "A", "B"].Motion.Linear(new double[] { Start_Xaxis, Start_Yaxis, ablation_focus, 0, 0, 0 }, 2.5);
+            myController.Commands.Motion.Linear("D", microscope_focus, 2);
 
             //Disable Buttons
 
             btn_PosJogD.Enabled = false;
             btn_NegJogD.Enabled = false;
-
+             
             btn_PosJogA.Enabled = false;
             btn_NegJogA.Enabled = false;
 
@@ -1682,15 +1685,25 @@ namespace Aerotech_Control
 
             // Perform compensated movement 
 
-            myController.Commands.Motion.Setup.Absolute();            
+            myController.Commands.Motion.Setup.Absolute();      
 
-            myController.Commands.Motion.Linear("Z", Movement_z, 1);
+            if (B_hold != B + phi_hold)
+            {
+                myController.Commands.Motion.Linear("Z", ablation_focus_accurate - 10, 5);
+                myController.Commands.Motion.Linear("B", B + phi_hold, 1);
+            }
 
-            myController.Commands.Motion.Linear("B", B + phi_hold, 1);
+            B_hold = B + phi_hold;
 
-            myController.Commands.Motion.Linear("Y", Point_calc_Y);
+            myController.Commands.Axes["X", "Y", "Z"].Motion.Linear(new double[] { X, Point_calc_Y, Movement_z }, 5);
 
-            myController.Commands.Motion.Linear("X", X);
+            //myController.Commands.Motion.Linear("Z", Movement_z, 1);
+
+            //myController.Commands.Motion.Linear("B", B + phi_hold, 1);
+
+            //myController.Commands.Motion.Linear("Y", Point_calc_Y);
+
+            //myController.Commands.Motion.Linear("X", X);
 
             myController.Commands.Motion.Linear("D", microscope_focus, 2);
         }
@@ -1705,7 +1718,7 @@ namespace Aerotech_Control
 
             // Y distance from point of interest and rotational centre
 
-            double PointOffset_Y = Math.Abs(Y - Rot_Y_Coords);
+            double PointOffset_Y = -1 * (Y - Rot_Y_Coords); // Math.Abs(Y - Rot_Y_Coords);
 
             double Point_calc_Y = Y + PointOffset_Y * (1 - Math.Cos(theta_rad)) - Z_Offset * Math.Sin(theta_rad);
 
@@ -1721,14 +1734,27 @@ namespace Aerotech_Control
 
             myController.Commands.Motion.Linear("D", 0, 2);
 
-            myController.Commands.Motion.Linear("Z", Movement_z, 1);
+            if (B_hold != B + phi_hold)
+            {
+                myController.Commands.Motion.Linear("Z", ablation_focus_accurate - 10, 5);
+                myController.Commands.Motion.Linear("B", B + phi_hold, 1);
+            }
 
-            myController.Commands.Motion.Linear("B", B + phi_hold, 1);
+            B_hold = B + phi_hold;                   
 
-            myController.Commands.Motion.Linear("Y", Point_calc_Y - OffsetAccurate_Yaxis, Speed);
+            myController.Commands.Axes["X", "Y", "Z"].Motion.Linear(new double[] { X - OffsetAccurate_Xaxis, Point_calc_Y - OffsetAccurate_Yaxis, Movement_z}, 5);
 
-            myController.Commands.Motion.Linear("X", X - OffsetAccurate_Xaxis, Speed);
+            //myController.Commands.Motion.Linear("Z", Movement_z, 1);
+
+            //myController.Commands.Motion.Linear("Y", Point_calc_Y - OffsetAccurate_Yaxis, Speed);
+
+            //myController.Commands.Motion.Linear("X", X - OffsetAccurate_Xaxis, Speed);
+            
         }
+
+        #endregion
+
+        #region Machining Button
 
         private void btn_BoxAblation_Click(object sender, EventArgs e)
         {
@@ -1736,7 +1762,7 @@ namespace Aerotech_Control
             double overlap = 50;
             double increment_total = 0;
 
-            double angle = Convert.ToDouble(txtbx_AngForAblation.Text);
+            //double angle = Convert.ToDouble(txtbx_AngForAblation.Text);
 
             double speed = 1;
             int talikser_attentuation_value = 90;
@@ -1749,7 +1775,85 @@ namespace Aerotech_Control
             aommode_0();
             aomgate_high_trigger();
 
-            // Drill Single line and inspect
+            #region Uphill and Downhill Test
+
+            //// Drill Line down slope 
+
+            //// Flat
+
+            //angle = 0;
+
+            //Movement_3D_ablation(Refined_Xaxis[1] + 0.5, Refined_Yaxis[1] + 0.5, angle, 5);
+            //myController.Commands.PSO.Control("X", Aerotech.A3200.Commands.PsoMode.On);
+            //Movement_3D_ablation(Refined_Xaxis[1] + 0.5, Refined_Yaxis[0] - 0.5, angle, 5);
+            //myController.Commands.PSO.Control("X", Aerotech.A3200.Commands.PsoMode.Off);
+
+            //// Downhill
+
+            //angle = 30;
+
+            //Movement_3D_ablation(Refined_Xaxis[1] + 1, Refined_Yaxis[1] + 0.5, angle, 5);
+            //myController.Commands.PSO.Control("X", Aerotech.A3200.Commands.PsoMode.On);
+            //Movement_3D_ablation(Refined_Xaxis[1] + 1, Refined_Yaxis[0] - 0.5, angle, 5);
+            //myController.Commands.PSO.Control("X", Aerotech.A3200.Commands.PsoMode.Off);
+
+            //// Flat
+
+            //angle = 0;
+
+            //Movement_3D_ablation(Refined_Xaxis[1] + 1.5, Refined_Yaxis[1] + 0.5, angle, 5);
+            //myController.Commands.PSO.Control("X", Aerotech.A3200.Commands.PsoMode.On);
+            //Movement_3D_ablation(Refined_Xaxis[1] + 1.5, Refined_Yaxis[0] - 0.5, angle, 5);
+            //myController.Commands.PSO.Control("X", Aerotech.A3200.Commands.PsoMode.Off);
+
+            //// Uphill 
+
+            //angle = 30;
+
+            //Movement_3D_ablation(Refined_Xaxis[1] + 2, Refined_Yaxis[0] - 0.5, angle, 5);
+            //myController.Commands.PSO.Control("X", Aerotech.A3200.Commands.PsoMode.On);
+            //Movement_3D_ablation(Refined_Xaxis[1] + 2, Refined_Yaxis[1] + 0.5, angle, 5);
+            //myController.Commands.PSO.Control("X", Aerotech.A3200.Commands.PsoMode.Off);
+
+            //// Flat
+
+            //angle = 0;
+
+            //Movement_3D_ablation(Refined_Xaxis[1] + 2.5, Refined_Yaxis[1] + 0.5, angle, 5);
+            //myController.Commands.PSO.Control("X", Aerotech.A3200.Commands.PsoMode.On);
+            //Movement_3D_ablation(Refined_Xaxis[1] + 2.5, Refined_Yaxis[0] - 0.5, angle, 5);
+            //myController.Commands.PSO.Control("X", Aerotech.A3200.Commands.PsoMode.Off);
+
+            //// Downhill Opposite
+
+            //angle = -30;
+
+            //Movement_3D_ablation(Refined_Xaxis[1] + 3, Refined_Yaxis[0] - 0.5, angle, 5);
+            //myController.Commands.PSO.Control("X", Aerotech.A3200.Commands.PsoMode.On);
+            //Movement_3D_ablation(Refined_Xaxis[1] + 3, Refined_Yaxis[1] + 0.5, angle, 5);
+            //myController.Commands.PSO.Control("X", Aerotech.A3200.Commands.PsoMode.Off);
+
+            //// Flat
+
+            //angle = 0;
+
+            //Movement_3D_ablation(Refined_Xaxis[1] + 3.5, Refined_Yaxis[1] + 0.5, angle, 5);
+            //myController.Commands.PSO.Control("X", Aerotech.A3200.Commands.PsoMode.On);
+            //Movement_3D_ablation(Refined_Xaxis[1] + 3.5, Refined_Yaxis[0] - 0.5, angle, 5);
+            //myController.Commands.PSO.Control("X", Aerotech.A3200.Commands.PsoMode.Off);
+
+            //// Uphill Opposite
+
+            //angle = -30;
+
+            //Movement_3D_ablation(Refined_Xaxis[1] + 4, Refined_Yaxis[1] + 0.5, angle, 5);
+            //myController.Commands.PSO.Control("X", Aerotech.A3200.Commands.PsoMode.On);
+            //Movement_3D_ablation(Refined_Xaxis[1] + 4, Refined_Yaxis[0] - 0.5, angle, 5);
+            //myController.Commands.PSO.Control("X", Aerotech.A3200.Commands.PsoMode.Off);
+
+            #endregion
+
+            #region Drill Single line in X and inspect
 
             //angle = 0;
 
@@ -1766,9 +1870,10 @@ namespace Aerotech_Control
             //Movement_3D_ablation(Refined_Xaxis[1] + 0.5 + 0.25, Refined_Yaxis[1] + 0.75, angle, 5);
             //myController.Commands.PSO.Control("X", Aerotech.A3200.Commands.PsoMode.Off);
             //Movement_3D_uScope(Refined_Xaxis[1] + 0.5, Refined_Yaxis[1] + 0.75, 0);
-                        
 
-            // Drill holes a varying angles and inspect each one 
+            #endregion
+
+            #region Drill holes a varying angles and inspect each one 
 
             //for (int count = 0; count < 10; count++)
             //{
@@ -1787,61 +1892,118 @@ namespace Aerotech_Control
             //    MessageBox.Show("Dilled hole visible?");
             //}
 
+            #endregion
 
-            // Machines a single square at a single angle 
+            #region Machines a single square at a single angle 
 
-            angle = 30;
-            increment_total = 0;
-            double Y_Start = 0.5;
+            //angle = 30;
+            //increment_total = 0;
+            //double Y_Start = 0.5;
 
 
-            for (int count = 0; count < overlap; count++)
+            //for (int count = 0; count < overlap; count++)
+            //{
+            //    Movement_3D_ablation(Refined_Xaxis[1] + 0.5, Refined_Yaxis[1] + Y_Start + increment_total, angle, speed);
+            //    myController.Commands.PSO.Control("X", Aerotech.A3200.Commands.PsoMode.On);
+            //    Movement_3D_ablation(Refined_Xaxis[1] + 0.5 + box_width, Refined_Yaxis[1] + Y_Start + increment_total, angle, speed);
+            //    myController.Commands.PSO.Control("X", Aerotech.A3200.Commands.PsoMode.Off);
+            //    increment_total = increment_total + (box_width / overlap);
+            //}                       
+
+            #endregion
+
+            #region Ablation threshold at different angles test grid
+
+            //// Set Repition Rate and number of pulses per trigger
+
+            //talisker_rep_rate(10000);
+            //aommode_3();
+            //talisker_burst_pulses(2000);
+
+            //// Drill reference grid along X axis
+
+            //double ref_angle = 0;
+
+            //for (int power = 0; power < 11; power++)
+            //{
+            //    watt_pilot_attenuation(0);                
+            //    Movement_3D_ablation(Refined_Xaxis[1] + 0.5 + (0.25 * power), Refined_Yaxis[1] + 0.25 + (0.25 * ref_angle), ref_angle * 10, 5);
+            //    myController.Commands.PSO.Control("X", Aerotech.A3200.Commands.PsoMode.On);
+            //    Thread.Sleep(1000);
+            //    myController.Commands.PSO.Control("X", Aerotech.A3200.Commands.PsoMode.Off);
+            //}
+
+            //// Drill hole grid 
+
+            //// Angle for loop
+
+            //for (int angle = 0; angle < 4; angle++)
+            //{
+            //    //Power for loop
+            //    for(int power = 0; power < 11; power+=2)
+            //    {
+            //        watt_pilot_attenuation(power * 10);
+            //        Movement_3D_ablation(Refined_Xaxis[1] + 0.5 + (0.25*power), Refined_Yaxis[1] + 0.5 + (0.25*angle), angle*10, 5);
+            //        myController.Commands.PSO.Control("X", Aerotech.A3200.Commands.PsoMode.On);
+            //        Thread.Sleep(1000);
+            //        myController.Commands.PSO.Control("X", Aerotech.A3200.Commands.PsoMode.Off);
+            //    }
+            //}
+
+            #endregion
+
+            #region Ablation threshold at different angles using lines
+
+            // Set Repition Rate and number of pulses per trigger
+
+            talisker_rep_rate(10000);
+            aommode_2();
+            
+            // Drill reference grid along X axis
+
+            double ref_angle = 0;
+
+            for (int power = 0; power < 11; power+=2)
             {
-                Movement_3D_ablation(Refined_Xaxis[1] + 0.5, Refined_Yaxis[1] + Y_Start + increment_total, angle, speed);
+                watt_pilot_attenuation(0);
+                Movement_3D_ablation(Refined_Xaxis[1] + 0.5 + (1.25 * power/2), Refined_Yaxis[1] + 0.25 + (0.25 * ref_angle), ref_angle * 10, 5);
                 myController.Commands.PSO.Control("X", Aerotech.A3200.Commands.PsoMode.On);
-                Movement_3D_ablation(Refined_Xaxis[1] + 0.5 + box_width, Refined_Yaxis[1] + Y_Start + increment_total, angle, speed);
+                Movement_3D_ablation(Refined_Xaxis[1] + 0.5 + (1.25 * power/2) + 1, Refined_Yaxis[1] + 0.25 + (0.25 * ref_angle), ref_angle * 10, 1);
                 myController.Commands.PSO.Control("X", Aerotech.A3200.Commands.PsoMode.Off);
-                increment_total = increment_total + (box_width / overlap);
             }
 
-            angle = 20;
-            increment_total = 0;
-            Y_Start = 1.5;
+            // Drill line grid - high power             
 
-            for (int count = 0; count < overlap; count++)
+            for (int angle = 0; angle < 4; angle++)
             {
-                Movement_3D_ablation(Refined_Xaxis[1] + 0.5, Refined_Yaxis[1] + Y_Start + increment_total, angle, speed);
-                myController.Commands.PSO.Control("X", Aerotech.A3200.Commands.PsoMode.On);
-                Movement_3D_ablation(Refined_Xaxis[1] + 0.5 + box_width, Refined_Yaxis[1] + Y_Start + increment_total, angle, speed);
-                myController.Commands.PSO.Control("X", Aerotech.A3200.Commands.PsoMode.Off);
-                increment_total = increment_total + (box_width / overlap);
+                //Power for loop
+                for (int power = 0; power < 11; power += 2)
+                {
+                    watt_pilot_attenuation(power * 10);
+                    Movement_3D_ablation(Refined_Xaxis[1] + 0.5 + (1.25 * power/2), Refined_Yaxis[1] + 0.5 + (0.25 * angle), angle * 10, 5);
+                    myController.Commands.PSO.Control("X", Aerotech.A3200.Commands.PsoMode.On);
+                    Movement_3D_ablation(Refined_Xaxis[1] + 0.5 + (1.25 * power/2) + 1, Refined_Yaxis[1] + 0.5 + (0.25 * angle), angle * 10, 1);
+                    myController.Commands.PSO.Control("X", Aerotech.A3200.Commands.PsoMode.Off);
+                }
             }
 
-            angle = 10;
-            increment_total = 0;
-            Y_Start = 2.5;
+            // Drill line grid - low power             
 
-            for (int count = 0; count < overlap; count++)
+            for (int angle = 0; angle < 4; angle++)
             {
-                Movement_3D_ablation(Refined_Xaxis[1] + 0.5, Refined_Yaxis[1] + Y_Start + increment_total, angle, speed);
-                myController.Commands.PSO.Control("X", Aerotech.A3200.Commands.PsoMode.On);
-                Movement_3D_ablation(Refined_Xaxis[1] + 0.5 + box_width, Refined_Yaxis[1] + Y_Start + increment_total, angle, speed);
-                myController.Commands.PSO.Control("X", Aerotech.A3200.Commands.PsoMode.Off);
-                increment_total = increment_total + (box_width / overlap);
+                //Power for loop
+                for (int power = 0; power < 11; power += 2)
+                {
+                    watt_pilot_attenuation(80+(power*2));
+                    Movement_3D_ablation(Refined_Xaxis[1] + 0.5 + (1.25 * power / 2), Refined_Yaxis[1] + 1.5 + (0.25 * angle), angle * 10, 5);
+                    myController.Commands.PSO.Control("X", Aerotech.A3200.Commands.PsoMode.On);
+                    Movement_3D_ablation(Refined_Xaxis[1] + 0.5 + (1.25 * power / 2) + 1, Refined_Yaxis[1] + 1.5 + (0.25 * angle), angle * 10, 1);
+                    myController.Commands.PSO.Control("X", Aerotech.A3200.Commands.PsoMode.Off);
+                }
             }
 
-            angle = 0;
-            increment_total = 0;
-            Y_Start = 3.5;
 
-            for (int count = 0; count < overlap; count++)
-            {
-                Movement_3D_ablation(Refined_Xaxis[1] + 0.5, Refined_Yaxis[1] + Y_Start + increment_total, angle, speed);
-                myController.Commands.PSO.Control("X", Aerotech.A3200.Commands.PsoMode.On);
-                Movement_3D_ablation(Refined_Xaxis[1] + 0.5 + box_width, Refined_Yaxis[1] + Y_Start + increment_total, angle, speed);
-                myController.Commands.PSO.Control("X", Aerotech.A3200.Commands.PsoMode.Off);
-                increment_total = increment_total + (box_width / overlap);
-            }
+            #endregion
 
             shutter_closed();
         }
@@ -1925,7 +2087,7 @@ namespace Aerotech_Control
         private void watt_pilot_attenuation(double value)
         {
             // Offset for watt pilot 1064 = -443 532 = +1520 355 = +7870
-            double offset = -443;
+            double offset = -770;
             double stepsPerUnit = 43.333;
             double resolution = 2;
             double ratio = (100 - value) / 100;
@@ -1937,7 +2099,29 @@ namespace Aerotech_Control
             lbl_WPATT.Text = (value).ToString("0.0");
         }
 
+        private void talisker_burst_pulses(int value)
+        {
+            string burst_pulses = "BURST=" + value + "\r\n";
+            TalikserLaser.Write(burst_pulses);
+            Thread.Sleep(command_delay);
+            lbl_BurstPulses.Text = value.ToString("0");
+        }
 
+        private void talisker_rep_rate(int value)
+        {
+            double divisor = 200000 / value;
+            if ((divisor % 1) > 0)
+            {
+                MessageBox.Show("Not a integer divisor");
+            }
+            else
+            {
+                string rep_rate = "AOMD=" + divisor + "\r\n";
+                TalikserLaser.Write(rep_rate);
+                Thread.Sleep(command_delay);
+                lbl_RepRate.Text = value.ToString("0");
+            }
+        }
 
         #endregion
 
@@ -2257,6 +2441,22 @@ namespace Aerotech_Control
             }
         }
 
+        private void txtbx_RequestedBurstPulses_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+                talisker_burst_pulses(Convert.ToInt32(txtbx_RequestedBurstPulses.Text));                
+            }
+        }
+
+        private void txtbx_RequestedRepRate_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+                talisker_rep_rate(Convert.ToInt32(txtbx_RequestedRepRate.Text));
+            }
+        }
+
         private void btn_aommode0_Click(object sender, EventArgs e)
         {
             aommode_0();
@@ -2291,7 +2491,11 @@ namespace Aerotech_Control
             talisker_attenuation(100);
             aommode_0();
             aomgate_high_trigger();
+            talisker_burst_pulses(1);
+            talisker_rep_rate(200000);
         }
+
+
 
 
 
@@ -2300,7 +2504,7 @@ namespace Aerotech_Control
 
         #endregion
 
-
+        
     }
     
 }
