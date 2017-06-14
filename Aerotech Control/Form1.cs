@@ -132,7 +132,7 @@ namespace Aerotech_Control
         TextWriter CornersX = new StreamWriter("C:/Users/User/Documents/GitHub/PrecisionPlatformControl/Reference Values/CornersX.txt");
         TextWriter CornersY = new StreamWriter("C:/Users/User/Documents/GitHub/PrecisionPlatformControl/Reference Values/CornersY.txt");
         TextWriter CornersZ = new StreamWriter("C:/Users/User/Documents/GitHub/PrecisionPlatformControl/Reference Values/CornersZ.txt");
-
+        
         #endregion
 
         private void SetTaskState(NewTaskStatesArrivedEventArgs e)
@@ -2078,7 +2078,10 @@ namespace Aerotech_Control
 
         private void talisker_attenuation(int value)
         {
-            string atten_command = "ATT=" + value + "\r\n";
+            string atten_command = "ATT=100\r\n";
+            TalikserLaser.Write(atten_command);
+            Thread.Sleep(command_delay);
+            atten_command = "ATT=" + value + "\r\n";
             TalikserLaser.Write(atten_command);
             Thread.Sleep(command_delay);
             lbl_TaliskerATT.Text = value.ToString("0");
@@ -2087,7 +2090,7 @@ namespace Aerotech_Control
         private void watt_pilot_attenuation(double value)
         {
             // Offset for watt pilot 1064 = -443 532 = +1520 355 = +7870
-            double offset = -770;
+            double offset = -2710;
             double stepsPerUnit = 43.333;
             double resolution = 2;
             double ratio = (100 - value) / 100;
@@ -2294,6 +2297,12 @@ namespace Aerotech_Control
                     // Display last measured data
                     LabelTime0.Text = timestampStr;
                     LabelMeasurement0.Text = measurementStr;
+
+                    using (StreamWriter Power_Record = new StreamWriter("C:/Users/User/Documents/GitHub/PrecisionPlatformControl/Power_Record.txt", true))
+                    {
+                        Power_Record.WriteLine(measurementStr);
+                    }
+
                     LabelStatus0.Text = statusStr;
                     //XPositionLabels[channel].Text = xPositionStr;
                     //YPositionLabels[channel].Text = yPositionStr;
@@ -2409,9 +2418,40 @@ namespace Aerotech_Control
             }
         }
 
+        private void btn_StopStream_Click(object sender, EventArgs e)
+        {
+            bool exists;
+
+            int nHandle = getCurrentDeviceHandle();
+            if (nHandle == 0)
+                return;
+
+            //displayNoError();
+
+            //ClearMeasurementsData();
+
+            for (int nChannel = 0; nChannel < 4; nChannel++)
+            {
+
+                try
+                {
+                    lm_Co1.IsSensorExists(nHandle, nChannel, out exists);
+                    if (!exists)
+                        continue;
+                    
+                    lm_Co1.StopStream(nHandle, nChannel);
+                }
+                catch (Exception ex)
+                {
+                    //displayError(ex);
+                }
+            }
+
+        }
+
         #endregion
 
-        #region Laser Buttons and Control
+            #region Laser Buttons and Control
 
         private void btn_Shutter_Click(object sender, EventArgs e)
         {
@@ -2502,9 +2542,69 @@ namespace Aerotech_Control
 
 
 
+
+
         #endregion
 
-        
+        private void button1_Click(object sender, EventArgs e)
+        {
+            bool exists;
+
+            int nHandle = getCurrentDeviceHandle();
+            if (nHandle == 0)
+                return;
+
+            //displayNoError();
+
+            //ClearMeasurementsData();
+
+            // set laser 
+
+            //shutter_open();
+            aomgate_high_trigger();
+
+            // set power meter recording 
+
+            for (int nChannel = 0; nChannel < 4; nChannel++)
+            {
+
+                try
+                {
+                    lm_Co1.IsSensorExists(nHandle, nChannel, out exists);
+                    if (!exists)
+                        continue;
+
+                    lm_Co1.StartStream(nHandle, nChannel);
+                }
+                catch (Exception ex)
+                {
+                    //displayError(ex);
+                }
+            }
+
+            //myController.Commands.PSO.Control("X", Aerotech.A3200.Commands.PsoMode.On);
+            myController.Commands.Motion.Setup.Incremental();
+            myController.Commands.Motion.Linear("X", -5, 0.1);
+            //myController.Commands.PSO.Control("X", Aerotech.A3200.Commands.PsoMode.Off);
+
+            for (int nChannel = 0; nChannel < 4; nChannel++)
+            {
+
+                try
+                {
+                    lm_Co1.IsSensorExists(nHandle, nChannel, out exists);
+                    if (!exists)
+                        continue;
+
+                    lm_Co1.StopStream(nHandle, nChannel);
+                }
+                catch (Exception ex)
+                {
+                    //displayError(ex);
+                }
+            }
+
+        }
     }
     
 }

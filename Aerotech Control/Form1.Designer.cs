@@ -134,6 +134,7 @@
             this.backgroundWorker_LaserAlign = new System.ComponentModel.BackgroundWorker();
             this.btn_HomeProcedure = new System.Windows.Forms.Button();
             this.grpbx_OphirControl = new System.Windows.Forms.GroupBox();
+            this.btn_StopStream = new System.Windows.Forms.Button();
             this.LabelStatus0 = new System.Windows.Forms.Label();
             this.label20 = new System.Windows.Forms.Label();
             this.LabelMeasurement0 = new System.Windows.Forms.Label();
@@ -173,6 +174,7 @@
             this.lbl_ShutterStatus = new System.Windows.Forms.Label();
             this.btn_Shutter = new System.Windows.Forms.Button();
             this.lbl_ShutterStatusText = new System.Windows.Forms.Label();
+            this.button1 = new System.Windows.Forms.Button();
             this.grpbx_AxVel.SuspendLayout();
             this.grpbx_AxPos.SuspendLayout();
             this.grpbx_AxisStatus.SuspendLayout();
@@ -1300,6 +1302,8 @@
             // 
             // grpbx_OphirControl
             // 
+            this.grpbx_OphirControl.Controls.Add(this.button1);
+            this.grpbx_OphirControl.Controls.Add(this.btn_StopStream);
             this.grpbx_OphirControl.Controls.Add(this.LabelStatus0);
             this.grpbx_OphirControl.Controls.Add(this.label20);
             this.grpbx_OphirControl.Controls.Add(this.LabelMeasurement0);
@@ -1319,6 +1323,16 @@
             this.grpbx_OphirControl.TabIndex = 51;
             this.grpbx_OphirControl.TabStop = false;
             this.grpbx_OphirControl.Text = "Ophir Control";
+            // 
+            // btn_StopStream
+            // 
+            this.btn_StopStream.Location = new System.Drawing.Point(123, 159);
+            this.btn_StopStream.Name = "btn_StopStream";
+            this.btn_StopStream.Size = new System.Drawing.Size(75, 23);
+            this.btn_StopStream.TabIndex = 64;
+            this.btn_StopStream.Text = "Stop Stream";
+            this.btn_StopStream.UseVisualStyleBackColor = true;
+            this.btn_StopStream.Click += new System.EventHandler(this.btn_StopStream_Click);
             // 
             // LabelStatus0
             // 
@@ -1771,6 +1785,16 @@
             this.lbl_ShutterStatusText.TabIndex = 0;
             this.lbl_ShutterStatusText.Text = "Shutter Status";
             // 
+            // button1
+            // 
+            this.button1.Location = new System.Drawing.Point(240, 19);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(75, 23);
+            this.button1.TabIndex = 65;
+            this.button1.Text = "button1";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1958,6 +1982,8 @@
         private System.Windows.Forms.Label lbl_RepRateText;
         private System.Windows.Forms.TextBox txtbx_RequestedRepRate;
         private System.Windows.Forms.Label lbl_RequestedRepRateText;
+        private System.Windows.Forms.Button btn_StopStream;
+        private System.Windows.Forms.Button button1;
     }
 }
 
