@@ -126,6 +126,9 @@ namespace Aerotech_Control
 
         int command_delay = 1000;
 
+        string power_record_file_path;
+        int record_power = 0;
+        
         private static AutoResetEvent CornerAlignmentEvent = new AutoResetEvent(false);
         private static AutoResetEvent LaserAlignEvent = new AutoResetEvent(false);
 
@@ -2080,7 +2083,7 @@ namespace Aerotech_Control
         {
             string atten_command = "ATT=100\r\n";
             TalikserLaser.Write(atten_command);
-            Thread.Sleep(command_delay);
+            Thread.Sleep(5000);
             atten_command = "ATT=" + value + "\r\n";
             TalikserLaser.Write(atten_command);
             Thread.Sleep(command_delay);
@@ -2298,11 +2301,14 @@ namespace Aerotech_Control
                     LabelTime0.Text = timestampStr;
                     LabelMeasurement0.Text = measurementStr;
 
-                    using (StreamWriter Power_Record = new StreamWriter("C:/Users/User/Documents/GitHub/PrecisionPlatformControl/Power_Record.txt", true))
+                    if (record_power == 1)
                     {
-                        Power_Record.WriteLine(measurementStr);
+                        using (StreamWriter Power_Record = new StreamWriter(power_record_file_path, true))
+                        {
+                            Power_Record.WriteLine(timestampStr + " " + measurementStr);
+                        }
                     }
-
+                    
                     LabelStatus0.Text = statusStr;
                     //XPositionLabels[channel].Text = xPositionStr;
                     //YPositionLabels[channel].Text = yPositionStr;
@@ -2449,9 +2455,70 @@ namespace Aerotech_Control
 
         }
 
+        public void start_power_monitoring()
+        {
+            bool exists;
+
+            int nHandle = getCurrentDeviceHandle();
+            if (nHandle == 0)
+                return;
+
+            //displayNoError();
+
+            //ClearMeasurementsData();
+
+            for (int nChannel = 0; nChannel < 4; nChannel++)
+            {
+
+                try
+                {
+                    lm_Co1.IsSensorExists(nHandle, nChannel, out exists);
+                    if (!exists)
+                        continue;
+
+                    lm_Co1.StartStream(nHandle, nChannel);
+                    //MessageBox.Show("started streaming");
+                }
+                catch (Exception ex)
+                {
+                    //displayError(ex);
+                }
+            }
+        }
+
+        public void stop_power_monitoring()
+        {
+            bool exists;
+
+            int nHandle = getCurrentDeviceHandle();
+            if (nHandle == 0)
+                return;
+
+            //displayNoError();
+
+            //ClearMeasurementsData();
+
+            for (int nChannel = 0; nChannel < 4; nChannel++)
+            {
+
+                try
+                {
+                    lm_Co1.IsSensorExists(nHandle, nChannel, out exists);
+                    if (!exists)
+                        continue;
+
+                    lm_Co1.StopStream(nHandle, nChannel);
+                }
+                catch (Exception ex)
+                {
+                    //displayError(ex);
+                }
+            }
+        }
+
         #endregion
 
-            #region Laser Buttons and Control
+        #region Laser Buttons and Control
 
         private void btn_Shutter_Click(object sender, EventArgs e)
         {
@@ -2548,63 +2615,99 @@ namespace Aerotech_Control
 
         private void button1_Click(object sender, EventArgs e)
         {
-            bool exists;
+            Thread power_log = new Thread(new ThreadStart(start_power_monitoring));
+            power_log.IsBackground = true;
+            power_log.Start();
+            Thread movement = new Thread(new ThreadStart(move));
+            movement.Start();
+             
+                //movement.Join();
 
-            int nHandle = getCurrentDeviceHandle();
-            if (nHandle == 0)
-                return;
+                //power_log.Abort(); 
+            
+        }
 
-            //displayNoError();
-
-            //ClearMeasurementsData();
-
-            // set laser 
-
+        public void move()
+        {
+            //talisker_attenuation(0);
             //shutter_open();
-            aomgate_high_trigger();
+            //aomgate_high_trigger();
 
-            // set power meter recording 
+            Thread.Sleep(3000);
 
-            for (int nChannel = 0; nChannel < 4; nChannel++)
+            for (int count = 0; count < 4; count++) // for loop doesn't work 
             {
 
-                try
-                {
-                    lm_Co1.IsSensorExists(nHandle, nChannel, out exists);
-                    if (!exists)
-                        continue;
+                power_record_file_path = "C:/Users/User/Documents/GitHub/PrecisionPlatformControl/Power_Record" + count + ".txt";
 
-                    lm_Co1.StartStream(nHandle, nChannel);
-                }
-                catch (Exception ex)
-                {
-                    //displayError(ex);
-                }
+                set_check_laser_power(0, 0);
+
+                //record_power = 1;
+
+                //using (StreamWriter Power_Record = new StreamWriter(power_record_file_path, true))
+                //{
+                //    Power_Record.WriteLine("Laser ON");
+                //}
+                //myController.Commands.PSO.Control("X", Aerotech.A3200.Commands.PsoMode.On);
+
+                //myController.Commands.Motion.Setup.Incremental();
+                //myController.Commands.Motion.Linear("X", -1, 0.1);
+
+                //myController.Commands.PSO.Control("X", Aerotech.A3200.Commands.PsoMode.Off);
+                //using (StreamWriter Power_Record = new StreamWriter(power_record_file_path, true))
+                //{
+                //    Power_Record.WriteLine("Laser OFF");
+                //}
+
+                //record_power = 0;
+
+                Thread.Sleep(10000);
             }
+            //Thread.Sleep(1000);
 
-            //myController.Commands.PSO.Control("X", Aerotech.A3200.Commands.PsoMode.On);
-            myController.Commands.Motion.Setup.Incremental();
-            myController.Commands.Motion.Linear("X", -5, 0.1);
-            //myController.Commands.PSO.Control("X", Aerotech.A3200.Commands.PsoMode.Off);
+            //stop_power_monitoring();
 
-            for (int nChannel = 0; nChannel < 4; nChannel++)
-            {
+            shutter_closed();
 
-                try
-                {
-                    lm_Co1.IsSensorExists(nHandle, nChannel, out exists);
-                    if (!exists)
-                        continue;
-
-                    lm_Co1.StopStream(nHandle, nChannel);
-                }
-                catch (Exception ex)
-                {
-                    //displayError(ex);
-                }
-            }
+            MessageBox.Show("Completed");
 
         }
+
+        public void set_check_laser_power(int talisker_att, int wattpilot_att)
+        {
+            //setup laser parameters
+
+            watt_pilot_attenuation(wattpilot_att);
+            talisker_attenuation(talisker_att);
+            shutter_open();
+
+            // Move to safe of sample location
+
+            // Need to define spot
+
+            record_power = 1;
+
+            using (StreamWriter Power_Record = new StreamWriter(power_record_file_path, true))
+            {
+                Power_Record.WriteLine("Laser ON");
+            }
+
+            myController.Commands.PSO.Control("X", Aerotech.A3200.Commands.PsoMode.On);
+
+            Thread.Sleep(10000);
+
+            myController.Commands.PSO.Control("X", Aerotech.A3200.Commands.PsoMode.Off);
+
+            using (StreamWriter Power_Record = new StreamWriter(power_record_file_path, true))
+            {
+                Power_Record.WriteLine("Laser OFF");
+            }
+
+            record_power = 0;
+
+        }
+
+
     }
     
 }
