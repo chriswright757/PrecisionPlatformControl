@@ -2635,31 +2635,12 @@ namespace Aerotech_Control
 
             Thread.Sleep(3000);
 
-            for (int count = 0; count < 4; count++) // for loop doesn't work 
+            for (int count = 0; count < 100; count++) // for loop doesn't work 
             {
 
-                power_record_file_path = "C:/Users/User/Documents/GitHub/PrecisionPlatformControl/Power_Record" + count + ".txt";
+                power_record_file_path = "C:/Users/User/Desktop/Share/Chris/AOM Power Repeatability/Power_Record" + count + ".txt";
 
-                set_check_laser_power(0, 0);
-
-                //record_power = 1;
-
-                //using (StreamWriter Power_Record = new StreamWriter(power_record_file_path, true))
-                //{
-                //    Power_Record.WriteLine("Laser ON");
-                //}
-                //myController.Commands.PSO.Control("X", Aerotech.A3200.Commands.PsoMode.On);
-
-                //myController.Commands.Motion.Setup.Incremental();
-                //myController.Commands.Motion.Linear("X", -1, 0.1);
-
-                //myController.Commands.PSO.Control("X", Aerotech.A3200.Commands.PsoMode.Off);
-                //using (StreamWriter Power_Record = new StreamWriter(power_record_file_path, true))
-                //{
-                //    Power_Record.WriteLine("Laser OFF");
-                //}
-
-                //record_power = 0;
+                set_check_laser_power(0, 0);                
 
                 Thread.Sleep(10000);
             }
@@ -2683,7 +2664,9 @@ namespace Aerotech_Control
 
             // Move to safe of sample location
 
-            // Need to define spot
+            // Need to define safe spot
+
+
 
             record_power = 1;
 

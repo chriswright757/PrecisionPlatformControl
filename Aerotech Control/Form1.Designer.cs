@@ -134,6 +134,7 @@
             this.backgroundWorker_LaserAlign = new System.ComponentModel.BackgroundWorker();
             this.btn_HomeProcedure = new System.Windows.Forms.Button();
             this.grpbx_OphirControl = new System.Windows.Forms.GroupBox();
+            this.button1 = new System.Windows.Forms.Button();
             this.btn_StopStream = new System.Windows.Forms.Button();
             this.LabelStatus0 = new System.Windows.Forms.Label();
             this.label20 = new System.Windows.Forms.Label();
@@ -174,7 +175,6 @@
             this.lbl_ShutterStatus = new System.Windows.Forms.Label();
             this.btn_Shutter = new System.Windows.Forms.Button();
             this.lbl_ShutterStatusText = new System.Windows.Forms.Label();
-            this.button1 = new System.Windows.Forms.Button();
             this.grpbx_AxVel.SuspendLayout();
             this.grpbx_AxPos.SuspendLayout();
             this.grpbx_AxisStatus.SuspendLayout();
@@ -1324,6 +1324,16 @@
             this.grpbx_OphirControl.TabStop = false;
             this.grpbx_OphirControl.Text = "Ophir Control";
             // 
+            // button1
+            // 
+            this.button1.Location = new System.Drawing.Point(240, 19);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(116, 23);
+            this.button1.TabIndex = 65;
+            this.button1.Text = "AOM Repeatability";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
+            // 
             // btn_StopStream
             // 
             this.btn_StopStream.Location = new System.Drawing.Point(123, 159);
@@ -1784,16 +1794,6 @@
             this.lbl_ShutterStatusText.Size = new System.Drawing.Size(88, 13);
             this.lbl_ShutterStatusText.TabIndex = 0;
             this.lbl_ShutterStatusText.Text = "Shutter Status";
-            // 
-            // button1
-            // 
-            this.button1.Location = new System.Drawing.Point(240, 19);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(75, 23);
-            this.button1.TabIndex = 65;
-            this.button1.Text = "button1";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
             // Form1
             // 
