@@ -1799,7 +1799,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1902, 830);
+            this.ClientSize = new System.Drawing.Size(1904, 830);
             this.Controls.Add(this.grpbx_TalikserLaser);
             this.Controls.Add(this.grpbx_OphirControl);
             this.Controls.Add(this.btn_HomeProcedure);
@@ -1817,7 +1817,7 @@
             this.Controls.Add(this.btn_ConnectController);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Name = "Form1";
-            this.Text = " ";
+            this.Text = " Aerotech Control";
             this.Load += new System.EventHandler(this.Form1_Load);
             this.grpbx_AxVel.ResumeLayout(false);
             this.grpbx_AxPos.ResumeLayout(false);

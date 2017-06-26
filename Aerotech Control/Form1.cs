@@ -152,9 +152,7 @@ namespace Aerotech_Control
 
         private void Form1_Load(object sender, EventArgs e)
         {
-
-
-
+            
             btn_UpdateCoords.Enabled = false;
 
             // Set initial stage jog value
@@ -216,6 +214,14 @@ namespace Aerotech_Control
             // Register delegates
             lm_Co1.DataReady += new OphirLMMeasurementLib._ICoLMMeasurementEvents_DataReadyEventHandler(this.DataReadyHandler);
             lm_Co1.PlugAndPlay += new OphirLMMeasurementLib._ICoLMMeasurementEvents_PlugAndPlayEventHandler(this.PlugAndPlayHandler);
+
+            // Start Background Power Meter Reading
+
+            ScanUSB();
+            OpenDevice();            
+            Thread power_log = new Thread(new ThreadStart(start_power_monitoring));
+            power_log.IsBackground = true;
+            power_log.Start();            
 
         }
 
@@ -2357,6 +2363,15 @@ namespace Aerotech_Control
 
         private void btn_ScanUSB_Click(object sender, EventArgs e)
         {
+            ScanUSB();
+            //OpenDevice();
+            //Thread power_log = new Thread(new ThreadStart(start_power_monitoring));
+            //power_log.IsBackground = true;
+            //power_log.Start();
+        }
+
+        private void ScanUSB()
+        {
             try
             {
                 //displayNoError();
@@ -2377,6 +2392,11 @@ namespace Aerotech_Control
 
         private void btn_OpenDevice_Click(object sender, EventArgs e)
         {
+            OpenDevice();
+        }
+
+        private void OpenDevice()
+        {
             try
             {
                 //displayNoError();
@@ -2387,13 +2407,21 @@ namespace Aerotech_Control
                 lm_Co1.OpenUSBDevice(snStr, out hDevice);
                 HandleComboBox.Items.Add(hDevice.ToString());
                 HandleComboBox.SelectedItem = hDevice.ToString();
+
+                // **** Set whether filter is in or not *****
+
+                int nHandle = getCurrentDeviceHandle();
+                int nChannel = 0;
+                int index = 1; // 0 = no filter  1 = filter
+                lm_Co1.SetFilter(nHandle, nChannel, index);
+
             }
             catch (Exception ex)
             {
                 //displayError(ex);
             }
         }
-             
+                     
         private void btn_StartStream_Click(object sender, EventArgs e)
         {
             bool exists;
@@ -2615,9 +2643,9 @@ namespace Aerotech_Control
 
         private void button1_Click(object sender, EventArgs e)
         {
-            Thread power_log = new Thread(new ThreadStart(start_power_monitoring));
-            power_log.IsBackground = true;
-            power_log.Start();
+            //Thread power_log = new Thread(new ThreadStart(start_power_monitoring));
+            //power_log.IsBackground = true;
+            //power_log.Start();
             Thread movement = new Thread(new ThreadStart(move));
             movement.Start();
              
