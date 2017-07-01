@@ -30,10 +30,11 @@ namespace Aerotech_Control
                 }
                 else if (pwd_txtbx.Text == "umbro")
                   {
-                    Form1 MainForm = new Form1();
-
-                    MainForm.Show();
                     
+                    Form1 MainForm = new Form1();
+                    MainForm.Show();
+                    MainForm.Activate();
+                    this.Hide();
 
                 }
             }

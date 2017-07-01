@@ -2412,7 +2412,7 @@ namespace Aerotech_Control
 
                 int nHandle = getCurrentDeviceHandle();
                 int nChannel = 0;
-                int index = 1; // 0 = no filter  1 = filter
+                int index = 0; // 0 = no filter  1 = filter
                 lm_Co1.SetFilter(nHandle, nChannel, index);
 
             }
@@ -2629,48 +2629,31 @@ namespace Aerotech_Control
             talisker_burst_pulses(1);
             talisker_rep_rate(200000);
         }
-
-
-
-
-
-
-
-
-
-
+        
         #endregion
 
-        private void button1_Click(object sender, EventArgs e)
+
+
+
+        private void btn_AOMrepeatability_Click(object sender, EventArgs e)
         {
-            //Thread power_log = new Thread(new ThreadStart(start_power_monitoring));
-            //power_log.IsBackground = true;
-            //power_log.Start();
             Thread movement = new Thread(new ThreadStart(move));
             movement.Start();
-             
-                //movement.Join();
-
-                //power_log.Abort(); 
-            
         }
 
         public void move()
         {
-            //talisker_attenuation(0);
-            //shutter_open();
-            //aomgate_high_trigger();
 
             Thread.Sleep(3000);
 
-            for (int count = 0; count < 100; count++) // for loop doesn't work 
+            for (int count = 1; count < 101; count++) // for loop doesn't work 
             {
+                string count_string = count.ToString("0000");
 
-                power_record_file_path = "C:/Users/User/Desktop/Share/Chris/AOM Power Repeatability/Power_Record" + count + ".txt";
+                power_record_file_path = "C:/Users/User/Desktop/Share/Chris/AOM Power Repeatability/Power_Record_Repeat" + count_string + ".txt";
 
-                set_check_laser_power(0, 0);                
+                set_check_laser_power(0, 25);
 
-                Thread.Sleep(10000);
             }
             //Thread.Sleep(1000);
 
@@ -2694,14 +2677,16 @@ namespace Aerotech_Control
 
             // Need to define safe spot
 
+            myController.Commands.Motion.Setup.Absolute();
 
+            myController.Commands.Motion.Linear("Y", 2.25, 1);
 
             record_power = 1;
 
-            using (StreamWriter Power_Record = new StreamWriter(power_record_file_path, true))
-            {
-                Power_Record.WriteLine("Laser ON");
-            }
+            //using (StreamWriter Power_Record = new StreamWriter(power_record_file_path, true))
+            //{
+            //    Power_Record.WriteLine("Laser ON");
+            //}
 
             myController.Commands.PSO.Control("X", Aerotech.A3200.Commands.PsoMode.On);
 
@@ -2709,16 +2694,20 @@ namespace Aerotech_Control
 
             myController.Commands.PSO.Control("X", Aerotech.A3200.Commands.PsoMode.Off);
 
-            using (StreamWriter Power_Record = new StreamWriter(power_record_file_path, true))
-            {
-                Power_Record.WriteLine("Laser OFF");
-            }
+            //using (StreamWriter Power_Record = new StreamWriter(power_record_file_path, true))
+            //{
+            //    Power_Record.WriteLine("Laser OFF");
+            //}
 
             record_power = 0;
 
+            Thread.Sleep(10000);
         }
 
-
+        private void Form1_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            Application.Exit();
+        }
     }
     
 }
