@@ -175,6 +175,8 @@
             this.lbl_ShutterStatus = new System.Windows.Forms.Label();
             this.btn_Shutter = new System.Windows.Forms.Button();
             this.lbl_ShutterStatusText = new System.Windows.Forms.Label();
+            this.lbl_file_dir = new System.Windows.Forms.Label();
+            this.lbl_file_path = new System.Windows.Forms.Label();
             this.grpbx_AxVel.SuspendLayout();
             this.grpbx_AxPos.SuspendLayout();
             this.grpbx_AxisStatus.SuspendLayout();
@@ -1795,11 +1797,29 @@
             this.lbl_ShutterStatusText.TabIndex = 0;
             this.lbl_ShutterStatusText.Text = "Shutter Status";
             // 
+            // lbl_file_dir
+            // 
+            this.lbl_file_dir.Location = new System.Drawing.Point(20, 768);
+            this.lbl_file_dir.Name = "lbl_file_dir";
+            this.lbl_file_dir.Size = new System.Drawing.Size(803, 23);
+            this.lbl_file_dir.TabIndex = 53;
+            this.lbl_file_dir.Text = "File Dir";
+            // 
+            // lbl_file_path
+            // 
+            this.lbl_file_path.Location = new System.Drawing.Point(23, 798);
+            this.lbl_file_path.Name = "lbl_file_path";
+            this.lbl_file_path.Size = new System.Drawing.Size(800, 23);
+            this.lbl_file_path.TabIndex = 54;
+            this.lbl_file_path.Text = "File Path";
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1904, 830);
+            this.Controls.Add(this.lbl_file_path);
+            this.Controls.Add(this.lbl_file_dir);
             this.Controls.Add(this.grpbx_TalikserLaser);
             this.Controls.Add(this.grpbx_OphirControl);
             this.Controls.Add(this.btn_HomeProcedure);
@@ -1985,6 +2005,8 @@
         private System.Windows.Forms.Label lbl_RequestedRepRateText;
         private System.Windows.Forms.Button btn_StopStream;
         private System.Windows.Forms.Button btn_AOMrepeatability;
+        private System.Windows.Forms.Label lbl_file_dir;
+        private System.Windows.Forms.Label lbl_file_path;
     }
 }
 

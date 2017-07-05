@@ -128,7 +128,8 @@ namespace Aerotech_Control
 
         string power_record_file_path;
         int record_power = 0;
-        
+        Dictionary<int, string> statusText;
+
         private static AutoResetEvent CornerAlignmentEvent = new AutoResetEvent(false);
         private static AutoResetEvent LaserAlignEvent = new AutoResetEvent(false);
 
@@ -148,6 +149,27 @@ namespace Aerotech_Control
             InitializeComponent();
             backgroundWorker_AlignCorners.RunWorkerAsync(); // Background task for post intial tlit correction position
             backgroundWorker_LaserAlign.RunWorkerAsync(); // Background task for laser uScope Alignment
+
+            statusText = new Dictionary<int, string>();
+            statusText.Add(0, "OK");
+            statusText.Add(1, "OVERRANGE");
+            statusText.Add(2, "SATURATED");
+            statusText.Add(3, "MISSING PULSE");
+            statusText.Add(4, "RESET STATE IN ENERGY MEASUREMENT");
+            statusText.Add(5, "WAITING");
+            statusText.Add(6, "SUMMING");
+            statusText.Add(7, "TIMEOUT");
+            statusText.Add(8, "PEAK OVER");
+            statusText.Add(9, "ENERGY OVER");
+
+            statusText.Add(0x10000, "OK");          // x position ok
+            statusText.Add(0x10000 + 1, "ERROR");   // x position error
+            statusText.Add(0x20000, "OK");          // y position ok
+            statusText.Add(0x20000 + 1, "ERROR");   // y position error
+            statusText.Add(0x30000, "OK");          // size ok
+            statusText.Add(0x30000 + 1, "ERROR");   // size error
+            statusText.Add(0x30000 + 2, "WARNING"); // size warning
+            statusText.Add(0x40000 + 1, "EVENT - SETTING CHANGED"); // event
         }
 
         private void Form1_Load(object sender, EventArgs e)
@@ -185,7 +207,7 @@ namespace Aerotech_Control
 
             Control.CheckForIllegalCrossThreadCalls = false;
 
-            //// Initialise Serial Control
+            // Initialise Serial Control
 
             //// Talisker
 
@@ -218,14 +240,65 @@ namespace Aerotech_Control
             // Start Background Power Meter Reading
 
             ScanUSB();
-            OpenDevice();            
+            OpenDevice();
             Thread power_log = new Thread(new ThreadStart(start_power_monitoring));
+            //power_log.Priority = ThreadPriority.Highest;
             power_log.IsBackground = true;
-            power_log.Start();            
+            power_log.Start();
 
+            // Connect to Aerotech Controller
+
+            Connect_Controller();
         }
 
         private void btn_ConnectController_Click(object sender, EventArgs e)
+        {
+            Connect_Controller();
+
+            //try
+            //{
+            //    // Connect to A3200 controller.  
+            //    this.myController = Controller.Connect();
+            //    chkbx_ConnectedVal.Checked = true;
+            //    //EnableControls(true);
+
+            //    btn_ConnectController.Enabled = false;
+            //    btn_DisconnectController.Enabled = true;
+
+            //    // populate axis names
+            //    foreach (AxisInfo axis in this.myController.Information.Axes)
+            //    {
+            //        cmb_AxisNames.Items.Add(axis.Name);
+            //    }
+            //    this.axisIndex = 0;
+            //    cmb_AxisNames.SelectedIndex = this.axisIndex;
+
+            //    // populate task names
+            //    foreach (Task task in this.myController.Tasks)
+            //    {
+            //        if (task.State != TaskState.Inactive)
+            //        {
+            //            cmb_AxisNames.Items.Add(task.Name.ToString());
+            //        }
+            //    }
+            //    // Task 0 is reserved
+            //    this.taskIndex = 1;
+            //    cmb_AxisNames.SelectedIndex = this.taskIndex - 1;
+
+            //    // register task state and diagPackect arrived events
+            //    this.myController.ControlCenter.TaskStates.NewTaskStatesArrived += new EventHandler<NewTaskStatesArrivedEventArgs>(TaskStates_NewTaskStatesArrived);
+            //    this.myController.ControlCenter.Diagnostics.NewDiagPacketArrived += new EventHandler<NewDiagPacketArrivedEventArgs>(Diagnostics_NewDiagPacketArrived);
+
+            //    myController.Commands.IO.DigitalOutputBit(0, "X", 1);
+
+            //}
+            //catch (A3200Exception exception)
+            //{
+            //    //lbl_ErrorMsg.Text = exception.Message;
+            //}
+        }
+
+        private void Connect_Controller()
         {
             try
             {
@@ -260,7 +333,7 @@ namespace Aerotech_Control
                 // register task state and diagPackect arrived events
                 this.myController.ControlCenter.TaskStates.NewTaskStatesArrived += new EventHandler<NewTaskStatesArrivedEventArgs>(TaskStates_NewTaskStatesArrived);
                 this.myController.ControlCenter.Diagnostics.NewDiagPacketArrived += new EventHandler<NewDiagPacketArrivedEventArgs>(Diagnostics_NewDiagPacketArrived);
-                
+
                 myController.Commands.IO.DigitalOutputBit(0, "X", 1);
 
             }
@@ -269,6 +342,7 @@ namespace Aerotech_Control
                 //lbl_ErrorMsg.Text = exception.Message;
             }
         }
+
 
         private void btn_DisconnectController_Click(object sender, EventArgs e)
         {
@@ -2030,11 +2104,11 @@ namespace Aerotech_Control
             Thread.Sleep(command_delay);
             btn_Shutter.Text = "Open Shutter";
             lbl_ShutterStatus.Text = "Closed";
-            lbl_ShutterStatus.BackColor = Color.Lime;
+            lbl_ShutterStatus.BackColor = Color.Lime;            
         }
 
         private void shutter_open()
-        {
+        {            
             string shutter_open = "s=1\r\n";
             TalikserLaser.Write(shutter_open);
             Thread.Sleep(command_delay);
@@ -2082,7 +2156,7 @@ namespace Aerotech_Control
             TalikserLaser.Write(aomgate_high_trigger);
             Thread.Sleep(command_delay);
             btn_AOMGATE.Text = "AOMGate - Low";
-            lbl_AOMGateStatus.Text = "High";
+            lbl_AOMGateStatus.Text = "High";                  
         }
 
         private void talisker_attenuation(int value)
@@ -2099,7 +2173,7 @@ namespace Aerotech_Control
         private void watt_pilot_attenuation(double value)
         {
             // Offset for watt pilot 1064 = -443 532 = +1520 355 = +7870
-            double offset = -2710;
+            double offset = -967;
             double stepsPerUnit = 43.333;
             double resolution = 2;
             double ratio = (100 - value) / 100;
@@ -2214,6 +2288,14 @@ namespace Aerotech_Control
 
         }
 
+        private string GetStatus(int index)
+        {
+            if (statusText.ContainsKey(index))  // if unknown status - ignore it, else - get it
+                return statusText[index];
+            else
+                return "";
+        }
+
         /*
          * Data Ready event handler.
          */
@@ -2272,7 +2354,7 @@ namespace Aerotech_Control
                         if (measurementType == powerEnergyMeasurementType)
                         {
                             measurementStr = dataArr[ind].ToString();
-                            //statusStr = GetStatus(statusArr[ind]);
+                            statusStr = GetStatus(statusArr[ind]);
                         }
                         // BeamTrack measurements
                         //else if (measurementType == xPositionMeasurementType)   // X Position
@@ -2301,7 +2383,8 @@ namespace Aerotech_Control
                         //    measurementStr = dataArr[ind].ToString();
                         //    statusStr = GetStatus(statusArr[ind]);
                         //}
-                    }//for (int ind = 0;
+                    }
+
 
                     // Display last measured data
                     LabelTime0.Text = timestampStr;
@@ -2314,7 +2397,7 @@ namespace Aerotech_Control
                             Power_Record.WriteLine(timestampStr + " " + measurementStr);
                         }
                     }
-                    
+
                     LabelStatus0.Text = statusStr;
                     //XPositionLabels[channel].Text = xPositionStr;
                     //YPositionLabels[channel].Text = yPositionStr;
@@ -2414,6 +2497,10 @@ namespace Aerotech_Control
                 int nChannel = 0;
                 int index = 0; // 0 = no filter  1 = filter
                 lm_Co1.SetFilter(nHandle, nChannel, index);
+
+                // **** Set Stream Mode ****
+
+                lm_Co1.ConfigureStreamMode(nHandle, nChannel, 2, 1); // Immediate mode turned on
 
             }
             catch (Exception ex)
@@ -2638,41 +2725,189 @@ namespace Aerotech_Control
         private void btn_AOMrepeatability_Click(object sender, EventArgs e)
         {
             Thread movement = new Thread(new ThreadStart(move));
+            movement.IsBackground = true;
             movement.Start();
         }
 
         public void move()
         {
+            int[] on_time = { 30, 10 };
+            int[] off_time = { 10, 30 };
 
-            Thread.Sleep(3000);
+            Random on_time_random = new Random();
+            Random off_time_random = new Random();
 
-            for (int count = 1; count < 101; count++) // for loop doesn't work 
+            //string Save_Dir = "C:/Users/User/Desktop/Share/Chris/AOM Power Repeatability - AOM Rise";
+
+            //lbl_file_dir.Text = Save_Dir;
+
+            //System.IO.Directory.CreateDirectory(Save_Dir);
+
+            //power_record_file_path = Save_Dir + "/Power_Record_01.txt";
+
+            //lbl_file_path.Text = power_record_file_path;
+
+            //set_check_laser_power(97, 0, 3*60, 10);
+
+            //Thread.Sleep(15 * 60 * 1000);
+
+            //shutter_closed();
+            //aomgate_low_trigger();
+            //Thread.Sleep(3 * 60 * 1000);
+            //aomgate_high_trigger();
+
+            for (int count = 1; count < 101; count++)
             {
+
+                string Save_Dir = "C:/Users/User/Desktop/Share/Chris/AOM Power Repeatability - no warm up";
+
+                lbl_file_dir.Text = Save_Dir;
+
+                System.IO.Directory.CreateDirectory(Save_Dir);
+
                 string count_string = count.ToString("0000");
 
-                power_record_file_path = "C:/Users/User/Desktop/Share/Chris/AOM Power Repeatability/Power_Record_Repeat" + count_string + ".txt";
+                power_record_file_path = Save_Dir + "/Power_Record_" + count_string + ".txt";
 
-                set_check_laser_power(0, 25);
+                lbl_file_path.Text = power_record_file_path;
 
+                set_check_laser_power(97, 0, 10, 10);
             }
-            //Thread.Sleep(1000);
 
-            //stop_power_monitoring();
+            //for (int count_2 = 0; count_2 < 3; count_2++)
+            //{
+            //    for (int count = 1; count < 101; count++)  
+            //    {
+            //        if (count_2 == 0)
+            //        {
+            //            int on_time_int = on_time_random.Next(5, 30);
+            //            //off_time_random.Next(5, 30);
+            //            int off_time_fixed = 10;
 
-            shutter_closed();
+            //            string on_time_string = on_time_int.ToString("00");
+            //            string off_time_string = off_time_fixed.ToString("00");
 
-            MessageBox.Show("Completed");
+            //            string Save_Dir = "C:/Users/User/Desktop/Share/Chris/AOM Power Repeatability - Random - On Time";
 
+            //            lbl_file_dir.Text = Save_Dir;
+
+            //            System.IO.Directory.CreateDirectory(Save_Dir);
+
+            //            using (StreamWriter on_time_off_time = new StreamWriter(Save_Dir + "/On Time - Off Time.txt", true))
+            //            {
+            //                on_time_off_time.WriteLine(on_time_string + "  " + off_time_string);
+            //            }
+
+            //            string count_string = count.ToString("0000");                        
+
+            //            power_record_file_path = Save_Dir + "/Power_Record_" + count_string + ".txt";
+
+            //            lbl_file_path.Text = power_record_file_path;
+
+            //            set_check_laser_power(0, 25, on_time_int, off_time_fixed);
+
+            //        }
+
+            //        else if (count_2 == 1)
+            //        {
+            //            //on_time_random.Next(5, 30);
+            //            int on_time_fixed = 10;
+            //            int off_time_int = off_time_random.Next(5, 30);                        
+
+            //            string on_time_string = on_time_fixed.ToString("00");
+            //            string off_time_string = off_time_int.ToString("00");
+
+            //            string Save_Dir = "C:/Users/User/Desktop/Share/Chris/AOM Power Repeatability - Random - Off Time";
+
+            //            lbl_file_dir.Text = Save_Dir;
+
+            //            System.IO.Directory.CreateDirectory(Save_Dir);
+
+            //            using (StreamWriter on_time_off_time = new StreamWriter(Save_Dir + "/On Time - Off Time.txt", true))
+            //            {
+            //                on_time_off_time.WriteLine(on_time_string + "  " + off_time_string);
+            //            }
+
+            //            string count_string = count.ToString("0000");
+
+            //            System.IO.Directory.CreateDirectory("C:/Users/User/Desktop/Share/Chris/AOM Power Repeatability - Random");
+
+            //            power_record_file_path = Save_Dir + "/Power_Record_" + count_string + ".txt";
+
+            //            lbl_file_path.Text = power_record_file_path;
+
+            //            set_check_laser_power(0, 25, on_time_fixed, off_time_int);
+
+            //        }
+
+            //        else if (count_2 == 2)
+            //        {
+            //            int on_time_int = on_time_random.Next(5, 30);
+            //            int off_time_int = off_time_random.Next(5, 30);
+
+            //            string on_time_string = on_time_int.ToString("00");
+            //            string off_time_string = off_time_int.ToString("00");
+
+            //            string Save_Dir = "C:/Users/User/Desktop/Share/Chris/AOM Power Repeatability - Random - On & Off Time";
+
+            //            lbl_file_dir.Text = Save_Dir;
+
+            //            System.IO.Directory.CreateDirectory(Save_Dir);
+
+            //            using (StreamWriter on_time_off_time = new StreamWriter(Save_Dir + "/On Time - Off Time.txt", true))
+            //            {
+            //                on_time_off_time.WriteLine(on_time_string + "  " + off_time_string);
+            //            }
+
+            //            string count_string = count.ToString("0000");
+
+            //            power_record_file_path = Save_Dir + "/Power_Record_" + count_string + ".txt";
+
+            //            lbl_file_path.Text = power_record_file_path;
+
+            //            set_check_laser_power(0, 25, on_time_int, off_time_int);
+
+            //        }
+
+            //        else
+            //        {
+
+            //            string on_time_string = on_time[count_2].ToString("00");
+            //            string off_time_string = off_time[count_2].ToString("00");
+
+            //            string Save_Dir = "C:/Users/User/Desktop/Share/Chris/AOM Power Repeatability - On Time =" + on_time_string + " Off Time = " + off_time_string;
+
+            //            lbl_file_dir.Text = Save_Dir;
+
+            //            string count_string = count.ToString("0000");
+
+            //            System.IO.Directory.CreateDirectory(Save_Dir);
+
+            //            power_record_file_path = Save_Dir + "/Power_Record_" + count_string + ".txt";
+
+            //            lbl_file_path.Text = power_record_file_path;
+
+            //            set_check_laser_power(0, 25, on_time[count_2], off_time[count_2]);
+            //        }
+            //    }
+            //Thread.Sleep(15*60*1000);
+
+                //stop_power_monitoring();
+            //}
+                shutter_closed();
+
+                MessageBox.Show("Completed");
+            
         }
 
-        public void set_check_laser_power(int talisker_att, int wattpilot_att)
+        public void set_check_laser_power(int talisker_att, int wattpilot_att, int on_time, int off_time) // on_time & off_time are in seconds 
         {
             //setup laser parameters
 
             watt_pilot_attenuation(wattpilot_att);
             talisker_attenuation(talisker_att);
             shutter_open();
-
+                        
             // Move to safe of sample location
 
             // Need to define safe spot
@@ -2690,7 +2925,7 @@ namespace Aerotech_Control
 
             myController.Commands.PSO.Control("X", Aerotech.A3200.Commands.PsoMode.On);
 
-            Thread.Sleep(10000);
+            Thread.Sleep(on_time*1000);
 
             myController.Commands.PSO.Control("X", Aerotech.A3200.Commands.PsoMode.Off);
 
@@ -2701,11 +2936,12 @@ namespace Aerotech_Control
 
             record_power = 0;
 
-            Thread.Sleep(10000);
+            Thread.Sleep(off_time*1000);
         }
 
         private void Form1_FormClosed(object sender, FormClosedEventArgs e)
         {
+            shutter_closed();
             Application.Exit();
         }
     }
