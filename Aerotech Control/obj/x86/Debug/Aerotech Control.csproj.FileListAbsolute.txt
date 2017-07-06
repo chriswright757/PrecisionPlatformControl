@@ -48,3 +48,4 @@ C:\Users\User\Documents\GitHub\PrecisionPlatformControl\Aerotech Control\obj\x86
 C:\Users\User\Documents\GitHub\PrecisionPlatformControl\Aerotech Control\obj\x86\Debug\Aerotech_Control.Form1.resources
 C:\Users\User\Documents\GitHub\PrecisionPlatformControl\Aerotech Control\obj\x86\Debug\Aerotech_Control.Properties.Resources.resources
 C:\Users\User\Documents\GitHub\PrecisionPlatformControl\Aerotech Control\obj\x86\Debug\Aerotech Control.csproj.GenerateResource.Cache
+C:\Users\User\Documents\GitHub\PrecisionPlatformControl\Aerotech Control\obj\x86\Debug\Aerotech_Control.Form2.resources

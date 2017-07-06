@@ -134,7 +134,7 @@
             this.backgroundWorker_LaserAlign = new System.ComponentModel.BackgroundWorker();
             this.btn_HomeProcedure = new System.Windows.Forms.Button();
             this.grpbx_OphirControl = new System.Windows.Forms.GroupBox();
-            this.button1 = new System.Windows.Forms.Button();
+            this.btn_AOMrepeatability = new System.Windows.Forms.Button();
             this.btn_StopStream = new System.Windows.Forms.Button();
             this.LabelStatus0 = new System.Windows.Forms.Label();
             this.label20 = new System.Windows.Forms.Label();
@@ -175,6 +175,8 @@
             this.lbl_ShutterStatus = new System.Windows.Forms.Label();
             this.btn_Shutter = new System.Windows.Forms.Button();
             this.lbl_ShutterStatusText = new System.Windows.Forms.Label();
+            this.lbl_file_dir = new System.Windows.Forms.Label();
+            this.lbl_file_path = new System.Windows.Forms.Label();
             this.grpbx_AxVel.SuspendLayout();
             this.grpbx_AxPos.SuspendLayout();
             this.grpbx_AxisStatus.SuspendLayout();
@@ -1302,7 +1304,7 @@
             // 
             // grpbx_OphirControl
             // 
-            this.grpbx_OphirControl.Controls.Add(this.button1);
+            this.grpbx_OphirControl.Controls.Add(this.btn_AOMrepeatability);
             this.grpbx_OphirControl.Controls.Add(this.btn_StopStream);
             this.grpbx_OphirControl.Controls.Add(this.LabelStatus0);
             this.grpbx_OphirControl.Controls.Add(this.label20);
@@ -1324,15 +1326,15 @@
             this.grpbx_OphirControl.TabStop = false;
             this.grpbx_OphirControl.Text = "Ophir Control";
             // 
-            // button1
+            // btn_AOMrepeatability
             // 
-            this.button1.Location = new System.Drawing.Point(240, 19);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(116, 23);
-            this.button1.TabIndex = 65;
-            this.button1.Text = "AOM Repeatability";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
+            this.btn_AOMrepeatability.Location = new System.Drawing.Point(240, 19);
+            this.btn_AOMrepeatability.Name = "btn_AOMrepeatability";
+            this.btn_AOMrepeatability.Size = new System.Drawing.Size(116, 23);
+            this.btn_AOMrepeatability.TabIndex = 65;
+            this.btn_AOMrepeatability.Text = "AOM Repeatability";
+            this.btn_AOMrepeatability.UseVisualStyleBackColor = true;
+            this.btn_AOMrepeatability.Click += new System.EventHandler(this.btn_AOMrepeatability_Click);
             // 
             // btn_StopStream
             // 
@@ -1795,11 +1797,29 @@
             this.lbl_ShutterStatusText.TabIndex = 0;
             this.lbl_ShutterStatusText.Text = "Shutter Status";
             // 
+            // lbl_file_dir
+            // 
+            this.lbl_file_dir.Location = new System.Drawing.Point(20, 768);
+            this.lbl_file_dir.Name = "lbl_file_dir";
+            this.lbl_file_dir.Size = new System.Drawing.Size(803, 23);
+            this.lbl_file_dir.TabIndex = 53;
+            this.lbl_file_dir.Text = "File Dir";
+            // 
+            // lbl_file_path
+            // 
+            this.lbl_file_path.Location = new System.Drawing.Point(23, 798);
+            this.lbl_file_path.Name = "lbl_file_path";
+            this.lbl_file_path.Size = new System.Drawing.Size(800, 23);
+            this.lbl_file_path.TabIndex = 54;
+            this.lbl_file_path.Text = "File Path";
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1902, 830);
+            this.ClientSize = new System.Drawing.Size(1904, 830);
+            this.Controls.Add(this.lbl_file_path);
+            this.Controls.Add(this.lbl_file_dir);
             this.Controls.Add(this.grpbx_TalikserLaser);
             this.Controls.Add(this.grpbx_OphirControl);
             this.Controls.Add(this.btn_HomeProcedure);
@@ -1817,7 +1837,8 @@
             this.Controls.Add(this.btn_ConnectController);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Name = "Form1";
-            this.Text = " ";
+            this.Text = " Aerotech Control";
+            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.Form1_FormClosed);
             this.Load += new System.EventHandler(this.Form1_Load);
             this.grpbx_AxVel.ResumeLayout(false);
             this.grpbx_AxPos.ResumeLayout(false);
@@ -1983,7 +2004,9 @@
         private System.Windows.Forms.TextBox txtbx_RequestedRepRate;
         private System.Windows.Forms.Label lbl_RequestedRepRateText;
         private System.Windows.Forms.Button btn_StopStream;
-        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Button btn_AOMrepeatability;
+        private System.Windows.Forms.Label lbl_file_dir;
+        private System.Windows.Forms.Label lbl_file_path;
     }
 }
 
