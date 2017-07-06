@@ -51,3 +51,8 @@ C:\Users\chris\Google Drive\University\Cambridge - PhD\Platform Code\Aerotech Co
 C:\Users\User\Desktop\Share\Chris\TEST\Aerotech Control\Aerotech Control\obj\Debug\Interop.MLApp.dll
 C:\Users\User\Desktop\Share\Chris\TEST\Aerotech Control\Aerotech Control\obj\Debug\Aerotech Control.csproj.ResolveComReference.cache
 C:\Users\chris\Google Drive\University\Cambridge - PhD\Platform Code\Aerotech Control\Aerotech Control\bin\Debug\TIS.Imaging.ICImagingControl34.dll
+C:\Users\User\Documents\GitHub\PrecisionPlatformControl\Aerotech Control\obj\Debug\Interop.MLApp.dll
+C:\Users\User\Documents\GitHub\PrecisionPlatformControl\Aerotech Control\obj\Debug\Interop.OphirLMMeasurementLib.dll
+C:\Users\User\Documents\GitHub\PrecisionPlatformControl\Aerotech Control\obj\Debug\Aerotech Control.csproj.ResolveComReference.cache
+C:\Users\User\Documents\GitHub\PrecisionPlatformControl\Aerotech Control\obj\Debug\Aerotech Control.exe
+C:\Users\User\Documents\GitHub\PrecisionPlatformControl\Aerotech Control\obj\Debug\Aerotech Control.pdb
