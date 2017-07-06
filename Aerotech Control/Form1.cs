@@ -248,7 +248,10 @@ namespace Aerotech_Control
 
             // Connect to Aerotech Controller
 
-            Connect_Controller();
+            Thread Aerotech_Axis_Pos = new Thread(new ThreadStart(Connect_Controller));
+            Aerotech_Axis_Pos.IsBackground = true;
+            Aerotech_Axis_Pos.Start();
+            //Connect_Controller();
         }
 
         private void btn_ConnectController_Click(object sender, EventArgs e)
@@ -394,9 +397,9 @@ namespace Aerotech_Control
             //lbl_XPos.Text = String.Format("{0:#,0.000}", e.Data[0].PositionFeedback);
             //lbl_XPos.Text = e.Data[this.axisIndex].PositionFeedback.ToString();
 
-            lbl_XPos.Text = String.Format("{0:#,0.000}", e.Data["X"].PositionFeedback);
-            lbl_YPos.Text = String.Format("{0:#,0.000}", e.Data["Y"].PositionFeedback);
-            lbl_ZPos.Text = String.Format("{0:#,0.000}", e.Data["Z"].PositionFeedback);
+            lbl_XPos.Text = String.Format("{0:#,0.00000}", e.Data["X"].PositionFeedback);
+            lbl_YPos.Text = String.Format("{0:#,0.00000}", e.Data["Y"].PositionFeedback);
+            lbl_ZPos.Text = String.Format("{0:#,0.00000}", e.Data["Z"].PositionFeedback);
             lbl_DPos.Text = String.Format("{0:#,0.000}", e.Data["D"].PositionFeedback);
             lbl_APos.Text = String.Format("{0:#,0.000}", e.Data["A"].PositionFeedback);
             lbl_BPos.Text = String.Format("{0:#,0.000}", e.Data["B"].PositionFeedback);
