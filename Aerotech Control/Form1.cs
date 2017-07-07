@@ -209,25 +209,32 @@ namespace Aerotech_Control
 
             // Initialise Serial Control
 
-            //// Talisker
+            ////// Talisker
 
-            TalikserLaser.PortName = "COM18";
-            TalikserLaser.BaudRate = 115200;
+            //TalikserLaser.PortName = "COM18";
+            //TalikserLaser.BaudRate = 115200;
 
-            TalikserLaser.Close();
-            TalikserLaser.Open();
+            //TalikserLaser.Close();
+            //TalikserLaser.Open();
 
-            //// Watt Pilot
+            ////// Watt Pilot
 
-            WattPilot_1064.PortName = "COM6";
-            WattPilot_1064.BaudRate = 38400;
+            //WattPilot_1064.PortName = "COM6";
+            //WattPilot_1064.BaudRate = 38400;
 
-            WattPilot_1064.Close();
-            WattPilot_1064.Open();
+            //WattPilot_1064.Close();
+            //WattPilot_1064.Open();
+
+            //// ******
+
+            //string test = "g " + -967 + "\r";
+            //WattPilot_SerialPortCommunicator.SerialPort.Write(test);
+
+            //// ******
 
             //Laser and Button Initialisation
 
-            laserbtninitialisation();
+            laserbtninitialisation_labels();
 
             // Ophir Device
 
@@ -2103,7 +2110,7 @@ namespace Aerotech_Control
         private void shutter_closed()
         {
             string shutter_closed = "s=0\r\n";
-            TalikserLaser.Write(shutter_closed);
+            Talisker_SerialPortCommunicator.SerialPort.Write(shutter_closed);
             Thread.Sleep(command_delay);
             btn_Shutter.Text = "Open Shutter";
             lbl_ShutterStatus.Text = "Closed";
@@ -2113,7 +2120,7 @@ namespace Aerotech_Control
         private void shutter_open()
         {            
             string shutter_open = "s=1\r\n";
-            TalikserLaser.Write(shutter_open);
+            Talisker_SerialPortCommunicator.SerialPort.Write(shutter_open);
             Thread.Sleep(command_delay);
             btn_Shutter.Text = "Close Shutter";
             lbl_ShutterStatus.Text = "Open";
@@ -2123,7 +2130,7 @@ namespace Aerotech_Control
         private void aommode_0()
         {
             string aommode0 = "AOMMODE=0\r\n";
-            TalikserLaser.Write(aommode0);
+            Talisker_SerialPortCommunicator.SerialPort.Write(aommode0);
             Thread.Sleep(command_delay);
             lbl_AOMMode.Text = "Continuous";
         }
@@ -2131,7 +2138,7 @@ namespace Aerotech_Control
         private void aommode_2()
         {
             string aommode0 = "AOMMODE=2\r\n";
-            TalikserLaser.Write(aommode0);
+            Talisker_SerialPortCommunicator.SerialPort.Write(aommode0);
             Thread.Sleep(command_delay);
             lbl_AOMMode.Text = "Divided";
         }
@@ -2139,7 +2146,7 @@ namespace Aerotech_Control
         private void aommode_3()
         {
             string aommode0 = "AOMMODE=3\r\n";
-            TalikserLaser.Write(aommode0);
+            Talisker_SerialPortCommunicator.SerialPort.Write(aommode0);
             Thread.Sleep(command_delay);
             lbl_AOMMode.Text = "Burst";
         }
@@ -2147,7 +2154,7 @@ namespace Aerotech_Control
         private void aomgate_low_trigger()
         {
             string aomgate_low_trigger = "AOMGATE=0\r\n";
-            TalikserLaser.Write(aomgate_low_trigger);
+            Talisker_SerialPortCommunicator.SerialPort.Write(aomgate_low_trigger);
             Thread.Sleep(command_delay);
             btn_AOMGATE.Text = "AOMGate - High";
             lbl_AOMGateStatus.Text = "Low";
@@ -2156,7 +2163,7 @@ namespace Aerotech_Control
         private void aomgate_high_trigger()
         {
             string aomgate_high_trigger = "AOMGATE=1\r\n";
-            TalikserLaser.Write(aomgate_high_trigger);
+            Talisker_SerialPortCommunicator.SerialPort.Write(aomgate_high_trigger);
             Thread.Sleep(command_delay);
             btn_AOMGATE.Text = "AOMGate - Low";
             lbl_AOMGateStatus.Text = "High";                  
@@ -2165,10 +2172,10 @@ namespace Aerotech_Control
         private void talisker_attenuation(int value)
         {
             string atten_command = "ATT=100\r\n";
-            TalikserLaser.Write(atten_command);
+            Talisker_SerialPortCommunicator.SerialPort.Write(atten_command);
             Thread.Sleep(5000);
             atten_command = "ATT=" + value + "\r\n";
-            TalikserLaser.Write(atten_command);
+            Talisker_SerialPortCommunicator.SerialPort.Write(atten_command);
             Thread.Sleep(command_delay);
             lbl_TaliskerATT.Text = value.ToString("0");
         }
@@ -2183,7 +2190,7 @@ namespace Aerotech_Control
             double angle = ((Math.Acos(Math.Sqrt(ratio))) * 180.0) / (2.0 * Math.PI);
             double steps = (angle * stepsPerUnit * resolution) + offset;
             string command = "g " + steps + "\r";
-            WattPilot_1064.Write(command);
+            WattPilot_SerialPortCommunicator.SerialPort.Write(command); //WattPilot_1064.Write(command);
             Thread.Sleep(5000);
             lbl_WPATT.Text = (value).ToString("0.0");
         }
@@ -2709,17 +2716,44 @@ namespace Aerotech_Control
             }
         }
 
-        private void laserbtninitialisation()
+        private void laserbtninitialisation_labels()
         {
-            shutter_closed();
-            watt_pilot_attenuation(100);
-            talisker_attenuation(100);
-            aommode_0();
-            aomgate_high_trigger();
-            talisker_burst_pulses(1);
-            talisker_rep_rate(200000);
+            // Shutter
+
+            btn_Shutter.Text = "Open Shutter";
+            lbl_ShutterStatus.Text = "Closed";
+            lbl_ShutterStatus.BackColor = Color.Lime;
+
+            // Watt Pilot
+
+            lbl_WPATT.Text = (100).ToString("0.0");
+
+            // AOM Mode
+
+            lbl_AOMMode.Text = "Continuous";
+
+            // AOM GATE
+
+            btn_AOMGATE.Text = "AOMGate - Low";
+            lbl_AOMGateStatus.Text = "High";
+
+            // Talikser Burst
+
+            lbl_BurstPulses.Text = 1.ToString("0");
+
+            // Talisker Rep Rate
+
+            lbl_RepRate.Text = 200000.ToString("0");
+            
+            //shutter_closed();
+            //watt_pilot_attenuation(100);
+            //talisker_attenuation(100);
+            //aommode_0();
+            //aomgate_high_trigger();
+            //talisker_burst_pulses(1);
+            //talisker_rep_rate(200000);
         }
-        
+
         #endregion
 
 

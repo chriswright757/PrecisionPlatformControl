@@ -28,12 +28,12 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form2));
             this.pwd_txtbx = new System.Windows.Forms.TextBox();
-            this.label1 = new System.Windows.Forms.Label();
-            this.pictureBox1 = new System.Windows.Forms.PictureBox();
-            this.pictureBox5 = new System.Windows.Forms.PictureBox();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox5)).BeginInit();
+            this.lbl_Talisker_Connection = new System.Windows.Forms.Label();
+            this.panel1 = new System.Windows.Forms.Panel();
+            this.lbl_Password_Prompt = new System.Windows.Forms.Label();
+            this.panel1.SuspendLayout();
             this.SuspendLayout();
             // 
             // pwd_txtbx
@@ -44,57 +44,55 @@
             this.pwd_txtbx.TabIndex = 0;
             this.pwd_txtbx.KeyDown += new System.Windows.Forms.KeyEventHandler(this.pwd_txtbx_KeyDown);
             // 
-            // label1
+            // lbl_Talisker_Connection
             // 
-            this.label1.AutoSize = true;
-            this.label1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(201)))), ((int)(((byte)(201)))), ((int)(((byte)(201)))));
-            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.Location = new System.Drawing.Point(12, 155);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(188, 20);
-            this.label1.TabIndex = 1;
-            this.label1.Text = "Please Type Password";
+            this.lbl_Talisker_Connection.BackColor = System.Drawing.Color.Transparent;
+            this.lbl_Talisker_Connection.Font = new System.Drawing.Font("Arial", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbl_Talisker_Connection.Location = new System.Drawing.Point(11, 188);
+            this.lbl_Talisker_Connection.Name = "lbl_Talisker_Connection";
+            this.lbl_Talisker_Connection.Size = new System.Drawing.Size(354, 19);
+            this.lbl_Talisker_Connection.TabIndex = 7;
+            this.lbl_Talisker_Connection.Text = "Connected To Talikser Laser";
+            this.lbl_Talisker_Connection.Visible = false;
             // 
-            // pictureBox1
+            // panel1
             // 
-            this.pictureBox1.ImageLocation = "C:\\Users\\User\\Documents\\GitHub\\PrecisionPlatformControl\\Software Images\\Platform " +
-    "Image.png";
-            this.pictureBox1.Location = new System.Drawing.Point(0, -33);
-            this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(1366, 768);
-            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.pictureBox1.TabIndex = 2;
-            this.pictureBox1.TabStop = false;
+            this.panel1.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("panel1.BackgroundImage")));
+            this.panel1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.panel1.Controls.Add(this.lbl_Password_Prompt);
+            this.panel1.Controls.Add(this.lbl_Talisker_Connection);
+            this.panel1.Location = new System.Drawing.Point(0, 0);
+            this.panel1.Name = "panel1";
+            this.panel1.Size = new System.Drawing.Size(1366, 768);
+            this.panel1.TabIndex = 8;
             // 
-            // pictureBox5
+            // lbl_Password_Prompt
             // 
-            this.pictureBox5.BackColor = System.Drawing.Color.Transparent;
-            this.pictureBox5.ImageLocation = "C:\\Users\\User\\Documents\\GitHub\\PrecisionPlatformControl\\Software Images\\UP logo.j" +
-    "pg";
-            this.pictureBox5.Location = new System.Drawing.Point(12, 12);
-            this.pictureBox5.Name = "pictureBox5";
-            this.pictureBox5.Size = new System.Drawing.Size(352, 131);
-            this.pictureBox5.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.pictureBox5.TabIndex = 6;
-            this.pictureBox5.TabStop = false;
+            this.lbl_Password_Prompt.AutoSize = true;
+            this.lbl_Password_Prompt.BackColor = System.Drawing.Color.Transparent;
+            this.lbl_Password_Prompt.Font = new System.Drawing.Font("Arial", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbl_Password_Prompt.Location = new System.Drawing.Point(12, 154);
+            this.lbl_Password_Prompt.Name = "lbl_Password_Prompt";
+            this.lbl_Password_Prompt.Size = new System.Drawing.Size(182, 19);
+            this.lbl_Password_Prompt.TabIndex = 8;
+            this.lbl_Password_Prompt.Text = "Please Type Password";
             // 
             // Form2
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
-            this.ClientSize = new System.Drawing.Size(1350, 730);
+            this.ClientSize = new System.Drawing.Size(1366, 768);
             this.ControlBox = false;
-            this.Controls.Add(this.pictureBox5);
-            this.Controls.Add(this.label1);
             this.Controls.Add(this.pwd_txtbx);
-            this.Controls.Add(this.pictureBox1);
+            this.Controls.Add(this.panel1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "Form2";
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox5)).EndInit();
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
+            this.panel1.ResumeLayout(false);
+            this.panel1.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -103,8 +101,8 @@
         #endregion
 
         private System.Windows.Forms.TextBox pwd_txtbx;
-        private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.PictureBox pictureBox1;
-        private System.Windows.Forms.PictureBox pictureBox5;
+        private System.Windows.Forms.Label lbl_Talisker_Connection;
+        private System.Windows.Forms.Panel panel1;
+        private System.Windows.Forms.Label lbl_Password_Prompt;
     }
 }

@@ -1807,9 +1807,9 @@
             // 
             // lbl_file_path
             // 
-            this.lbl_file_path.Location = new System.Drawing.Point(23, 798);
+            this.lbl_file_path.Location = new System.Drawing.Point(20, 798);
             this.lbl_file_path.Name = "lbl_file_path";
-            this.lbl_file_path.Size = new System.Drawing.Size(800, 23);
+            this.lbl_file_path.Size = new System.Drawing.Size(803, 23);
             this.lbl_file_path.TabIndex = 54;
             this.lbl_file_path.Text = "File Path";
             // 
@@ -1817,6 +1817,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.BackColor = System.Drawing.Color.White;
             this.ClientSize = new System.Drawing.Size(1904, 830);
             this.Controls.Add(this.lbl_file_path);
             this.Controls.Add(this.lbl_file_dir);

@@ -63,6 +63,6 @@ C:\Users\User\Documents\GitHub\PrecisionPlatformControl\Aerotech Control\bin\Deb
 C:\Users\User\Documents\GitHub\PrecisionPlatformControl\Aerotech Control\bin\Debug\TIS.Imaging.ICImagingControl34.dll
 C:\Users\User\Documents\GitHub\PrecisionPlatformControl\Aerotech Control\obj\Debug\Aerotech Control.csprojResolveAssemblyReference.cache
 C:\Users\User\Documents\GitHub\PrecisionPlatformControl\Aerotech Control\obj\Debug\Aerotech_Control.Form1.resources
-C:\Users\User\Documents\GitHub\PrecisionPlatformControl\Aerotech Control\obj\Debug\Aerotech_Control.Form2.resources
 C:\Users\User\Documents\GitHub\PrecisionPlatformControl\Aerotech Control\obj\Debug\Aerotech_Control.Properties.Resources.resources
 C:\Users\User\Documents\GitHub\PrecisionPlatformControl\Aerotech Control\obj\Debug\Aerotech Control.csproj.GenerateResource.Cache
+C:\Users\User\Documents\GitHub\PrecisionPlatformControl\Aerotech Control\obj\Debug\Aerotech_Control.Form2.resources
