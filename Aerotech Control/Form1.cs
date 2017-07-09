@@ -125,6 +125,8 @@ namespace Aerotech_Control
         double Rot_Y_Coords;
 
         int command_delay = 1000;
+        double current_WP_value = 100;
+
 
         string power_record_file_path;
         int record_power = 0;
@@ -224,13 +226,6 @@ namespace Aerotech_Control
 
             //WattPilot_1064.Close();
             //WattPilot_1064.Open();
-
-            //// ******
-
-            //string test = "g " + -967 + "\r";
-            //WattPilot_SerialPortCommunicator.SerialPort.Write(test);
-
-            //// ******
 
             //Laser and Button Initialisation
 
@@ -2266,17 +2261,21 @@ namespace Aerotech_Control
 
         private void watt_pilot_attenuation(double value)
         {
-            // Offset for watt pilot 1064 = -443 532 = +1520 355 = +7870
-            double offset = -967;
-            double stepsPerUnit = 43.333;
-            double resolution = 2;
-            double ratio = (100 - value) / 100;
-            double angle = ((Math.Acos(Math.Sqrt(ratio))) * 180.0) / (2.0 * Math.PI);
-            double steps = (angle * stepsPerUnit * resolution) + offset;
-            string command = "g " + steps + "\r";
-            WattPilot_SerialPortCommunicator.SerialPort.Write(command); //WattPilot_1064.Write(command);
-            Thread.Sleep(5000);
-            lbl_WPATT.Text = (value).ToString("0.0");
+           if (value != current_WP_value)
+            {
+                // Offset for watt pilot 1064 = -443 532 = +1520 355 = +7870
+                double offset = -967;
+                double stepsPerUnit = 43.333;
+                double resolution = 2;
+                double ratio = (100 - value) / 100;
+                double angle = ((Math.Acos(Math.Sqrt(ratio))) * 180.0) / (2.0 * Math.PI);
+                double steps = (angle * stepsPerUnit * resolution) + offset;
+                string command = "g " + steps + "\r";
+                WattPilot_SerialPortCommunicator.SerialPort.Write(command); //WattPilot_1064.Write(command);
+                Thread.Sleep(5000);
+                lbl_WPATT.Text = (value).ToString("0.0");
+                current_WP_value = value;
+            }            
         }
 
         private void talisker_burst_pulses(int value)
