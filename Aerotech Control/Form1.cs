@@ -1851,22 +1851,27 @@ namespace Aerotech_Control
 
         private void btn_BoxAblation_Click(object sender, EventArgs e)
         {
-            double box_width  = 0.5;
-            double overlap = 50;
-            double increment_total = 0;
+            Thread laser_ablation_thread = new Thread(new ThreadStart(laser_ablation));
+            laser_ablation_thread.IsBackground = true;
+            laser_ablation_thread.Start();
 
-            //double angle = Convert.ToDouble(txtbx_AngForAblation.Text);
+            //double box_width  = 0.5;
+            //double overlap = 50;
+            //double increment_total = 0;
 
-            double speed = 1;
-            int talikser_attentuation_value = 90;
-            double wattpilot_attenutation_value = 0;
+            ////double angle = Convert.ToDouble(txtbx_AngForAblation.Text);
 
-            talisker_attenuation(talikser_attentuation_value);
-            watt_pilot_attenuation(wattpilot_attenutation_value);
+            //double speed = 1;
+            //int talikser_attentuation_value = 90;
+            //double wattpilot_attenutation_value = 0;
 
-            shutter_open();
-            aommode_0();
-            aomgate_high_trigger();
+            //talisker_attenuation(talikser_attentuation_value);
+            //watt_pilot_attenuation(wattpilot_attenutation_value);
+
+            //aomgate_high_trigger();
+            //shutter_open();
+            //aommode_0();
+
 
             #region Uphill and Downhill Test
 
@@ -2047,51 +2052,128 @@ namespace Aerotech_Control
 
             #region Ablation threshold at different angles using lines
 
-            // Set Repition Rate and number of pulses per trigger
+            //// Set Repition Rate and number of pulses per trigger
 
-            talisker_rep_rate(10000);
-            aommode_2();
-            
+            //talisker_rep_rate(10000);
+            //aommode_2();
+
+            //// Drill reference grid along X axis
+
+            //double ref_angle = 0;
+
+            //for (int power = 0; power < 11; power+=2)
+            //{
+            //    watt_pilot_attenuation(0);
+            //    Movement_3D_ablation(Refined_Xaxis[1] + 0.5 + (1.25 * power/2), Refined_Yaxis[1] + 0.25 + (0.25 * ref_angle), ref_angle * 10, 5);
+            //    myController.Commands.PSO.Control("X", Aerotech.A3200.Commands.PsoMode.On);
+            //    Movement_3D_ablation(Refined_Xaxis[1] + 0.5 + (1.25 * power/2) + 1, Refined_Yaxis[1] + 0.25 + (0.25 * ref_angle), ref_angle * 10, 1);
+            //    myController.Commands.PSO.Control("X", Aerotech.A3200.Commands.PsoMode.Off);
+            //}
+
+            //// Drill line grid - high power             
+
+            //for (int angle = 0; angle < 4; angle++)
+            //{
+            //    //Power for loop
+            //    for (int power = 0; power < 11; power += 2)
+            //    {
+            //        watt_pilot_attenuation(power * 10);
+            //        Movement_3D_ablation(Refined_Xaxis[1] + 0.5 + (1.25 * power/2), Refined_Yaxis[1] + 0.5 + (0.25 * angle), angle * 10, 5);
+            //        myController.Commands.PSO.Control("X", Aerotech.A3200.Commands.PsoMode.On);
+            //        Movement_3D_ablation(Refined_Xaxis[1] + 0.5 + (1.25 * power/2) + 1, Refined_Yaxis[1] + 0.5 + (0.25 * angle), angle * 10, 1);
+            //        myController.Commands.PSO.Control("X", Aerotech.A3200.Commands.PsoMode.Off);
+            //    }
+            //}
+
+            //// Drill line grid - low power             
+
+            //for (int angle = 0; angle < 4; angle++)
+            //{
+            //    //Power for loop
+            //    for (int power = 0; power < 11; power += 2)
+            //    {
+            //        watt_pilot_attenuation(80+(power*2));
+            //        Movement_3D_ablation(Refined_Xaxis[1] + 0.5 + (1.25 * power / 2), Refined_Yaxis[1] + 1.5 + (0.25 * angle), angle * 10, 5);
+            //        myController.Commands.PSO.Control("X", Aerotech.A3200.Commands.PsoMode.On);
+            //        Movement_3D_ablation(Refined_Xaxis[1] + 0.5 + (1.25 * power / 2) + 1, Refined_Yaxis[1] + 1.5 + (0.25 * angle), angle * 10, 1);
+            //        myController.Commands.PSO.Control("X", Aerotech.A3200.Commands.PsoMode.Off);
+            //    }
+            //}
+
+
+            #endregion
+
+        }
+
+        private void laser_ablation()
+        {
+
+            int talikser_attentuation_value = 90;
+            double wattpilot_attenutation_value = 0;
+
+            talisker_attenuation(talikser_attentuation_value);
+            watt_pilot_attenuation(wattpilot_attenutation_value);
+
+            aomgate_high_trigger();
+            aommode_0();
+            shutter_open();            
+
+            #region Find Ablation Threshold of Silicon                       
+
             // Drill reference grid along X axis
 
             double ref_angle = 0;
 
-            for (int power = 0; power < 11; power+=2)
+            for (int power = 0; power < 3; power++)
             {
                 watt_pilot_attenuation(0);
-                Movement_3D_ablation(Refined_Xaxis[1] + 0.5 + (1.25 * power/2), Refined_Yaxis[1] + 0.25 + (0.25 * ref_angle), ref_angle * 10, 5);
+                Movement_3D_ablation(Refined_Xaxis[1] + 0.5 + (1.25 * power), Refined_Yaxis[1] + 0.25 + (0.25 * ref_angle), ref_angle * 10, 5);
                 myController.Commands.PSO.Control("X", Aerotech.A3200.Commands.PsoMode.On);
-                Movement_3D_ablation(Refined_Xaxis[1] + 0.5 + (1.25 * power/2) + 1, Refined_Yaxis[1] + 0.25 + (0.25 * ref_angle), ref_angle * 10, 1);
+                Movement_3D_ablation(Refined_Xaxis[1] + 0.5 + (1.25 * power) + 1, Refined_Yaxis[1] + 0.25 + (0.25 * ref_angle), ref_angle * 10, 1);
                 myController.Commands.PSO.Control("X", Aerotech.A3200.Commands.PsoMode.Off);
             }
 
-            // Drill line grid - high power             
+            // Drill line grid  - Do three lines same power then move across to next power            
 
-            for (int angle = 0; angle < 4; angle++)
+            talisker_attenuation(97); // *** Check Requested Power Using AOM Repeatability
+            
+            for (int power = 0; power < 11; power++) // Change Y
             {
                 //Power for loop
-                for (int power = 0; power < 11; power += 2)
+                for (int iteration = 0; iteration < 3; iteration++) // Adjust - Change X
                 {
-                    watt_pilot_attenuation(power * 10);
-                    Movement_3D_ablation(Refined_Xaxis[1] + 0.5 + (1.25 * power/2), Refined_Yaxis[1] + 0.5 + (0.25 * angle), angle * 10, 5);
-                    myController.Commands.PSO.Control("X", Aerotech.A3200.Commands.PsoMode.On);
-                    Movement_3D_ablation(Refined_Xaxis[1] + 0.5 + (1.25 * power/2) + 1, Refined_Yaxis[1] + 0.5 + (0.25 * angle), angle * 10, 1);
-                    myController.Commands.PSO.Control("X", Aerotech.A3200.Commands.PsoMode.Off);
-                }
-            }
 
-            // Drill line grid - low power             
+                    string Save_Dir = "C:/Users/User/Desktop/Share/Chris/Abatlion Threshold/Trial 1"; // Adjust 
 
-            for (int angle = 0; angle < 4; angle++)
-            {
-                //Power for loop
-                for (int power = 0; power < 11; power += 2)
-                {
-                    watt_pilot_attenuation(80+(power*2));
-                    Movement_3D_ablation(Refined_Xaxis[1] + 0.5 + (1.25 * power / 2), Refined_Yaxis[1] + 1.5 + (0.25 * angle), angle * 10, 5);
+                    lbl_file_dir.Text = Save_Dir;
+
+                    System.IO.Directory.CreateDirectory(Save_Dir);
+
+                    string power_string = power.ToString("0000");
+
+                    string iteration_string = iteration.ToString("0000");
+
+                    power_record_file_path = Save_Dir + "/Power = " + power_string + " Iteration = " + iteration_string + ".txt";
+
+                    // Set WATT Pilot ATT
+
+                    watt_pilot_attenuation(power * 10); 
+
+                    // Line starting position
+
+                    Movement_3D_ablation(Refined_Xaxis[1] + 0.5 + (1.25 * iteration), Refined_Yaxis[1] + 0.5 + (0.25 * power), 0, 5);
+
+                    record_power = 1; // Start recording power
+
                     myController.Commands.PSO.Control("X", Aerotech.A3200.Commands.PsoMode.On);
-                    Movement_3D_ablation(Refined_Xaxis[1] + 0.5 + (1.25 * power / 2) + 1, Refined_Yaxis[1] + 1.5 + (0.25 * angle), angle * 10, 1);
+
+                    // Laser finish position
+
+                    Movement_3D_ablation(Refined_Xaxis[1] + 0.5 + (1.25 *iteration) + 1, Refined_Yaxis[1] + 0.5 + (0.25 * power), 0, 0.1);
+
                     myController.Commands.PSO.Control("X", Aerotech.A3200.Commands.PsoMode.Off);
+
+                    record_power = 0;
                 }
             }
 
@@ -2099,7 +2181,9 @@ namespace Aerotech_Control
             #endregion
 
             shutter_closed();
+
         }
+
 
         #endregion
 
@@ -2360,6 +2444,18 @@ namespace Aerotech_Control
                         int measurementType = statusArr[ind] / 0x10000;// high bytes 
                         int status = statusArr[ind] % 0x10000;// low bytes
 
+                        if (status == 2)
+                        {
+                            shutter_closed();
+
+                            using (StreamWriter Power_Record = new StreamWriter(power_record_file_path, true))
+                            {
+                                Power_Record.WriteLine("Sensor over saturated");
+                            }
+
+                            Application.Exit();
+                        }
+                        
                         // Power or energy measurement
                         if (measurementType == powerEnergyMeasurementType)
                         {
@@ -2724,6 +2820,10 @@ namespace Aerotech_Control
             lbl_ShutterStatus.Text = "Closed";
             lbl_ShutterStatus.BackColor = Color.Lime;
 
+            // Talisker ATT
+
+            lbl_TaliskerATT.Text = 100.ToString("0");
+
             // Watt Pilot
 
             lbl_WPATT.Text = (100).ToString("0.0");
@@ -2773,6 +2873,31 @@ namespace Aerotech_Control
 
             Random on_time_random = new Random();
             Random off_time_random = new Random();
+                        
+            for (int talikser_att_setting = 2; talikser_att_setting < 8; talikser_att_setting++)
+            {
+                
+                for (int count = 1; count < 101; count++)
+                {
+
+                    string Save_Dir = "C:/Users/User/Desktop/Share/Chris/AOM Power Repeatability/" + talikser_att_setting.ToString("00");
+
+                    lbl_file_dir.Text = Save_Dir;
+
+                    System.IO.Directory.CreateDirectory(Save_Dir);
+
+                    string count_string = count.ToString("0000");
+
+                    power_record_file_path = Save_Dir + "/Power_Record_" + count_string + ".txt";
+
+                    lbl_file_path.Text = power_record_file_path;
+
+                    set_check_laser_power(100 - talikser_att_setting, 0, 10, 10);
+                }
+
+            }
+
+            #region Previous Tests
 
             //string Save_Dir = "C:/Users/User/Desktop/Share/Chris/AOM Power Repeatability - AOM Rise";
 
@@ -2793,23 +2918,23 @@ namespace Aerotech_Control
             //Thread.Sleep(3 * 60 * 1000);
             //aomgate_high_trigger();
 
-            for (int count = 1; count < 101; count++)
-            {
+            //for (int count = 1; count < 101; count++)
+            //{
 
-                string Save_Dir = "C:/Users/User/Desktop/Share/Chris/AOM Power Repeatability - no warm up";
+            //    string Save_Dir = "C:/Users/User/Desktop/Share/Chris/AOM Power Repeatability - no warm up";
 
-                lbl_file_dir.Text = Save_Dir;
+            //    lbl_file_dir.Text = Save_Dir;
 
-                System.IO.Directory.CreateDirectory(Save_Dir);
+            //    System.IO.Directory.CreateDirectory(Save_Dir);
 
-                string count_string = count.ToString("0000");
+            //    string count_string = count.ToString("0000");
 
-                power_record_file_path = Save_Dir + "/Power_Record_" + count_string + ".txt";
+            //    power_record_file_path = Save_Dir + "/Power_Record_" + count_string + ".txt";
 
-                lbl_file_path.Text = power_record_file_path;
+            //    lbl_file_path.Text = power_record_file_path;
 
-                set_check_laser_power(97, 0, 10, 10);
-            }
+            //    set_check_laser_power(97, 0, 10, 10);
+            //}
 
             //for (int count_2 = 0; count_2 < 3; count_2++)
             //{
@@ -2929,9 +3054,12 @@ namespace Aerotech_Control
             //    }
             //Thread.Sleep(15*60*1000);
 
-                //stop_power_monitoring();
+            //stop_power_monitoring();
             //}
-                shutter_closed();
+
+            #endregion
+
+            shutter_closed();
 
                 MessageBox.Show("Completed");
             

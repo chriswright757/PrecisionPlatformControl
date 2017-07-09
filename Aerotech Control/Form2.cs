@@ -89,7 +89,7 @@ namespace Aerotech_Control
             lbl_Talisker_Connection.Text = "Shutter Closed";
             this.Update();
 
-            lbl_Talisker_Connection.Text = " Setting Watt Pilot ATT = 100";
+            lbl_Talisker_Connection.Text = "Setting Watt Pilot ATT = 100";
             this.Update();
 
             watt_pilot_attenuation(100);
