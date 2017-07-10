@@ -127,7 +127,6 @@ namespace Aerotech_Control
         int command_delay = 1000;
         double current_WP_value = 100;
 
-
         string power_record_file_path;
         int record_power = 0;
         Dictionary<int, string> statusText;
@@ -2445,6 +2444,8 @@ namespace Aerotech_Control
 
                         if (status == 2)
                         {
+
+                            myController.Commands.PSO.Control("X", Aerotech.A3200.Commands.PsoMode.Off);
                             shutter_closed();
 
                             using (StreamWriter Power_Record = new StreamWriter(power_record_file_path, true))
@@ -2879,13 +2880,13 @@ namespace Aerotech_Control
                 for (int count = 1; count < 101; count++)
                 {
 
-                    string Save_Dir = "C:/Users/User/Desktop/Share/Chris/AOM Power Repeatability/" + talikser_att_setting.ToString("00");
+                    string Save_Dir = "C:/Users/User/Desktop/Share/Chris/AOM Power Repeatability/" + (100 - talikser_att_setting).ToString("00");
 
                     lbl_file_dir.Text = Save_Dir;
 
                     System.IO.Directory.CreateDirectory(Save_Dir);
 
-                    string count_string = count.ToString("0000");
+                    string count_string = (count).ToString("0000");
 
                     power_record_file_path = Save_Dir + "/Power_Record_" + count_string + ".txt";
 

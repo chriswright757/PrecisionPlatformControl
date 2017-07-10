@@ -11,7 +11,6 @@ using System.Threading;
 
 namespace Aerotech_Control
 {
-    
     public partial class Form2 : Form
     {
         int command_delay = 1000;
@@ -71,6 +70,7 @@ namespace Aerotech_Control
 
                     MainForm.Show();
                     MainForm.Activate();
+                                     
                     this.Hide();
 
                 }
