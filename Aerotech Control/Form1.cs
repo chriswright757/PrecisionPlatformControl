@@ -258,48 +258,6 @@ namespace Aerotech_Control
         private void btn_ConnectController_Click(object sender, EventArgs e)
         {
             Connect_Controller();
-
-            //try
-            //{
-            //    // Connect to A3200 controller.  
-            //    this.myController = Controller.Connect();
-            //    chkbx_ConnectedVal.Checked = true;
-            //    //EnableControls(true);
-
-            //    btn_ConnectController.Enabled = false;
-            //    btn_DisconnectController.Enabled = true;
-
-            //    // populate axis names
-            //    foreach (AxisInfo axis in this.myController.Information.Axes)
-            //    {
-            //        cmb_AxisNames.Items.Add(axis.Name);
-            //    }
-            //    this.axisIndex = 0;
-            //    cmb_AxisNames.SelectedIndex = this.axisIndex;
-
-            //    // populate task names
-            //    foreach (Task task in this.myController.Tasks)
-            //    {
-            //        if (task.State != TaskState.Inactive)
-            //        {
-            //            cmb_AxisNames.Items.Add(task.Name.ToString());
-            //        }
-            //    }
-            //    // Task 0 is reserved
-            //    this.taskIndex = 1;
-            //    cmb_AxisNames.SelectedIndex = this.taskIndex - 1;
-
-            //    // register task state and diagPackect arrived events
-            //    this.myController.ControlCenter.TaskStates.NewTaskStatesArrived += new EventHandler<NewTaskStatesArrivedEventArgs>(TaskStates_NewTaskStatesArrived);
-            //    this.myController.ControlCenter.Diagnostics.NewDiagPacketArrived += new EventHandler<NewDiagPacketArrivedEventArgs>(Diagnostics_NewDiagPacketArrived);
-
-            //    myController.Commands.IO.DigitalOutputBit(0, "X", 1);
-
-            //}
-            //catch (A3200Exception exception)
-            //{
-            //    //lbl_ErrorMsg.Text = exception.Message;
-            //}
         }
 
         private void Connect_Controller()
@@ -1281,6 +1239,8 @@ namespace Aerotech_Control
             myController.Commands.Motion.Linear("D", 0, 2);
             myController.Commands.Motion.Linear("Z", ablation_focus, 1);
 
+            MessageBox.Show("Insert Beam Dump");
+
             shutter_open();
             aommode_0();
             aomgate_high_trigger();
@@ -2108,26 +2068,29 @@ namespace Aerotech_Control
             talisker_attenuation(talikser_attentuation_value);
             watt_pilot_attenuation(wattpilot_attenutation_value);
 
+            MessageBox.Show("Do not remove beam dump");
+
             aomgate_high_trigger();
             aommode_0();
+            
             shutter_open();            
 
             #region Find Ablation Threshold of Silicon                       
 
             // Drill reference grid along X axis
 
-            double ref_angle = 0;
-
-            for (int power = 0; power < 3; power++)
+            for (int iteration = 0; iteration < 3; iteration++)
             {
                 watt_pilot_attenuation(0);
-                Movement_3D_ablation(Refined_Xaxis[1] + 0.5 + (1.25 * power), Refined_Yaxis[1] + 0.25 + (0.25 * ref_angle), ref_angle * 10, 5);
+                Movement_3D_ablation(Refined_Xaxis[1] + 0.5 + (1.25 * iteration), Refined_Yaxis[1] + 0.25, 0, 5);
                 myController.Commands.PSO.Control("X", Aerotech.A3200.Commands.PsoMode.On);
-                Movement_3D_ablation(Refined_Xaxis[1] + 0.5 + (1.25 * power) + 1, Refined_Yaxis[1] + 0.25 + (0.25 * ref_angle), ref_angle * 10, 1);
+                Movement_3D_ablation(Refined_Xaxis[1] + 0.5 + (1.25 * iteration) + 1, Refined_Yaxis[1] + 0.25 , 0, 1);
                 myController.Commands.PSO.Control("X", Aerotech.A3200.Commands.PsoMode.Off);
             }
 
             // Drill line grid  - Do three lines same power then move across to next power            
+
+            MessageBox.Show("Remove Beam Dump");
 
             talisker_attenuation(97); // *** Check Requested Power Using AOM Repeatability
             
@@ -2136,18 +2099,16 @@ namespace Aerotech_Control
                 //Power for loop
                 for (int iteration = 0; iteration < 3; iteration++) // Adjust - Change X
                 {
+                    string power_string = power.ToString("0000");
+                    string iteration_string = iteration.ToString("0000");
 
-                    string Save_Dir = "C:/Users/User/Desktop/Share/Chris/Abatlion Threshold/Trial 1"; // Adjust 
+                    string Save_Dir = "C:/Users/User/Desktop/Share/Chris/Abatlion Threshold/Trial 1/Power = " + power_string + "/Data"; // Adjust 
 
                     lbl_file_dir.Text = Save_Dir;
 
                     System.IO.Directory.CreateDirectory(Save_Dir);
-
-                    string power_string = power.ToString("0000");
-
-                    string iteration_string = iteration.ToString("0000");
-
-                    power_record_file_path = Save_Dir + "/Power = " + power_string + " Iteration = " + iteration_string + ".txt";
+                                     
+                    power_record_file_path = Save_Dir + "/Iteration = " + iteration_string + ".txt";
 
                     // Set WATT Pilot ATT
 
@@ -2171,11 +2132,42 @@ namespace Aerotech_Control
                 }
             }
 
+            // Capture lines using Microscope
+
+            for (int power = 0; power < 11; power++) // Change Y
+            {
+                //Power for loop
+                for (int iteration = 0; iteration < 3; iteration++) // Adjust - Change X
+                {
+                    string power_string = power.ToString("0000");
+                    string iteration_string = iteration.ToString("0000");
+
+                    string Save_Dir = "C:/Users/User/Desktop/Share/Chris/Abatlion Threshold/Trial 1/Power = " + power_string + "/Images"; 
+
+                    lbl_file_dir.Text = Save_Dir;
+
+                    System.IO.Directory.CreateDirectory(Save_Dir);                    
+                                            
+                    // Line starting position
+
+                    for (int step = 0; step < 11; step++)
+                    {
+                                                
+                        Movement_3D_uScope(Refined_Xaxis[1] + 0.5 + (1.25 * iteration) + (step/10), Refined_Yaxis[1] + 0.5 + (0.25 * power), 0);
+
+                        string image_record_file_path = Save_Dir + "/Iteration = " + iteration_string + " Step " + step.ToString("00") +".jpg";
+
+                        icImagingControl1.MemorySnapImage();
+
+                        icImagingControl1.MemorySaveImage(image_record_file_path);
+                    }
+                
+                }
+            }
 
             #endregion
 
             shutter_closed();
-
         }
 
 
