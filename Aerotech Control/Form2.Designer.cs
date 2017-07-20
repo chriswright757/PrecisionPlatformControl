@@ -47,7 +47,7 @@
             // lbl_Talisker_Connection
             // 
             this.lbl_Talisker_Connection.BackColor = System.Drawing.Color.Transparent;
-            this.lbl_Talisker_Connection.Font = new System.Drawing.Font("Arial", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbl_Talisker_Connection.Font = new System.Drawing.Font("Arial", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lbl_Talisker_Connection.Location = new System.Drawing.Point(16, 188);
             this.lbl_Talisker_Connection.Name = "lbl_Talisker_Connection";
             this.lbl_Talisker_Connection.Size = new System.Drawing.Size(354, 19);
@@ -70,10 +70,10 @@
             // 
             this.lbl_Password_Prompt.AutoSize = true;
             this.lbl_Password_Prompt.BackColor = System.Drawing.Color.Transparent;
-            this.lbl_Password_Prompt.Font = new System.Drawing.Font("Arial", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbl_Password_Prompt.Font = new System.Drawing.Font("Arial", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lbl_Password_Prompt.Location = new System.Drawing.Point(16, 154);
             this.lbl_Password_Prompt.Name = "lbl_Password_Prompt";
-            this.lbl_Password_Prompt.Size = new System.Drawing.Size(182, 19);
+            this.lbl_Password_Prompt.Size = new System.Drawing.Size(168, 18);
             this.lbl_Password_Prompt.TabIndex = 8;
             this.lbl_Password_Prompt.Text = "Please Type Password";
             // 

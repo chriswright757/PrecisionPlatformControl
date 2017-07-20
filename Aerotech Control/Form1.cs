@@ -201,30 +201,25 @@ namespace Aerotech_Control
                 //{
                 //ImagingControl.DeviceFlipHorizontal = true;
                 //}
+
+                icImagingControl1.LiveDisplayDefault = false;
+
+                icImagingControl1.LiveDisplayHeight = icImagingControl1.Height;
+                icImagingControl1.LiveDisplayWidth = icImagingControl1.Width;
+                //icImagingControl1.DeviceFlipHorizontal = true;
                 icImagingControl1.LiveStart();
+
+                OverlayBitmap ob = icImagingControl1.OverlayBitmap;
+                //   Enable the overlay bitmap for drawing.
+                ob.Enable = true;
+
+                ob.DrawSolidRect(System.Drawing.Color.Red, 798, 530, 802, 670);
+                ob.DrawSolidRect(System.Drawing.Color.Red, 730, 602, 870, 598);
             }
 
             // Used for background thread process
 
-            Control.CheckForIllegalCrossThreadCalls = false;
-
-            // Initialise Serial Control
-
-            ////// Talisker
-
-            //TalikserLaser.PortName = "COM18";
-            //TalikserLaser.BaudRate = 115200;
-
-            //TalikserLaser.Close();
-            //TalikserLaser.Open();
-
-            ////// Watt Pilot
-
-            //WattPilot_1064.PortName = "COM6";
-            //WattPilot_1064.BaudRate = 38400;
-
-            //WattPilot_1064.Close();
-            //WattPilot_1064.Open();
+            Control.CheckForIllegalCrossThreadCalls = false;                        
 
             //Laser and Button Initialisation
 
@@ -251,26 +246,22 @@ namespace Aerotech_Control
 
             Thread Aerotech_Axis_Pos = new Thread(new ThreadStart(Connect_Controller));
             Aerotech_Axis_Pos.IsBackground = true;
-            Aerotech_Axis_Pos.Start();
-            //Connect_Controller();
+            Aerotech_Axis_Pos.Start();            
         }
 
-        private void btn_ConnectController_Click(object sender, EventArgs e)
-        {
-            Connect_Controller();
-        }
+        //private void btn_ConnectController_Click(object sender, EventArgs e)
+        //{
+        //    Connect_Controller();
+        //}
 
         private void Connect_Controller()
         {
             try
             {
                 // Connect to A3200 controller.  
-                this.myController = Controller.Connect();
-                chkbx_ConnectedVal.Checked = true;
+                this.myController = Controller.Connect();                
                 //EnableControls(true);
-
-                btn_ConnectController.Enabled = false;
-                btn_DisconnectController.Enabled = true;
+                              
 
                 // populate axis names
                 foreach (AxisInfo axis in this.myController.Information.Axes)
@@ -306,41 +297,41 @@ namespace Aerotech_Control
         }
 
 
-        private void btn_DisconnectController_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                // Disconnect the A3200 controller.
-                Controller.Disconnect();
-                chkbx_ConnectedVal.Checked = false;
+        //private void btn_DisconnectController_Click(object sender, EventArgs e)
+        //{
+        //    try
+        //    {
+        //        // Disconnect the A3200 controller.
+        //        Controller.Disconnect();
+        //        chkbx_ConnectedVal.Checked = false;
 
-                grpbx_AxControl.Enabled = false;
-                btn_ConnectController.Enabled = true;
-                btn_DisconnectController.Enabled = false;
+        //        grpbx_AxControl.Enabled = false;
+        //        btn_ConnectController.Enabled = true;
+        //        btn_DisconnectController.Enabled = false;
 
-                lbl_XStatus.Text = "Disabled";
-                lbl_XStatus.BackColor = System.Drawing.SystemColors.Control;
+        //        lbl_XStatus.Text = "Disabled";
+        //        lbl_XStatus.BackColor = System.Drawing.SystemColors.Control;
 
-                lbl_YStatus.Text = "Disabled";
-                lbl_YStatus.BackColor = System.Drawing.SystemColors.Control;
+        //        lbl_YStatus.Text = "Disabled";
+        //        lbl_YStatus.BackColor = System.Drawing.SystemColors.Control;
 
-                lbl_ZStatus.Text = "Disabled";
-                lbl_ZStatus.BackColor = System.Drawing.SystemColors.Control;
+        //        lbl_ZStatus.Text = "Disabled";
+        //        lbl_ZStatus.BackColor = System.Drawing.SystemColors.Control;
 
-                lbl_DStatus.Text = "Disabled";
-                lbl_DStatus.BackColor = System.Drawing.SystemColors.Control;
+        //        lbl_DStatus.Text = "Disabled";
+        //        lbl_DStatus.BackColor = System.Drawing.SystemColors.Control;
 
-                lbl_AStatus.Text = "Disabled";
-                lbl_AStatus.BackColor = System.Drawing.SystemColors.Control;
+        //        lbl_AStatus.Text = "Disabled";
+        //        lbl_AStatus.BackColor = System.Drawing.SystemColors.Control;
 
-                lbl_BStatus.Text = "Disabled";
-                lbl_BStatus.BackColor = System.Drawing.SystemColors.Control;
-            }
-            catch (A3200Exception exception)
-            {
-                // lbl_ErrorMsg.Text = exception.Message;
-            }
-        }
+        //        lbl_BStatus.Text = "Disabled";
+        //        lbl_BStatus.BackColor = System.Drawing.SystemColors.Control;
+        //    }
+        //    catch (A3200Exception exception)
+        //    {
+        //        // lbl_ErrorMsg.Text = exception.Message;
+        //    }
+        //}
 
         #region Position Updates
 
@@ -1013,6 +1004,7 @@ namespace Aerotech_Control
             CornersZ.Close();
 
             btn_cornerD.Enabled = false;
+            btn_TiltCorrection.Enabled = true;
         }
 
         #endregion
@@ -1117,6 +1109,7 @@ namespace Aerotech_Control
                     //MessageBox.Show("Calculating new tilt");
                     PlaneFit();
                     MessageBox.Show("Adjust microscope focus using D axis");
+                    btn_SetuScopeFocus.Enabled = true;
                 }
             }
             hold = 0;
@@ -1171,6 +1164,9 @@ namespace Aerotech_Control
 
             btn_PosJogD.Enabled = false;
             btn_NegJogD.Enabled = false;
+
+            btn_SetuScopeFocus.Enabled = false;
+            btn_AlignLaseruScope.Enabled = true;
         }
 
         #endregion
@@ -1260,6 +1256,8 @@ namespace Aerotech_Control
 
             shutter_closed();
 
+            btn_AlignLaseruScope.Enabled = false;
+
             // Check Alignment
 
             LaserAlignEvent.Set();
@@ -1310,6 +1308,9 @@ namespace Aerotech_Control
 
                 Offset_Xaxis = OffsetAccurate_Xaxis;
                 Offset_Yaxis = OffsetAccurate_Yaxis;
+
+                btn_MarkerAligned.Enabled = false;
+                btn_FindFocus.Enabled = true;
             }
 
             LaserAlignEvent.Set();
@@ -1357,7 +1358,7 @@ namespace Aerotech_Control
 
             btn_FindFocus.Enabled = false;
 
-            btn_SetuScopeFocus.Enabled = true;
+            btn_SetuScopeFocus_2.Enabled = true;
             btn_PosJogD.Enabled = true;
             btn_NegJogD.Enabled = true;
 
@@ -1375,7 +1376,7 @@ namespace Aerotech_Control
             shutter_open();
             aommode_0();
             aomgate_high_trigger();
-            talisker_attenuation(90);
+            talisker_attenuation(80);
             watt_pilot_attenuation(0);
 
             for (int hold = 0; hold < 4; hold++)
@@ -1594,6 +1595,18 @@ namespace Aerotech_Control
             shutter_closed();
         }
 
+        private void btn_SetuScopeFocus_2_Click(object sender, EventArgs e)
+        {
+            microscope_focus = myController.Commands.Status.AxisStatus("D", AxisStatusSignal.ProgramPositionFeedback);
+            btn_SetuScopeFocus_2.Enabled = false;
+
+            btn_PosJogD.Enabled = false;
+            btn_NegJogD.Enabled = false;
+
+            btn_SetuScopeFocus_2.Enabled = false;
+            btn_RotationalCentre.Enabled = true;
+        }
+
         #endregion
 
         #region Finding Centre of Rotation
@@ -1619,6 +1632,7 @@ namespace Aerotech_Control
 
             MessageBox.Show("When marker is aligned press Point 1 button");
 
+            btn_RotationalCentre.Enabled = false;
             btn_point1.Enabled = true;            
         }
 
@@ -1690,6 +1704,9 @@ namespace Aerotech_Control
             myController.Commands.Motion.Setup.Absolute();
             myController.Commands.Motion.Linear("B", phi_hold, 1);
             myController.Commands.Motion.Setup.Absolute();
+
+            btn_point1.Enabled = false;
+            btn_BoxAblation.Enabled = true;
         }
 
         private void btn_RotationTest_Click(object sender, EventArgs e)
@@ -2061,12 +2078,10 @@ namespace Aerotech_Control
 
         private void laser_ablation()
         {
+            
 
-            int talikser_attentuation_value = 90;
-            double wattpilot_attenutation_value = 0;
-
-            talisker_attenuation(talikser_attentuation_value);
-            watt_pilot_attenuation(wattpilot_attenutation_value);
+            talisker_attenuation(90);
+            watt_pilot_attenuation(0);
 
             MessageBox.Show("Do not remove beam dump");
 
@@ -2079,28 +2094,30 @@ namespace Aerotech_Control
 
             // Drill reference grid along X axis
 
-            for (int iteration = 0; iteration < 3; iteration++)
+            for (int iteration = 1; iteration < 11; iteration++)
             {
-                watt_pilot_attenuation(0);
-                Movement_3D_ablation(Refined_Xaxis[1] + 0.5 + (1.25 * iteration), Refined_Yaxis[1] + 0.25, 0, 5);
+                //watt_pilot_attenuation(0);
+                Movement_3D_ablation(Refined_Xaxis[1] + 0.5 + (0.25 * iteration), Refined_Yaxis[1] + 0.25, 0, 5);
                 myController.Commands.PSO.Control("X", Aerotech.A3200.Commands.PsoMode.On);
-                Movement_3D_ablation(Refined_Xaxis[1] + 0.5 + (1.25 * iteration) + 1, Refined_Yaxis[1] + 0.25 , 0, 1);
+                Thread.Sleep(1 * 1000);
                 myController.Commands.PSO.Control("X", Aerotech.A3200.Commands.PsoMode.Off);
             }
 
-            // Drill line grid  - Do three lines same power then move across to next power            
+            // Drill line grid             
 
             MessageBox.Show("Remove Beam Dump");
 
-            talisker_attenuation(97); // *** Check Requested Power Using AOM Repeatability
+            talisker_attenuation(98); // *** Check Requested Power Using AOM Repeatability
             
-            for (int power = 0; power < 11; power++) // Change Y
+            for (int power_iteration = 0; power_iteration < 11; power_iteration++) // Change Y
             {
                 //Power for loop
-                for (int iteration = 0; iteration < 3; iteration++) // Adjust - Change X
+                for (int dwell_time = 1; dwell_time < 11; dwell_time++) // Adjust - Change X
                 {
+                    int power = 50 + 5 * power_iteration;
+
                     string power_string = power.ToString("0000");
-                    string iteration_string = iteration.ToString("0000");
+                    string dwell_time_string = dwell_time.ToString("0000");
 
                     string Save_Dir = "C:/Users/User/Desktop/Share/Chris/Abatlion Threshold/Trial 1/Power = " + power_string + "/Data"; // Adjust 
 
@@ -2108,63 +2125,67 @@ namespace Aerotech_Control
 
                     System.IO.Directory.CreateDirectory(Save_Dir);
                                      
-                    power_record_file_path = Save_Dir + "/Iteration = " + iteration_string + ".txt";
+                    power_record_file_path = Save_Dir + "/Dwell Time = " + dwell_time_string + ".txt";
+
+                    lbl_file_path.Text = power_record_file_path;
 
                     // Set WATT Pilot ATT
 
-                    watt_pilot_attenuation(power * 10); 
+                    watt_pilot_attenuation(power); 
 
-                    // Line starting position
+                    // Hole position
 
-                    Movement_3D_ablation(Refined_Xaxis[1] + 0.5 + (1.25 * iteration), Refined_Yaxis[1] + 0.5 + (0.25 * power), 0, 5);
+                    Movement_3D_ablation(Refined_Xaxis[1] + 0.5 + (0.25 * (dwell_time - 1)), Refined_Yaxis[1] + 0.5 + (0.25 * power_iteration), 0, 5);
 
                     record_power = 1; // Start recording power
 
                     myController.Commands.PSO.Control("X", Aerotech.A3200.Commands.PsoMode.On);
 
-                    // Laser finish position
-
-                    Movement_3D_ablation(Refined_Xaxis[1] + 0.5 + (1.25 *iteration) + 1, Refined_Yaxis[1] + 0.5 + (0.25 * power), 0, 0.1);
-
+                    Thread.Sleep(dwell_time * 1000);
+                    
                     myController.Commands.PSO.Control("X", Aerotech.A3200.Commands.PsoMode.Off);
 
                     record_power = 0;
                 }
             }
 
-            // Capture lines using Microscope
+            // Capture Holes using Microscope
 
-            for (int power = 0; power < 11; power++) // Change Y
+            icImagingControl1.OverlayBitmap.Enable = false;
+
+            for (int power_iteration = 0; power_iteration < 11; power_iteration++) // Change Y
             {
                 //Power for loop
-                for (int iteration = 0; iteration < 3; iteration++) // Adjust - Change X
+                for (int dwell_time = 1; dwell_time < 11; dwell_time++) // Adjust - Change X
                 {
-                    string power_string = power.ToString("0000");
-                    string iteration_string = iteration.ToString("0000");
+                    int power = 50 + 5 * power_iteration;
 
-                    string Save_Dir = "C:/Users/User/Desktop/Share/Chris/Abatlion Threshold/Trial 1/Power = " + power_string + "/Images"; 
+                    string power_string = power.ToString("0000");
+                    string dwell_time_string = dwell_time.ToString("0000");
+
+                    string Save_Dir = "C:/Users/User/Desktop/Share/Chris/Abatlion Threshold/Trial 1/Power = " + power_string + "/Images"; // Adjust 
 
                     lbl_file_dir.Text = Save_Dir;
 
-                    System.IO.Directory.CreateDirectory(Save_Dir);                    
-                                            
-                    // Line starting position
+                    System.IO.Directory.CreateDirectory(Save_Dir);                                   
 
-                    for (int step = 0; step < 11; step++)
-                    {
-                                                
-                        Movement_3D_uScope(Refined_Xaxis[1] + 0.5 + (1.25 * iteration) + (step/10), Refined_Yaxis[1] + 0.5 + (0.25 * power), 0);
+                    // Hole position
 
-                        string image_record_file_path = Save_Dir + "/Iteration = " + iteration_string + " Step " + step.ToString("00") +".jpg";
+                    Movement_3D_uScope(Refined_Xaxis[1] + 0.5 + (0.25 * (dwell_time - 1)), Refined_Yaxis[1] + 0.5 + (0.25 * power_iteration), 0);
 
-                        icImagingControl1.MemorySnapImage();
+                    string image_record_file_path = Save_Dir + "/Dwell Time = " + dwell_time + ".bmp";
 
-                        icImagingControl1.MemorySaveImage(image_record_file_path);
-                    }
-                
+                    lbl_file_path.Text = image_record_file_path;
+
+                    Thread.Sleep(10*1000);
+
+                    icImagingControl1.MemorySnapImage();
+
+                    icImagingControl1.MemorySaveImage(image_record_file_path);
+
                 }
             }
-
+               
             #endregion
 
             shutter_closed();
@@ -2255,7 +2276,7 @@ namespace Aerotech_Control
            if (value != current_WP_value)
             {
                 // Offset for watt pilot 1064 = -443 532 = +1520 355 = +7870
-                double offset = -967;
+                double offset = 5120;
                 double stepsPerUnit = 43.333;
                 double resolution = 2;
                 double ratio = (100 - value) / 100;
@@ -2486,7 +2507,7 @@ namespace Aerotech_Control
 
                     // Display last measured data
                     LabelTime0.Text = timestampStr;
-                    LabelMeasurement0.Text = measurementStr;
+                    LabelMeasurement0.Text = measurementStr + " W";
 
                     if (record_power == 1)
                     {
@@ -3100,6 +3121,51 @@ namespace Aerotech_Control
         {
             shutter_closed();
             Application.Exit();
+        }
+
+        private void cmdSaveBitmap_Click(object sender, EventArgs e)
+        {
+            icImagingControl1.OverlayBitmap.Enable = false;
+            SaveFileDialog saveFileDialog1;
+            icImagingControl1.MemorySnapImage();
+            saveFileDialog1 = new SaveFileDialog();
+            saveFileDialog1.Filter = "bmp files (*.bmp)|*.bmp|All files (*.*)|*.*";
+            saveFileDialog1.FilterIndex = 1;
+            saveFileDialog1.RestoreDirectory = true;
+
+            if (saveFileDialog1.ShowDialog() == DialogResult.OK)
+            {
+                icImagingControl1.MemorySaveImage(saveFileDialog1.FileName);
+            }
+            icImagingControl1.OverlayBitmap.Enable = true;
+        }
+
+        private void btn_Min_Zoom_Click(object sender, EventArgs e)
+        {
+            uScope_zoom_SerialPortCommunicator.SerialPort.Write("XH\r");
+
+            Thread.Sleep(10 * 1000);
+        }
+
+        private void btn_Max_Zoom_Click(object sender, EventArgs e)
+        {
+            uScope_zoom_SerialPortCommunicator.SerialPort.Write("XL\r");
+
+            Thread.Sleep(10 * 1000);
+        }
+
+        private void btn_Min_Intensity_Click(object sender, EventArgs e)
+        {
+            elight_SerialPortCommunicator.SerialPort.Write("&");
+            elight_SerialPortCommunicator.SerialPort.Write("iF");
+            elight_SerialPortCommunicator.SerialPort.Write("\r");
+        }
+
+        private void btn_Max_Intensity_Click(object sender, EventArgs e)
+        {
+            elight_SerialPortCommunicator.SerialPort.Write("&");
+            elight_SerialPortCommunicator.SerialPort.Write("iF2");
+            elight_SerialPortCommunicator.SerialPort.Write("\r");
         }
     }
     
