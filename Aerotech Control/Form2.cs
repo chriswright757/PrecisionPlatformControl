@@ -73,6 +73,16 @@ namespace Aerotech_Control
                     uScope_zoom_SerialPortCommunicator.SerialPort.Close();
                     uScope_zoom_SerialPortCommunicator.SerialPort.Open();
 
+                    // Home Zoom
+
+                    uScope_zoom_SerialPortCommunicator.SerialPort.Write("CA0/r");
+                    Thread.Sleep(1000);
+
+                    uScope_zoom_SerialPortCommunicator.SerialPort.Write("XH\r");
+                    Thread.Sleep(7500);
+                    uScope_zoom_SerialPortCommunicator.SerialPort.Write("XG000000\r");
+                    Thread.Sleep(7500);
+
                     lbl_Talisker_Connection.Text = "Connected to uScope Zoom";
                     this.Update();
 
@@ -271,30 +281,7 @@ namespace Aerotech_Control
 
         #endregion
 
-        private void button1_Click(object sender, EventArgs e)
-        {
-            
 
-            elight_SerialPortCommunicator.SerialPort.Write("&");
-            elight_SerialPortCommunicator.SerialPort.Write("iF");
-            elight_SerialPortCommunicator.SerialPort.Write("\r");
-
-            uScope_zoom_SerialPortCommunicator.SerialPort.Write("XH\r");
-
-            Thread.Sleep(10 * 1000);
-
-            elight_SerialPortCommunicator.SerialPort.Write("&");
-            elight_SerialPortCommunicator.SerialPort.Write("iF2");
-            elight_SerialPortCommunicator.SerialPort.Write("\r");
-
-            uScope_zoom_SerialPortCommunicator.SerialPort.Write("XL\r");
-
-            Thread.Sleep(10 * 1000);            
-
-            elight_SerialPortCommunicator.SerialPort.Close();
-            uScope_zoom_SerialPortCommunicator.SerialPort.Close();
-
-        }
     }
 
     #region Setup Serial Ports
