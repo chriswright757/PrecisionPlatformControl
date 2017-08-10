@@ -27,7 +27,7 @@ namespace Aerotech_Control
 {
     enum sensorProperty { Range, Wavelength, Diffuser, Mode, Pulselength, Threshold, Filter, Trigger };
 
-    public partial class Form1 : Form
+    public partial class InteractionForm : Form
     {
         //Ophir Device
 
@@ -152,7 +152,7 @@ namespace Aerotech_Control
             lbl_TaskState.Text = e.TaskStates[this.taskIndex].ToString();
         }
 
-        public Form1()
+        public InteractionForm()
         {
             InitializeComponent();
             backgroundWorker_AlignCorners.RunWorkerAsync(); // Background task for post intial tlit correction position
@@ -3367,8 +3367,7 @@ namespace Aerotech_Control
             lbl_Intensity.Text = percentage_intensity.ToString() + "%";
             trackbar_intensity.Value = percentage_intensity;
         }
-        #endregion
-
+        
         private void trackbar_intensity_Scroll(object sender, EventArgs e)
         {
             eLight_Intensity(trackbar_intensity.Value);            
@@ -3387,6 +3386,16 @@ namespace Aerotech_Control
 
             zoom_offset = current_D - microscope_focus;
         }
+
+        public void MicroscopeCapture(string file_path)
+        {
+            icImagingControl1.OverlayBitmap.Enable = false;
+            icImagingControl1.MemorySnapImage();
+            icImagingControl1.MemorySaveImage(file_path);
+            icImagingControl1.OverlayBitmap.Enable = true;
+        }
+
+        #endregion
     }
 
 }

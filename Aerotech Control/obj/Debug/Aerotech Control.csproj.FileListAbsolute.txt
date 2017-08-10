@@ -66,3 +66,25 @@ C:\Users\User\Documents\GitHub\PrecisionPlatformControl\Aerotech Control\obj\Deb
 C:\Users\User\Documents\GitHub\PrecisionPlatformControl\Aerotech Control\obj\Debug\Aerotech_Control.Properties.Resources.resources
 C:\Users\User\Documents\GitHub\PrecisionPlatformControl\Aerotech Control\obj\Debug\Aerotech Control.csproj.GenerateResource.Cache
 C:\Users\User\Documents\GitHub\PrecisionPlatformControl\Aerotech Control\obj\Debug\Aerotech_Control.Form2.resources
+D:\GitHub Repo\PrecisionPlatformControl\Aerotech Control\obj\Debug\Interop.MLApp.dll
+D:\GitHub Repo\PrecisionPlatformControl\Aerotech Control\obj\Debug\Interop.OphirLMMeasurementLib.dll
+D:\GitHub Repo\PrecisionPlatformControl\Aerotech Control\obj\Debug\Aerotech Control.csproj.ResolveComReference.cache
+D:\GitHub Repo\PrecisionPlatformControl\Aerotech Control\obj\Debug\Aerotech Control.exe
+D:\GitHub Repo\PrecisionPlatformControl\Aerotech Control\obj\Debug\Aerotech Control.pdb
+D:\GitHub Repo\PrecisionPlatformControl\Aerotech Control\bin\Debug\Aerotech Control.exe
+D:\GitHub Repo\PrecisionPlatformControl\Aerotech Control\bin\Debug\Aerotech Control.pdb
+D:\GitHub Repo\PrecisionPlatformControl\Aerotech Control\bin\Debug\AForge.dll
+D:\GitHub Repo\PrecisionPlatformControl\Aerotech Control\bin\Debug\AForge.Imaging.dll
+D:\GitHub Repo\PrecisionPlatformControl\Aerotech Control\bin\Debug\AForge.Math.dll
+D:\GitHub Repo\PrecisionPlatformControl\Aerotech Control\bin\Debug\TIS.Imaging.ICImagingControl34.dll
+D:\GitHub Repo\PrecisionPlatformControl\Aerotech Control\bin\Debug\AForge.xml
+D:\GitHub Repo\PrecisionPlatformControl\Aerotech Control\bin\Debug\AForge.Imaging.xml
+D:\GitHub Repo\PrecisionPlatformControl\Aerotech Control\bin\Debug\AForge.Math.xml
+D:\GitHub Repo\PrecisionPlatformControl\Aerotech Control\obj\Debug\Aerotech Control.csprojResolveAssemblyReference.cache
+D:\GitHub Repo\PrecisionPlatformControl\Aerotech Control\obj\Debug\BlobsExplorer.BlobsBrowser.resources
+D:\GitHub Repo\PrecisionPlatformControl\Aerotech Control\obj\Debug\Aerotech_Control.Form1.resources
+D:\GitHub Repo\PrecisionPlatformControl\Aerotech Control\obj\Debug\Aerotech_Control.Form2.resources
+D:\GitHub Repo\PrecisionPlatformControl\Aerotech Control\obj\Debug\Aerotech_Control.Properties.Resources.resources
+D:\GitHub Repo\PrecisionPlatformControl\Aerotech Control\obj\Debug\Aerotech Control.csproj.GenerateResource.Cache
+D:\GitHub Repo\PrecisionPlatformControl\Aerotech Control\obj\Debug\Aerotech_Control.InteractionForm.resources
+D:\GitHub Repo\PrecisionPlatformControl\Aerotech Control\obj\Debug\Aforge_Image_Processing.ImageProcessing.resources

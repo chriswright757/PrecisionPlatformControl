@@ -1,6 +1,6 @@
 ﻿namespace Aerotech_Control
 {
-    partial class Form1
+    partial class InteractionForm
     {
         /// <summary>
         /// Required designer variable.
@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(InteractionForm));
             this.cmb_AxisNames = new System.Windows.Forms.ComboBox();
             this.lbl_TaskState = new System.Windows.Forms.Label();
             this.grpbx_AxVel = new System.Windows.Forms.GroupBox();

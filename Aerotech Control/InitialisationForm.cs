@@ -94,7 +94,7 @@ namespace Aerotech_Control
                     lbl_Talisker_Connection.Text = "Connected to Ophir Power Meter";
                     this.Update();
 
-                    Form1 MainForm = new Form1();
+                    InteractionForm MainForm = new InteractionForm();
 
                     MainForm.Show();
                     MainForm.Activate();
