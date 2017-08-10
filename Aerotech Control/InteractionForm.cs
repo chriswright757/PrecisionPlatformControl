@@ -144,7 +144,12 @@ namespace Aerotech_Control
         TextWriter CornersX = new StreamWriter("C:/Users/User/Documents/GitHub/PrecisionPlatformControl/Reference Values/CornersX.txt");
         TextWriter CornersY = new StreamWriter("C:/Users/User/Documents/GitHub/PrecisionPlatformControl/Reference Values/CornersY.txt");
         TextWriter CornersZ = new StreamWriter("C:/Users/User/Documents/GitHub/PrecisionPlatformControl/Reference Values/CornersZ.txt");
+
+        // Exchange for hole measurement alignment 
+
         
+
+
         #endregion
 
         private void SetTaskState(NewTaskStatesArrivedEventArgs e)
@@ -3387,13 +3392,6 @@ namespace Aerotech_Control
             zoom_offset = current_D - microscope_focus;
         }
 
-        public void MicroscopeCapture(string file_path)
-        {
-            icImagingControl1.OverlayBitmap.Enable = false;
-            icImagingControl1.MemorySnapImage();
-            icImagingControl1.MemorySaveImage(file_path);
-            icImagingControl1.OverlayBitmap.Enable = true;
-        }
 
         #endregion
     }

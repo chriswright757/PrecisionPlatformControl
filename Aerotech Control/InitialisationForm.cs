@@ -11,11 +11,11 @@ using System.Threading;
 
 namespace Aerotech_Control
 {
-    public partial class Form2 : Form
+    public partial class InitialisationForm : Form
     {
         int command_delay = 1000;
 
-        public Form2()
+        public InitialisationForm()
         {
             InitializeComponent();
             this.BringToFront();

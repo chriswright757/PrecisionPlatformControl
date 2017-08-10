@@ -30,7 +30,7 @@ namespace BlobsExplorer
         private Control parent = null;
 
         private BlobCounter blobCounter = new BlobCounter( );
-        private Blob[] blobs;
+        public Blob[] blobs;
         private int selectedBlobID;
 
         Dictionary<int, List<IntPoint>> leftEdges   = new Dictionary<int, List<IntPoint>>( );

@@ -1,6 +1,6 @@
 ﻿namespace Aerotech_Control
 {
-    partial class Form2
+    partial class InitialisationForm
     {
         /// <summary>
         /// Required designer variable.
@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form2));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(InitialisationForm));
             this.pwd_txtbx = new System.Windows.Forms.TextBox();
             this.lbl_Talisker_Connection = new System.Windows.Forms.Label();
             this.panel1 = new System.Windows.Forms.Panel();
