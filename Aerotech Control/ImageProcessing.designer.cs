@@ -36,13 +36,12 @@
             this.trackBar1 = new System.Windows.Forms.TrackBar();
             this.blobsCountLabel = new System.Windows.Forms.Label();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
+            this.blobsBrowser = new BlobsExplorer.BlobsBrowser();
             this.showRectangleAroundSelectionCheck = new System.Windows.Forms.CheckBox();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.highlightTypeCombo = new System.Windows.Forms.ComboBox();
             this.propertyGrid = new System.Windows.Forms.PropertyGrid();
-            this.lbl_area = new System.Windows.Forms.Label();
             this.lbl_laplacestd = new System.Windows.Forms.Label();
-            this.blobsBrowser = new BlobsExplorer.BlobsBrowser();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.trackBar1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
@@ -84,7 +83,6 @@
             this.fileNameTextBox.ReadOnly = true;
             this.fileNameTextBox.Size = new System.Drawing.Size(323, 49);
             this.fileNameTextBox.TabIndex = 15;
-            this.fileNameTextBox.TextChanged += new System.EventHandler(this.fileNameTextBox_TextChanged);
             // 
             // lbl_thresholdvalue
             // 
@@ -112,9 +110,9 @@
             // 
             // blobsCountLabel
             // 
-            this.blobsCountLabel.Location = new System.Drawing.Point(430, 330);
+            this.blobsCountLabel.Location = new System.Drawing.Point(430, 318);
             this.blobsCountLabel.Name = "blobsCountLabel";
-            this.blobsCountLabel.Size = new System.Drawing.Size(375, 23);
+            this.blobsCountLabel.Size = new System.Drawing.Size(404, 23);
             this.blobsCountLabel.TabIndex = 19;
             this.blobsCountLabel.Text = "label1";
             // 
@@ -136,6 +134,17 @@
             this.splitContainer1.SplitterDistance = 400;
             this.splitContainer1.TabIndex = 20;
             // 
+            // blobsBrowser
+            // 
+            this.blobsBrowser.Highlighting = BlobsExplorer.BlobsBrowser.HightlightType.Quadrilateral;
+            this.blobsBrowser.Location = new System.Drawing.Point(39, 29);
+            this.blobsBrowser.Name = "blobsBrowser";
+            this.blobsBrowser.ShowRectangleAroundSelection = false;
+            this.blobsBrowser.Size = new System.Drawing.Size(322, 242);
+            this.blobsBrowser.TabIndex = 18;
+            this.blobsBrowser.Text = "blobsBrowser";
+            this.blobsBrowser.BlobSelected += new BlobsExplorer.BlobSelectionHandler(this.blobsBrowser_BlobSelected);
+            // 
             // showRectangleAroundSelectionCheck
             // 
             this.showRectangleAroundSelectionCheck.AutoSize = true;
@@ -149,7 +158,7 @@
             // 
             // groupBox1
             // 
-            this.groupBox1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+            this.groupBox1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.groupBox1.Controls.Add(this.highlightTypeCombo);
             this.groupBox1.Location = new System.Drawing.Point(3, 3);
@@ -161,7 +170,7 @@
             // 
             // highlightTypeCombo
             // 
-            this.highlightTypeCombo.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+            this.highlightTypeCombo.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.highlightTypeCombo.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.highlightTypeCombo.FormattingEnabled = true;
@@ -178,8 +187,8 @@
             // 
             // propertyGrid
             // 
-            this.propertyGrid.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-            | System.Windows.Forms.AnchorStyles.Left)
+            this.propertyGrid.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.propertyGrid.HelpVisible = false;
             this.propertyGrid.LineColor = System.Drawing.SystemColors.ControlDark;
@@ -188,15 +197,6 @@
             this.propertyGrid.Size = new System.Drawing.Size(363, 208);
             this.propertyGrid.TabIndex = 2;
             this.propertyGrid.ToolbarVisible = false;
-            // 
-            // lbl_area
-            // 
-            this.lbl_area.AutoSize = true;
-            this.lbl_area.Location = new System.Drawing.Point(430, 366);
-            this.lbl_area.Name = "lbl_area";
-            this.lbl_area.Size = new System.Drawing.Size(29, 13);
-            this.lbl_area.TabIndex = 21;
-            this.lbl_area.Text = "Area";
             // 
             // lbl_laplacestd
             // 
@@ -207,24 +207,12 @@
             this.lbl_laplacestd.TabIndex = 23;
             this.lbl_laplacestd.Text = "label1";
             // 
-            // blobsBrowser
-            // 
-            this.blobsBrowser.Highlighting = BlobsExplorer.BlobsBrowser.HightlightType.Quadrilateral;
-            this.blobsBrowser.Location = new System.Drawing.Point(39, 29);
-            this.blobsBrowser.Name = "blobsBrowser";
-            this.blobsBrowser.ShowRectangleAroundSelection = false;
-            this.blobsBrowser.Size = new System.Drawing.Size(322, 242);
-            this.blobsBrowser.TabIndex = 18;
-            this.blobsBrowser.Text = "blobsBrowser";
-            this.blobsBrowser.BlobSelected += new BlobsExplorer.BlobSelectionHandler(this.blobsBrowser_BlobSelected);
-            // 
             // ImageProcessing
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1215, 459);
             this.Controls.Add(this.lbl_laplacestd);
-            this.Controls.Add(this.lbl_area);
             this.Controls.Add(this.splitContainer1);
             this.Controls.Add(this.blobsCountLabel);
             this.Controls.Add(this.pictureBox);
@@ -263,7 +251,6 @@
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.ComboBox highlightTypeCombo;
         private System.Windows.Forms.PropertyGrid propertyGrid;
-        private System.Windows.Forms.Label lbl_area;
         private System.Windows.Forms.Label lbl_laplacestd;
     }
 }

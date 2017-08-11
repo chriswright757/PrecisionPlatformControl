@@ -23,16 +23,6 @@ namespace Aerotech_Control
         private System.Drawing.Bitmap Threshold_Image;
         private System.Drawing.Bitmap Invert_Image;
 
-        int att = 0;
-        int dwell_time = 1;
-
-        double largest_area = 0;
-        double X_centroid;
-        double Y_centroid;
-
-        public Boolean Aligned { get; set; }
-
-
         public ImageProcessing()
         {
             InitializeComponent();
@@ -46,84 +36,55 @@ namespace Aerotech_Control
             trackBar1.Value = 30;
         }
 
-
-        
-
         public void DetectHole(int threshold_value)
         {
 
-                lbl_thresholdvalue.Text = trackBar1.Value.ToString();
+            lbl_thresholdvalue.Text = trackBar1.Value.ToString();
 
-                sourceImage = (Bitmap)Bitmap.FromFile(fileNameTextBox.Text);
+            sourceImage = (Bitmap)Bitmap.FromFile(AlignmentFocus_Container.temp_img_path);
                 
+            // save original image
+            Bitmap originalImage = sourceImage;
 
-                // save original image
-                Bitmap originalImage = sourceImage;
+            pictureBox.Image = null;
+            pictureBox.Image = originalImage;
 
-                // get grayscale image
-                sourceImage = Grayscale.CommonAlgorithms.RMY.Apply(sourceImage);
+            this.Update();
 
-                // apply threshold filter
-                Threshold Threshold_Filter = new Threshold(threshold_value);
-                Threshold_Image = Threshold_Filter.Apply(sourceImage);
+            // get grayscale image
+            sourceImage = Grayscale.CommonAlgorithms.RMY.Apply(sourceImage);
 
-                // apply invert filter
-                Invert Invert_Filter = new Invert();
-                Invert_Image = Invert_Filter.Apply(Threshold_Image);
+            // apply threshold filter
+            Threshold Threshold_Filter = new Threshold(threshold_value);
+            Threshold_Image = Threshold_Filter.Apply(sourceImage);
 
-                // create Resize filter
-                ResizeBilinear Resize_Filter = new ResizeBilinear(400, 300);
-                Bitmap Resize_Image = Resize_Filter.Apply(Invert_Image);
+            // apply invert filter
+            Invert Invert_Filter = new Invert();
+            Invert_Image = Invert_Filter.Apply(Threshold_Image);
 
-                //Perfrom Blob Detection
-                ProcessImage(Resize_Image);
-                
-                // Laplace transform to find focus
+            // create Resize filter
+            ResizeBilinear Resize_Filter = new ResizeBilinear(400, 300);
+            Bitmap Resize_Image = Resize_Filter.Apply(Invert_Image);
 
-                // Crop image 
+            //Perfrom Blob Detection
+            double largest_area = 0;
+            double X_centroid = 0;
+            double Y_centroid = 0;
 
-                Crop Crop_Filter = new Crop(new Rectangle(400,400,800,400));
-                Bitmap Crop_Image = Crop_Filter.Apply(sourceImage);
-                                    
-
-                // define emboss kernel
-                int[,] kernel = {
-                                    { 0, 1,  0 },
-                                    { 1, 4,  1 },
-                                    { 0, 1,  0 } };
-                // create filter
-                Convolution Laplace_Filter = new Convolution(kernel);
-                // apply the filter
-                Bitmap Laplace_Image = Laplace_Filter.Apply(Crop_Image);
-                
-                ImageStatistics Laplace_Stats = new ImageStatistics(Laplace_Image);
-
-                lbl_laplacestd.Text = Math.Pow(Laplace_Stats.Gray.StdDev,2).ToString();
-
-                pictureBox.Image = null;
-                pictureBox.Image = Laplace_Image;
-                this.Update();             
-
-            
-        }
-
-        private void ProcessImage(Bitmap image)
-        {
-            int foundBlobsCount = blobsBrowser.SetImage(image);
+            int foundBlobsCount = blobsBrowser.SetImage(Resize_Image);
 
             blobsCountLabel.Text = string.Format("Found blobs' count: {0}", foundBlobsCount);
 
-            double[,] stats = new double[foundBlobsCount, 3];            
+            double[,] stats = new double[foundBlobsCount, 3];
 
             foreach (Blob blob in blobsBrowser.blobs)
             {
-                //PointF cog = blob.CenterOfGravity.ToPointF();
 
                 stats[0, 0] = blob.Area;
                 stats[0, 1] = blob.CenterOfGravity.X;
                 stats[0, 2] = blob.CenterOfGravity.Y;
 
-                if (stats[0,0] > largest_area)
+                if (stats[0, 0] > largest_area)
                 {
 
                     largest_area = stats[0, 0];
@@ -131,12 +92,69 @@ namespace Aerotech_Control
                     Y_centroid = stats[0, 2];
 
                 }
-
-                lbl_area.Text = largest_area.ToString();
             }
+
+            // Calculate X & Y correction 
+
+            double diff_x = 200 - X_centroid;
+            double diff_y = 150 - Y_centroid;
+
+            double PixeltoMM = 29200.3044;  // 29200.3044 pixels per mm 
+
+            if (Math.Abs(diff_x) > 15 || Math.Abs(diff_y) > 15)
+            {
+                AlignmentFocus_Container.X_Correction_MM = diff_x * 4 / PixeltoMM;
+                AlignmentFocus_Container.Y_Correction_MM = diff_y * 4 / PixeltoMM;
+            }
+            else
+            {
+                AlignmentFocus_Container.X_Correction_MM = 0;
+                AlignmentFocus_Container.Y_Correction_MM = 0;
+                AlignmentFocus_Container.Aligned = true;
+            }
+
+            
+
         }
 
+        public void focus_determination()
+        {
+            
+            lbl_thresholdvalue.Text = trackBar1.Value.ToString();
 
+            sourceImage = (Bitmap)Bitmap.FromFile(AlignmentFocus_Container.temp_img_path);
+
+            // save original image
+            Bitmap originalImage = sourceImage;
+
+            // Laplace transform to find focus
+
+            // Crop image 
+
+            Crop Crop_Filter = new Crop(new Rectangle(400, 400, 800, 400));
+            Bitmap Crop_Image = Crop_Filter.Apply(sourceImage);
+
+
+            // define emboss kernel
+            int[,] kernel = {
+                                { 0, -1,   0 },
+                                { -1, 4,  -1 },
+                                { 0, -1,   0 } };
+            // create filter
+            Convolution Laplace_Filter = new Convolution(kernel);
+            // apply the filter
+            Bitmap Laplace_Image = Laplace_Filter.Apply(Crop_Image);
+
+            ImageStatistics Laplace_Stats = new ImageStatistics(Laplace_Image);
+
+            lbl_laplacestd.Text = Math.Pow(Laplace_Stats.Gray.StdDev, 2).ToString();
+
+            AlignmentFocus_Container.Laplace_std = Math.Pow(Laplace_Stats.Gray.StdDev, 2);
+
+            pictureBox.Image = null;
+            pictureBox.Image = Laplace_Image;
+                        
+        }
 
         // Blob was selected - display its information
         private void blobsBrowser_BlobSelected(object sender, Blob blob)
@@ -158,8 +176,7 @@ namespace Aerotech_Control
             blobsBrowser.ShowRectangleAroundSelection = showRectangleAroundSelectionCheck.Checked;
         }
 
-
-
+        
         private void trackBar1_Scroll(object sender, EventArgs e)
         {
             DetectHole(trackBar1.Value);
@@ -172,28 +189,7 @@ namespace Aerotech_Control
             {
                 fileNameTextBox.Text = openFileDialog1.FileName;
             }
-
-            //string image_name = "D:/OneDrive - University Of Cambridge/Cambridge - PhD/Experiments/Silicon Ablation Threshold/Trial 3/Power = " + att.ToString("0000") + "/Images/Dwell Time = " + dwell_time + "/A0.bmp";
-
-            //fileNameTextBox.Text = image_name;
-            ////}
-
-
-            ////att = att + 10;
-            //dwell_time = dwell_time + 1;
-
-            //if (dwell_time == 11)
-            //{
-            //    dwell_time = 1;
-            //    att = att + 10;
-            //}
         }
-
-        private void fileNameTextBox_TextChanged(object sender, EventArgs e)
-        {
-            DetectHole(30);
-        }
-
 
     }
 }

@@ -3392,8 +3392,103 @@ namespace Aerotech_Control
             zoom_offset = current_D - microscope_focus;
         }
 
+        private void uScope_img_correction()
+        {
+            ImageProcessing IPForm = new ImageProcessing();
+
+            IPForm.Show();
+            IPForm.Activate();
+
+            while (AlignmentFocus_Container.Aligned != true)
+            {
+                File.Delete(AlignmentFocus_Container.temp_img_path);
+                icImagingControl1.OverlayBitmap.Enable = false;
+                icImagingControl1.MemorySnapImage();
+                icImagingControl1.MemorySaveImage(AlignmentFocus_Container.temp_img_path);
+                icImagingControl1.OverlayBitmap.Enable = true;
+                
+                IPForm.DetectHole(30);
+
+                myController.Commands.Motion.Setup.Incremental();
+                myController.Commands.Motion.Linear("X", AlignmentFocus_Container.X_Correction_MM, 1); //*** Check which way correction should be applied
+                myController.Commands.Motion.Linear("Y", AlignmentFocus_Container.Y_Correction_MM, 1); //*** Check which way correction should be applied
+                myController.Commands.Motion.Setup.Absolute();
+            }
+
+            double Laplace_std_hold = 0;
+            int direction = 1;
+            double step_size = 0.1;
+            Boolean[] improving = new Boolean[2];
+
+            while (AlignmentFocus_Container.Focused != true)
+            {
+                File.Delete(AlignmentFocus_Container.temp_img_path);
+                icImagingControl1.OverlayBitmap.Enable = false;
+                icImagingControl1.MemorySnapImage();
+                icImagingControl1.MemorySaveImage(AlignmentFocus_Container.temp_img_path);
+                icImagingControl1.OverlayBitmap.Enable = true;
+
+                IPForm.focus_determination();
+
+                if (AlignmentFocus_Container.Laplace_std - Laplace_std_hold >= 0)
+                {
+                    Laplace_std_hold = AlignmentFocus_Container.Laplace_std;
+
+                    myController.Commands.Motion.Setup.Incremental();
+                    myController.Commands.Motion.Linear("D", step_size * direction, 1); //*** Check which way correction should be applied
+                    myController.Commands.Motion.Setup.Absolute();
+                    improving[0] = improving[1];
+                    improving[1] = true;
+
+                }
+                else if (AlignmentFocus_Container.Laplace_std - Laplace_std_hold < 0)
+                {
+                    direction = direction * -1;
+                    myController.Commands.Motion.Setup.Incremental();
+                    myController.Commands.Motion.Linear("D", step_size * direction, 1); //*** Check which way correction should be applied
+                    myController.Commands.Motion.Setup.Absolute();
+                    improving[0] = improving[1];
+                    improving[1] = false;
+                }
+                
+                if (improving[0] == true && improving[1] == false)
+                {
+                    direction = direction * -1;
+                    step_size = step_size / 2;
+
+                    //myController.Commands.Motion.Setup.Incremental();
+                    //myController.Commands.Motion.Linear("D", 0.01 * direction, 1); //*** Check which way correction should be applied
+                    //myController.Commands.Motion.Setup.Absolute();                    
+                }
+
+                if (step_size <= 0.001)
+                {
+                    AlignmentFocus_Container.Focused = true;
+                }
+            }
+
+            IPForm.Close();
+
+            AlignmentFocus_Container.Aligned = false;
+            AlignmentFocus_Container.Focused = false;
+        }
 
         #endregion
+    }
+
+    public static class AlignmentFocus_Container
+    {
+        public static string temp_img_path = "Insert Valid String"; //*****Decide where to store image
+
+        public static Boolean Aligned = false;
+        public static Boolean Focused = false;
+
+        public static double X_Correction_MM;
+        public static double Y_Correction_MM;
+
+        public static double Laplace_std;
+
+
     }
 
 }
