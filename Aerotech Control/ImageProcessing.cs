@@ -9,6 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.IO;
+using System.Threading;
 
 using AForge;
 using AForge.Imaging;
@@ -19,10 +20,6 @@ namespace Aerotech_Control
 {
     public partial class ImageProcessing : Form
     {
-        private System.Drawing.Bitmap sourceImage;
-        private System.Drawing.Bitmap Threshold_Image;
-        private System.Drawing.Bitmap Invert_Image;
-
         public ImageProcessing()
         {
             InitializeComponent();
@@ -36,8 +33,11 @@ namespace Aerotech_Control
             trackBar1.Value = 30;
         }
 
-        public void DetectHole(int threshold_value)
+        public void DetectHole(int threshold_value, Bitmap sourceImage)
         {
+
+            System.Drawing.Bitmap Threshold_Image;
+            System.Drawing.Bitmap Invert_Image;
 
             lbl_thresholdvalue.Text = trackBar1.Value.ToString();
 
@@ -94,39 +94,41 @@ namespace Aerotech_Control
                 }
             }
 
-            // Calculate X & Y correction 
-
-            double diff_x = 200 - X_centroid;
-            double diff_y = 150 - Y_centroid;
-
-            double PixeltoMM = 29200.3044;  // 29200.3044 pixels per mm 
-
-            if (Math.Abs(diff_x) > 15 || Math.Abs(diff_y) > 15)
+            if (largest_area >= 1500)
             {
-                AlignmentFocus_Container.X_Correction_MM = diff_x * 4 / PixeltoMM;
-                AlignmentFocus_Container.Y_Correction_MM = diff_y * 4 / PixeltoMM;
-            }
-            else
-            {
-                AlignmentFocus_Container.X_Correction_MM = 0;
-                AlignmentFocus_Container.Y_Correction_MM = 0;
-                AlignmentFocus_Container.Aligned = true;
-            }
+                // Calculate X & Y correction 
 
-            
+                double diff_x = 200 - X_centroid;
+                double diff_y = 150 - Y_centroid;
 
+                double PixeltoMM = 29200.3044;  // 29200.3044 pixels per mm 
+
+                if (Math.Abs(diff_x) > 15 || Math.Abs(diff_y) > 15)
+                {
+                    AlignmentFocus_Container.X_Correction_MM = diff_x * 4 / PixeltoMM;
+                    AlignmentFocus_Container.Y_Correction_MM = diff_y * 4 / PixeltoMM;
+                }
+                else
+                {
+                    AlignmentFocus_Container.X_Correction_MM = 0;
+                    AlignmentFocus_Container.Y_Correction_MM = 0;
+                    AlignmentFocus_Container.Aligned = true;
+                }
+            }                        
         }
 
-        public void focus_determination()
+       
+        public void focus_determination(Bitmap sourceImage)
         {
             
             lbl_thresholdvalue.Text = trackBar1.Value.ToString();
 
-            sourceImage = (Bitmap)Bitmap.FromFile(AlignmentFocus_Container.temp_img_path);
+            // get grayscale image
+            sourceImage = Grayscale.CommonAlgorithms.RMY.Apply(sourceImage);
 
             // save original image
             Bitmap originalImage = sourceImage;
-
+                        
             // Laplace transform to find focus
 
             // Crop image 
@@ -147,13 +149,16 @@ namespace Aerotech_Control
 
             ImageStatistics Laplace_Stats = new ImageStatistics(Laplace_Image);
 
-            lbl_laplacestd.Text = Math.Pow(Laplace_Stats.Gray.StdDev, 2).ToString();
+            lbl_laplacestd.Text = "Laplace Std = " + Math.Pow(Laplace_Stats.Gray.StdDev, 2).ToString();
 
             AlignmentFocus_Container.Laplace_std = Math.Pow(Laplace_Stats.Gray.StdDev, 2);
 
             pictureBox.Image = null;
-            pictureBox.Image = Laplace_Image;
-                        
+            pictureBox.Image = sourceImage;
+
+            this.Update();
+
+            Thread.Sleep(1000);
         }
 
         // Blob was selected - display its information
@@ -176,20 +181,30 @@ namespace Aerotech_Control
             blobsBrowser.ShowRectangleAroundSelection = showRectangleAroundSelectionCheck.Checked;
         }
 
-        
-        private void trackBar1_Scroll(object sender, EventArgs e)
+        //private void trackBar1_Scroll(object sender, EventArgs e)
+        //{
+        //    DetectHole(trackBar1.Value);
+        //}
+
+        //private void btn_LoadImage_Click(object sender, EventArgs e)
+        //{
+        //    DialogResult result = openFileDialog1.ShowDialog();
+        //    if (result == DialogResult.OK || result == DialogResult.Yes)
+        //    {
+        //        fileNameTextBox.Text = openFileDialog1.FileName;
+        //    }
+        //}   
+        public void StepValue(string s)
         {
-            DetectHole(trackBar1.Value);
+            lbl_step.Text = s;
         }
 
-        private void btn_LoadImage_Click(object sender, EventArgs e)
+        public void IterationValue(string s)
         {
-            DialogResult result = openFileDialog1.ShowDialog();
-            if (result == DialogResult.OK || result == DialogResult.Yes)
-            {
-                fileNameTextBox.Text = openFileDialog1.FileName;
-            }
+            lbl_iteration.Text = s;
         }
-
     }
+
+    
+
 }

@@ -107,6 +107,7 @@
             this.btn_PosJogX = new System.Windows.Forms.Button();
             this.btn_NegJogX = new System.Windows.Forms.Button();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.btn_zoom_D_set = new System.Windows.Forms.Button();
             this.btn_zoom_test = new System.Windows.Forms.Button();
             this.btn_Move_Zoom = new System.Windows.Forms.Button();
             this.btn_Set_Zoom = new System.Windows.Forms.Button();
@@ -186,7 +187,7 @@
             this.btn_Min_Intensity = new System.Windows.Forms.Button();
             this.btn_Max_Zoom = new System.Windows.Forms.Button();
             this.btn_Min_Zoom = new System.Windows.Forms.Button();
-            this.btn_zoom_D_set = new System.Windows.Forms.Button();
+            this.btn_AutoFocus = new System.Windows.Forms.Button();
             this.grpbx_AxVel.SuspendLayout();
             this.grpbx_AxPos.SuspendLayout();
             this.grpbx_AxisStatus.SuspendLayout();
@@ -1091,6 +1092,16 @@
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Sample Alignment";
             // 
+            // btn_zoom_D_set
+            // 
+            this.btn_zoom_D_set.Location = new System.Drawing.Point(278, 221);
+            this.btn_zoom_D_set.Name = "btn_zoom_D_set";
+            this.btn_zoom_D_set.Size = new System.Drawing.Size(50, 22);
+            this.btn_zoom_D_set.TabIndex = 73;
+            this.btn_zoom_D_set.Text = "Set D";
+            this.btn_zoom_D_set.UseVisualStyleBackColor = true;
+            this.btn_zoom_D_set.Click += new System.EventHandler(this.btn_zoom_D_set_Click);
+            // 
             // btn_zoom_test
             // 
             this.btn_zoom_test.Location = new System.Drawing.Point(334, 221);
@@ -1324,6 +1335,7 @@
             // icImagingControl1
             // 
             this.icImagingControl1.BackColor = System.Drawing.Color.White;
+            this.icImagingControl1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.icImagingControl1.DeviceListChangedExecutionMode = TIS.Imaging.EventExecutionMode.Invoke;
             this.icImagingControl1.DeviceLostExecutionMode = TIS.Imaging.EventExecutionMode.AsyncInvoke;
             this.icImagingControl1.DeviceState = resources.GetString("icImagingControl1.DeviceState");
@@ -1344,6 +1356,7 @@
             // 
             // grpbx_OphirControl
             // 
+            this.grpbx_OphirControl.Controls.Add(this.btn_AutoFocus);
             this.grpbx_OphirControl.Controls.Add(this.btn_AOMrepeatability);
             this.grpbx_OphirControl.Controls.Add(this.btn_StopStream);
             this.grpbx_OphirControl.Controls.Add(this.LabelStatus0);
@@ -1948,17 +1961,17 @@
             this.btn_Min_Zoom.UseVisualStyleBackColor = true;
             this.btn_Min_Zoom.Click += new System.EventHandler(this.btn_Min_Zoom_Click);
             // 
-            // btn_zoom_D_set
+            // btn_AutoFocus
             // 
-            this.btn_zoom_D_set.Location = new System.Drawing.Point(278, 221);
-            this.btn_zoom_D_set.Name = "btn_zoom_D_set";
-            this.btn_zoom_D_set.Size = new System.Drawing.Size(50, 22);
-            this.btn_zoom_D_set.TabIndex = 73;
-            this.btn_zoom_D_set.Text = "Set D";
-            this.btn_zoom_D_set.UseVisualStyleBackColor = true;
-            this.btn_zoom_D_set.Click += new System.EventHandler(this.btn_zoom_D_set_Click);
+            this.btn_AutoFocus.Location = new System.Drawing.Point(310, 261);
+            this.btn_AutoFocus.Name = "btn_AutoFocus";
+            this.btn_AutoFocus.Size = new System.Drawing.Size(110, 24);
+            this.btn_AutoFocus.TabIndex = 66;
+            this.btn_AutoFocus.Text = "Auto Focus";
+            this.btn_AutoFocus.UseVisualStyleBackColor = true;
+            this.btn_AutoFocus.Click += new System.EventHandler(this.btn_AutoFocus_Click);
             // 
-            // Form1
+            // InteractionForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -1978,7 +1991,7 @@
             this.Controls.Add(this.grpbx_AxControl);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-            this.Name = "Form1";
+            this.Name = "InteractionForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = " Aerotech Control";
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.Form1_FormClosed);
@@ -2161,6 +2174,7 @@
         private System.Windows.Forms.Button btn_Move_Zoom;
         private System.Windows.Forms.Button btn_zoom_test;
         private System.Windows.Forms.Button btn_zoom_D_set;
+        private System.Windows.Forms.Button btn_AutoFocus;
     }
 }
 

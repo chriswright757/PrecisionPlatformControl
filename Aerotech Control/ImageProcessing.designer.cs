@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ImageProcessing));
             this.pictureBox = new System.Windows.Forms.PictureBox();
             this.btn_LoadImage = new System.Windows.Forms.Button();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
@@ -42,6 +43,8 @@
             this.highlightTypeCombo = new System.Windows.Forms.ComboBox();
             this.propertyGrid = new System.Windows.Forms.PropertyGrid();
             this.lbl_laplacestd = new System.Windows.Forms.Label();
+            this.lbl_step = new System.Windows.Forms.Label();
+            this.lbl_iteration = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.trackBar1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
@@ -68,7 +71,6 @@
             this.btn_LoadImage.TabIndex = 2;
             this.btn_LoadImage.Text = "Load Image";
             this.btn_LoadImage.UseVisualStyleBackColor = true;
-            this.btn_LoadImage.Click += new System.EventHandler(this.btn_LoadImage_Click);
             // 
             // openFileDialog1
             // 
@@ -106,7 +108,6 @@
             this.trackBar1.Size = new System.Drawing.Size(400, 45);
             this.trackBar1.TabIndex = 16;
             this.trackBar1.TickFrequency = 5;
-            this.trackBar1.Scroll += new System.EventHandler(this.trackBar1_Scroll);
             // 
             // blobsCountLabel
             // 
@@ -114,7 +115,7 @@
             this.blobsCountLabel.Name = "blobsCountLabel";
             this.blobsCountLabel.Size = new System.Drawing.Size(404, 23);
             this.blobsCountLabel.TabIndex = 19;
-            this.blobsCountLabel.Text = "label1";
+            this.blobsCountLabel.Text = "Blobs Count";
             // 
             // splitContainer1
             // 
@@ -201,17 +202,37 @@
             // lbl_laplacestd
             // 
             this.lbl_laplacestd.AutoSize = true;
-            this.lbl_laplacestd.Location = new System.Drawing.Point(430, 392);
+            this.lbl_laplacestd.Location = new System.Drawing.Point(430, 366);
             this.lbl_laplacestd.Name = "lbl_laplacestd";
-            this.lbl_laplacestd.Size = new System.Drawing.Size(35, 13);
+            this.lbl_laplacestd.Size = new System.Drawing.Size(64, 13);
             this.lbl_laplacestd.TabIndex = 23;
-            this.lbl_laplacestd.Text = "label1";
+            this.lbl_laplacestd.Text = "Laplace Std";
+            // 
+            // lbl_step
+            // 
+            this.lbl_step.AutoSize = true;
+            this.lbl_step.Location = new System.Drawing.Point(430, 397);
+            this.lbl_step.Name = "lbl_step";
+            this.lbl_step.Size = new System.Drawing.Size(29, 13);
+            this.lbl_step.TabIndex = 24;
+            this.lbl_step.Text = "Step";
+            // 
+            // lbl_iteration
+            // 
+            this.lbl_iteration.AutoSize = true;
+            this.lbl_iteration.Location = new System.Drawing.Point(433, 421);
+            this.lbl_iteration.Name = "lbl_iteration";
+            this.lbl_iteration.Size = new System.Drawing.Size(45, 13);
+            this.lbl_iteration.TabIndex = 25;
+            this.lbl_iteration.Text = "Iteration";
             // 
             // ImageProcessing
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1215, 459);
+            this.Controls.Add(this.lbl_iteration);
+            this.Controls.Add(this.lbl_step);
             this.Controls.Add(this.lbl_laplacestd);
             this.Controls.Add(this.splitContainer1);
             this.Controls.Add(this.blobsCountLabel);
@@ -220,8 +241,10 @@
             this.Controls.Add(this.trackBar1);
             this.Controls.Add(this.fileNameTextBox);
             this.Controls.Add(this.btn_LoadImage);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "ImageProcessing";
-            this.Text = "Form1";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
+            this.Text = "Image Processing";
             this.Load += new System.EventHandler(this.ImageProcessing_Load);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.trackBar1)).EndInit();
@@ -252,6 +275,8 @@
         private System.Windows.Forms.ComboBox highlightTypeCombo;
         private System.Windows.Forms.PropertyGrid propertyGrid;
         private System.Windows.Forms.Label lbl_laplacestd;
+        private System.Windows.Forms.Label lbl_step;
+        private System.Windows.Forms.Label lbl_iteration;
     }
 }
 

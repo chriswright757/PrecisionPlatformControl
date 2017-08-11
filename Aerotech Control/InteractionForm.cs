@@ -3392,7 +3392,7 @@ namespace Aerotech_Control
             zoom_offset = current_D - microscope_focus;
         }
 
-        private void uScope_img_correction()
+        private void uScope_img_alignment()
         {
             ImageProcessing IPForm = new ImageProcessing();
 
@@ -3401,13 +3401,14 @@ namespace Aerotech_Control
 
             while (AlignmentFocus_Container.Aligned != true)
             {
-                File.Delete(AlignmentFocus_Container.temp_img_path);
+                //File.Delete(AlignmentFocus_Container.temp_img_path);
                 icImagingControl1.OverlayBitmap.Enable = false;
-                icImagingControl1.MemorySnapImage();
-                icImagingControl1.MemorySaveImage(AlignmentFocus_Container.temp_img_path);
+                Bitmap live_bmp = icImagingControl1.ImageActiveBuffer.Bitmap;
+                //icImagingControl1.MemorySnapImage();
+                //icImagingControl1.MemorySaveImage(AlignmentFocus_Container.temp_img_path);
                 icImagingControl1.OverlayBitmap.Enable = true;
-                
-                IPForm.DetectHole(30);
+
+                IPForm.DetectHole(30, live_bmp);
 
                 myController.Commands.Motion.Setup.Incremental();
                 myController.Commands.Motion.Linear("X", AlignmentFocus_Container.X_Correction_MM, 1); //*** Check which way correction should be applied
@@ -3415,70 +3416,116 @@ namespace Aerotech_Control
                 myController.Commands.Motion.Setup.Absolute();
             }
 
+            IPForm.Close();
+
+            AlignmentFocus_Container.Aligned = false;
+        }
+
+        private void uScope_focus_check()
+        {
+            icImagingControl1.OverlayBitmap.Enable = false;
+
+            ImageProcessing IPForm = new ImageProcessing();
+
+            IPForm.Show();
+            IPForm.Activate();
+
             double Laplace_std_hold = 0;
             int direction = 1;
-            double step_size = 0.1;
+            double step_size = 0.05;
             Boolean[] improving = new Boolean[2];
+
+            int iteration = 0;
 
             while (AlignmentFocus_Container.Focused != true)
             {
-                File.Delete(AlignmentFocus_Container.temp_img_path);
-                icImagingControl1.OverlayBitmap.Enable = false;
-                icImagingControl1.MemorySnapImage();
-                icImagingControl1.MemorySaveImage(AlignmentFocus_Container.temp_img_path);
-                icImagingControl1.OverlayBitmap.Enable = true;
+                //File.Delete(AlignmentFocus_Container.temp_img_path);
+                
+                icImagingControl1.MemorySnapImage(1000);
+                Bitmap live_bmp = icImagingControl1.ImageActiveBuffer.Bitmap;
+                //icImagingControl1.MemorySnapImage();
+                //icImagingControl1.MemorySaveImage(AlignmentFocus_Container.temp_img_path);
+                
 
-                IPForm.focus_determination();
+                IPForm.focus_determination(live_bmp);
 
                 if (AlignmentFocus_Container.Laplace_std - Laplace_std_hold >= 0)
                 {
                     Laplace_std_hold = AlignmentFocus_Container.Laplace_std;
 
-                    myController.Commands.Motion.Setup.Incremental();
-                    myController.Commands.Motion.Linear("D", step_size * direction, 1); //*** Check which way correction should be applied
-                    myController.Commands.Motion.Setup.Absolute();
                     improving[0] = improving[1];
                     improving[1] = true;
-
                 }
                 else if (AlignmentFocus_Container.Laplace_std - Laplace_std_hold < 0)
                 {
-                    direction = direction * -1;
-                    myController.Commands.Motion.Setup.Incremental();
-                    myController.Commands.Motion.Linear("D", step_size * direction, 1); //*** Check which way correction should be applied
-                    myController.Commands.Motion.Setup.Absolute();
+                    Laplace_std_hold = AlignmentFocus_Container.Laplace_std;
+
                     improving[0] = improving[1];
                     improving[1] = false;
-                }
-                
-                if (improving[0] == true && improving[1] == false)
-                {
-                    direction = direction * -1;
-                    step_size = step_size / 2;
-
-                    //myController.Commands.Motion.Setup.Incremental();
-                    //myController.Commands.Motion.Linear("D", 0.01 * direction, 1); //*** Check which way correction should be applied
-                    //myController.Commands.Motion.Setup.Absolute();                    
                 }
 
                 if (step_size <= 0.001)
                 {
                     AlignmentFocus_Container.Focused = true;
+                    break;
                 }
+
+                if (improving[0] == true && improving[1] == true) // Continue in same direction because result is getting better
+                {
+                    myController.Commands.Motion.Setup.Incremental();
+                    myController.Commands.Motion.Linear("D", step_size * direction, 1); 
+                    myController.Commands.Motion.Setup.Absolute();
+                }
+
+                else if (improving[0] == false && improving[1] == false) // Reverse direction because result is continuing to get worse
+                {
+                    direction = direction * -1;
+
+                    myController.Commands.Motion.Setup.Incremental();
+                    myController.Commands.Motion.Linear("D", step_size * direction, 1);
+                    myController.Commands.Motion.Setup.Absolute();
+                }
+                
+                else if (improving[0] == true && improving[1] == false) // Reverse direction because result has got worse
+                {
+                    direction = direction * -1;
+                    step_size = step_size / 2;
+
+                    myController.Commands.Motion.Setup.Incremental();
+                    myController.Commands.Motion.Linear("D", step_size * direction, 1); 
+                    myController.Commands.Motion.Setup.Absolute();
+                }
+
+                else if (improving[0] == false && improving[1] == true) // Continue in same direction because result has improved
+                {
+                    myController.Commands.Motion.Setup.Incremental();
+                    myController.Commands.Motion.Linear("D", step_size * direction, 1);
+                    myController.Commands.Motion.Setup.Absolute();
+                }
+
+                iteration = iteration + 1;
+
+                IPForm.StepValue((step_size * direction).ToString());
+                IPForm.IterationValue(iteration.ToString());
+                 
             }
 
+            icImagingControl1.OverlayBitmap.Enable = true;
             IPForm.Close();
-
-            AlignmentFocus_Container.Aligned = false;
             AlignmentFocus_Container.Focused = false;
         }
 
         #endregion
+
+        private void btn_AutoFocus_Click(object sender, EventArgs e)
+        {
+            uScope_focus_check();
+        }
     }
 
     public static class AlignmentFocus_Container
     {
-        public static string temp_img_path = "Insert Valid String"; //*****Decide where to store image
+        public static string temp_img_path = "C:/Users/User/Documents/GitHub/PrecisionPlatformControl/Reference Values/Capture.bmp"; 
 
         public static Boolean Aligned = false;
         public static Boolean Focused = false;

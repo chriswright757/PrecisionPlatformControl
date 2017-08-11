@@ -62,10 +62,8 @@ C:\Users\User\Documents\GitHub\PrecisionPlatformControl\Aerotech Control\bin\Deb
 C:\Users\User\Documents\GitHub\PrecisionPlatformControl\Aerotech Control\bin\Debug\Aerotech.Common.dll
 C:\Users\User\Documents\GitHub\PrecisionPlatformControl\Aerotech Control\bin\Debug\TIS.Imaging.ICImagingControl34.dll
 C:\Users\User\Documents\GitHub\PrecisionPlatformControl\Aerotech Control\obj\Debug\Aerotech Control.csprojResolveAssemblyReference.cache
-C:\Users\User\Documents\GitHub\PrecisionPlatformControl\Aerotech Control\obj\Debug\Aerotech_Control.Form1.resources
 C:\Users\User\Documents\GitHub\PrecisionPlatformControl\Aerotech Control\obj\Debug\Aerotech_Control.Properties.Resources.resources
 C:\Users\User\Documents\GitHub\PrecisionPlatformControl\Aerotech Control\obj\Debug\Aerotech Control.csproj.GenerateResource.Cache
-C:\Users\User\Documents\GitHub\PrecisionPlatformControl\Aerotech Control\obj\Debug\Aerotech_Control.Form2.resources
 D:\GitHub Repo\PrecisionPlatformControl\Aerotech Control\obj\Debug\Interop.MLApp.dll
 D:\GitHub Repo\PrecisionPlatformControl\Aerotech Control\obj\Debug\Interop.OphirLMMeasurementLib.dll
 D:\GitHub Repo\PrecisionPlatformControl\Aerotech Control\obj\Debug\Aerotech Control.csproj.ResolveComReference.cache
@@ -88,3 +86,16 @@ D:\GitHub Repo\PrecisionPlatformControl\Aerotech Control\obj\Debug\Aerotech_Cont
 D:\GitHub Repo\PrecisionPlatformControl\Aerotech Control\obj\Debug\Aerotech Control.csproj.GenerateResource.Cache
 D:\GitHub Repo\PrecisionPlatformControl\Aerotech Control\obj\Debug\Aerotech_Control.InteractionForm.resources
 D:\GitHub Repo\PrecisionPlatformControl\Aerotech Control\obj\Debug\Aforge_Image_Processing.ImageProcessing.resources
+C:\Users\User\Documents\GitHub\PrecisionPlatformControl\Aerotech Control\bin\Debug\BlobsBrowser.resx
+C:\Users\User\Documents\GitHub\PrecisionPlatformControl\Aerotech Control\bin\Debug\BlobsBrowser.cs
+C:\Users\User\Documents\GitHub\PrecisionPlatformControl\Aerotech Control\bin\Debug\BlobsBrowser.designer.cs
+C:\Users\User\Documents\GitHub\PrecisionPlatformControl\Aerotech Control\bin\Debug\AForge.dll
+C:\Users\User\Documents\GitHub\PrecisionPlatformControl\Aerotech Control\bin\Debug\AForge.Imaging.dll
+C:\Users\User\Documents\GitHub\PrecisionPlatformControl\Aerotech Control\bin\Debug\AForge.Math.dll
+C:\Users\User\Documents\GitHub\PrecisionPlatformControl\Aerotech Control\bin\Debug\AForge.xml
+C:\Users\User\Documents\GitHub\PrecisionPlatformControl\Aerotech Control\bin\Debug\AForge.Imaging.xml
+C:\Users\User\Documents\GitHub\PrecisionPlatformControl\Aerotech Control\bin\Debug\AForge.Math.xml
+C:\Users\User\Documents\GitHub\PrecisionPlatformControl\Aerotech Control\obj\Debug\BlobsExplorer.BlobsBrowser.resources
+C:\Users\User\Documents\GitHub\PrecisionPlatformControl\Aerotech Control\obj\Debug\Aerotech_Control.InteractionForm.resources
+C:\Users\User\Documents\GitHub\PrecisionPlatformControl\Aerotech Control\obj\Debug\Aerotech_Control.InitialisationForm.resources
+C:\Users\User\Documents\GitHub\PrecisionPlatformControl\Aerotech Control\obj\Debug\Aerotech_Control.ImageProcessing.resources
