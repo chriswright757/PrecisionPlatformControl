@@ -136,6 +136,8 @@
             this.WattPilot_1064 = new System.IO.Ports.SerialPort(this.components);
             this.backgroundWorker_LaserAlign = new System.ComponentModel.BackgroundWorker();
             this.grpbx_OphirControl = new System.Windows.Forms.GroupBox();
+            this.btn_autoalign = new System.Windows.Forms.Button();
+            this.btn_AutoFocus = new System.Windows.Forms.Button();
             this.btn_AOMrepeatability = new System.Windows.Forms.Button();
             this.btn_StopStream = new System.Windows.Forms.Button();
             this.LabelStatus0 = new System.Windows.Forms.Label();
@@ -187,7 +189,6 @@
             this.btn_Min_Intensity = new System.Windows.Forms.Button();
             this.btn_Max_Zoom = new System.Windows.Forms.Button();
             this.btn_Min_Zoom = new System.Windows.Forms.Button();
-            this.btn_AutoFocus = new System.Windows.Forms.Button();
             this.grpbx_AxVel.SuspendLayout();
             this.grpbx_AxPos.SuspendLayout();
             this.grpbx_AxisStatus.SuspendLayout();
@@ -1356,6 +1357,7 @@
             // 
             // grpbx_OphirControl
             // 
+            this.grpbx_OphirControl.Controls.Add(this.btn_autoalign);
             this.grpbx_OphirControl.Controls.Add(this.btn_AutoFocus);
             this.grpbx_OphirControl.Controls.Add(this.btn_AOMrepeatability);
             this.grpbx_OphirControl.Controls.Add(this.btn_StopStream);
@@ -1377,6 +1379,26 @@
             this.grpbx_OphirControl.TabIndex = 51;
             this.grpbx_OphirControl.TabStop = false;
             this.grpbx_OphirControl.Text = "Ophir Control";
+            // 
+            // btn_autoalign
+            // 
+            this.btn_autoalign.Location = new System.Drawing.Point(13, 261);
+            this.btn_autoalign.Name = "btn_autoalign";
+            this.btn_autoalign.Size = new System.Drawing.Size(75, 23);
+            this.btn_autoalign.TabIndex = 74;
+            this.btn_autoalign.Text = "Auto Align";
+            this.btn_autoalign.UseVisualStyleBackColor = true;
+            this.btn_autoalign.Click += new System.EventHandler(this.btn_autoalign_Click);
+            // 
+            // btn_AutoFocus
+            // 
+            this.btn_AutoFocus.Location = new System.Drawing.Point(310, 261);
+            this.btn_AutoFocus.Name = "btn_AutoFocus";
+            this.btn_AutoFocus.Size = new System.Drawing.Size(110, 24);
+            this.btn_AutoFocus.TabIndex = 66;
+            this.btn_AutoFocus.Text = "Auto Focus";
+            this.btn_AutoFocus.UseVisualStyleBackColor = true;
+            this.btn_AutoFocus.Click += new System.EventHandler(this.btn_AutoFocus_Click);
             // 
             // btn_AOMrepeatability
             // 
@@ -1961,16 +1983,6 @@
             this.btn_Min_Zoom.UseVisualStyleBackColor = true;
             this.btn_Min_Zoom.Click += new System.EventHandler(this.btn_Min_Zoom_Click);
             // 
-            // btn_AutoFocus
-            // 
-            this.btn_AutoFocus.Location = new System.Drawing.Point(310, 261);
-            this.btn_AutoFocus.Name = "btn_AutoFocus";
-            this.btn_AutoFocus.Size = new System.Drawing.Size(110, 24);
-            this.btn_AutoFocus.TabIndex = 66;
-            this.btn_AutoFocus.Text = "Auto Focus";
-            this.btn_AutoFocus.UseVisualStyleBackColor = true;
-            this.btn_AutoFocus.Click += new System.EventHandler(this.btn_AutoFocus_Click);
-            // 
             // InteractionForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -2175,6 +2187,7 @@
         private System.Windows.Forms.Button btn_zoom_test;
         private System.Windows.Forms.Button btn_zoom_D_set;
         private System.Windows.Forms.Button btn_AutoFocus;
+        private System.Windows.Forms.Button btn_autoalign;
     }
 }
 

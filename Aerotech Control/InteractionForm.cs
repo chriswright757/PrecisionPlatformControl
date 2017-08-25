@@ -83,8 +83,6 @@ namespace Aerotech_Control
         double Point1_Zaxis;
         double Point1_Daxis;
         
-        double CentreRot_Z;
-
         int hold = 0;
         double theta_hold = 0;
         double phi_hold = 0;
@@ -94,12 +92,7 @@ namespace Aerotech_Control
         double[] Refined_Yaxis = new double[4];
 
         double StepIn = 0.25;
-        double MarkLength = 0.25;
-
-        double Z_Scan_length = 0.5;
-        int Mark_Number = 10;
-        double Line_Spacing = 0.25;
-
+        
         double ablation_focus;
         double microscope_focus;
         double min_zoom_focus_d_btn;
@@ -140,14 +133,7 @@ namespace Aerotech_Control
 
         private static AutoResetEvent CornerAlignmentEvent = new AutoResetEvent(false);
         private static AutoResetEvent LaserAlignEvent = new AutoResetEvent(false);
-
-        TextWriter CornersX = new StreamWriter("C:/Users/User/Documents/GitHub/PrecisionPlatformControl/Reference Values/CornersX.txt");
-        TextWriter CornersY = new StreamWriter("C:/Users/User/Documents/GitHub/PrecisionPlatformControl/Reference Values/CornersY.txt");
-        TextWriter CornersZ = new StreamWriter("C:/Users/User/Documents/GitHub/PrecisionPlatformControl/Reference Values/CornersZ.txt");
-
-        // Exchange for hole measurement alignment 
-
-        
+      
 
 
         #endregion
@@ -196,47 +182,16 @@ namespace Aerotech_Control
 
             //Initialising Microscope Camera
 
-            if (!icImagingControl1.DeviceValid)
-            {
-                icImagingControl1.ShowDeviceSettingsDialog();
-
-                if (!icImagingControl1.DeviceValid)
-                {
-                    MessageBox.Show("No device was selected.", "Grabbing an Image",
-                                     MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    this.Close();
-                }
-            }
-            else
-            {
-                //if (ImagingControl.DeviceFlipHorizontalAvailable)
-                //{
-                //ImagingControl.DeviceFlipHorizontal = true;
-                //}
-
-                icImagingControl1.LiveDisplayDefault = false;
-
-                icImagingControl1.LiveDisplayHeight = icImagingControl1.Height;
-                icImagingControl1.LiveDisplayWidth = icImagingControl1.Width;
-                //icImagingControl1.DeviceFlipHorizontal = true;
-                icImagingControl1.LiveStart();
-
-                OverlayBitmap ob = icImagingControl1.OverlayBitmap;
-                //   Enable the overlay bitmap for drawing.
-                ob.Enable = true;
-
-                ob.DrawSolidRect(System.Drawing.Color.Red, 798, 530, 802, 670);
-                ob.DrawSolidRect(System.Drawing.Color.Red, 730, 602, 870, 598);
-            }
-
-            // Used for background thread process
-
-            Control.CheckForIllegalCrossThreadCalls = false;                        
+            Connect_Camera();
 
             //Laser and Button Initialisation
 
             laserbtninitialisation_labels();
 
+            // Used for background thread process
+
+            Control.CheckForIllegalCrossThreadCalls = false;                        
+            
             // Ophir Device
 
             lm_Co1 = new OphirLMMeasurementLib.CoLMMeasurement();
@@ -264,12 +219,7 @@ namespace Aerotech_Control
 
             eLight_Intensity(15);          
         }
-
-        //private void btn_ConnectController_Click(object sender, EventArgs e)
-        //{
-        //    Connect_Controller();
-        //}
-
+        
         private void Connect_Controller()
         {
             try
@@ -302,13 +252,41 @@ namespace Aerotech_Control
                 // register task state and diagPackect arrived events
                 this.myController.ControlCenter.TaskStates.NewTaskStatesArrived += new EventHandler<NewTaskStatesArrivedEventArgs>(TaskStates_NewTaskStatesArrived);
                 this.myController.ControlCenter.Diagnostics.NewDiagPacketArrived += new EventHandler<NewDiagPacketArrivedEventArgs>(Diagnostics_NewDiagPacketArrived);
-
-                myController.Commands.IO.DigitalOutputBit(0, "X", 1);
-
+                
             }
             catch (A3200Exception exception)
             {
                 //lbl_ErrorMsg.Text = exception.Message;
+            }
+        }
+
+        private void Connect_Camera()
+        {
+            if (!icImagingControl1.DeviceValid)
+            {
+                icImagingControl1.ShowDeviceSettingsDialog();
+
+                if (!icImagingControl1.DeviceValid)
+                {
+                    MessageBox.Show("No device was selected.", "Grabbing an Image",
+                                     MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    this.Close();
+                }
+            }
+            else
+            {
+                icImagingControl1.LiveDisplayDefault = false;
+
+                icImagingControl1.LiveDisplayHeight = icImagingControl1.Height;
+                icImagingControl1.LiveDisplayWidth = icImagingControl1.Width;
+                icImagingControl1.LiveStart();
+
+                OverlayBitmap ob = icImagingControl1.OverlayBitmap;
+                //   Enable the overlay bitmap for drawing.
+
+                ob.Enable = true;
+                ob.DrawSolidRect(System.Drawing.Color.Red, 798, 530, 802, 670);
+                ob.DrawSolidRect(System.Drawing.Color.Red, 730, 602, 870, 598);
             }
         }
 
@@ -721,6 +699,8 @@ namespace Aerotech_Control
 
         private void btn_HomeProcedure_Click(object sender, EventArgs e)
         {
+            myController.Commands.IO.DigitalOutputBit(0, "X", 1);
+
             myController.Commands.AcknowledgeAll();
 
             myController.Commands.Axes["X", "D"].Motion.Enable();
@@ -965,11 +945,7 @@ namespace Aerotech_Control
             A_Yaxis = myController.Commands.Status.AxisStatus("Y", AxisStatusSignal.ProgramPositionFeedback);
             A_Zaxis = myController.Commands.Status.AxisStatus("Z", AxisStatusSignal.ProgramPositionFeedback);
             A_Daxis = myController.Commands.Status.AxisStatus("D", AxisStatusSignal.ProgramPositionFeedback);
-
-            CornersX.WriteLine(A_Xaxis);
-            CornersY.WriteLine(A_Yaxis);
-            CornersZ.WriteLine(A_Zaxis);
-
+            
             btn_cornerA.Enabled = false;
             btn_cornerB.Enabled = true;
         }
@@ -980,11 +956,7 @@ namespace Aerotech_Control
             B_Yaxis = myController.Commands.Status.AxisStatus("Y", AxisStatusSignal.ProgramPositionFeedback);
             B_Zaxis = myController.Commands.Status.AxisStatus("Z", AxisStatusSignal.ProgramPositionFeedback);
             B_Daxis = myController.Commands.Status.AxisStatus("D", AxisStatusSignal.ProgramPositionFeedback);
-
-            CornersX.WriteLine(B_Xaxis);
-            CornersY.WriteLine(B_Yaxis);
-            CornersZ.WriteLine(B_Zaxis);
-
+            
             btn_cornerB.Enabled = false;
             btn_cornerC.Enabled = true;
         }
@@ -995,11 +967,7 @@ namespace Aerotech_Control
             C_Yaxis = myController.Commands.Status.AxisStatus("Y", AxisStatusSignal.ProgramPositionFeedback);
             C_Zaxis = myController.Commands.Status.AxisStatus("Z", AxisStatusSignal.ProgramPositionFeedback);
             C_Daxis = myController.Commands.Status.AxisStatus("D", AxisStatusSignal.ProgramPositionFeedback);
-
-            CornersX.WriteLine(B_Xaxis);
-            CornersY.WriteLine(B_Yaxis);
-            CornersZ.WriteLine(B_Zaxis);
-
+            
             btn_cornerC.Enabled = false;
             btn_cornerD.Enabled = true;
         }
@@ -1010,15 +978,7 @@ namespace Aerotech_Control
             D_Yaxis = myController.Commands.Status.AxisStatus("Y", AxisStatusSignal.ProgramPositionFeedback);
             D_Zaxis = myController.Commands.Status.AxisStatus("Z", AxisStatusSignal.ProgramPositionFeedback);
             D_Daxis = myController.Commands.Status.AxisStatus("D", AxisStatusSignal.ProgramPositionFeedback);
-
-            CornersX.WriteLine(D_Xaxis);
-            CornersY.WriteLine(D_Yaxis);
-            CornersZ.WriteLine(D_Zaxis);
-
-            CornersX.Close();
-            CornersY.Close();
-            CornersZ.Close();
-
+            
             btn_cornerD.Enabled = false;
             btn_TiltCorrection.Enabled = true;
         }
@@ -1256,19 +1216,19 @@ namespace Aerotech_Control
             shutter_open();
             aommode_0();
             aomgate_high_trigger();
-            talisker_attenuation(80);
+            talisker_attenuation(95);
             watt_pilot_attenuation(0);
 
             // Mark Fiducial Markers
 
             myController.Commands.Axes["X", "Y"].Motion.Linear(new double[] { Refined_Xaxis[0] - Offset_Xaxis, Refined_Yaxis[0] - Offset_Yaxis }, 5);
-            MarkCross();
+            MarkCross(0.25);
             myController.Commands.Axes["X", "Y"].Motion.Linear(new double[] { Refined_Xaxis[1] - Offset_Xaxis, Refined_Yaxis[1] - Offset_Yaxis }, 5);
-            MarkCross();
+            MarkCross(0.25);
             myController.Commands.Axes["X", "Y"].Motion.Linear(new double[] { Refined_Xaxis[2] - Offset_Xaxis, Refined_Yaxis[2] - Offset_Yaxis }, 5);
-            MarkCross();
+            MarkCross(0.25);
             myController.Commands.Axes["X", "Y"].Motion.Linear(new double[] { Refined_Xaxis[3] - Offset_Xaxis, Refined_Yaxis[3] - Offset_Yaxis }, 5);
-            MarkCross();
+            MarkCross(0.25);
 
             shutter_closed();
 
@@ -1334,7 +1294,7 @@ namespace Aerotech_Control
             LaserAlignEvent.Set();
         }
 
-        private void MarkCross()
+        private void MarkCross(double MarkLength)
         {
             myController.Commands.Motion.Setup.Incremental();
             myController.Commands.Motion.Linear("X", -MarkLength / 2, 1);
@@ -1355,7 +1315,7 @@ namespace Aerotech_Control
 
         private void btn_FindFocus_Click(object sender, EventArgs e)
         {
-            FindFocus_Xaxis();
+            FindFocus_Xaxis(0.2,40,0.05, 0.25);
 
             //FindFocus_Yaxis(); 
 
@@ -1382,10 +1342,13 @@ namespace Aerotech_Control
 
         }
 
-        private void FindFocus_Xaxis()
+        private void FindFocus_Xaxis(double Z_Scan_length, int Mark_Number, double Line_Spacing, double MarkLength)
         {
             double Current_X = 0;
             double Current_Y = 0;
+            double LaserFocus_Zaxis_Total = 0;
+            int NumberOfLines = 0;
+            double[] Machined_Z_Pos = new double[Mark_Number];
 
             int pos_count = 0; // Variable for recording position of minimum track width - starts on zero for X
 
@@ -1394,7 +1357,7 @@ namespace Aerotech_Control
             shutter_open();
             aommode_0();
             aomgate_high_trigger();
-            talisker_attenuation(80);
+            talisker_attenuation(99);
             watt_pilot_attenuation(0);
 
             for (int hold = 0; hold < 4; hold++)
@@ -1428,7 +1391,7 @@ namespace Aerotech_Control
                     // Change Z height
                     myController.Commands.Motion.Setup.Incremental();
                     myController.Commands.Motion.Linear("Z", (Z_Scan_length / Mark_Number), 1);
-                    //MessageBox.Show(myController.Commands.Status.AxisStatus("Z", AxisStatusSignal.ProgramPositionFeedback).ToString());                  
+                    Machined_Z_Pos[i] = myController.Commands.Status.AxisStatus("Z", AxisStatusSignal.ProgramPositionFeedback);                  
                     myController.Commands.PSO.Control("X", Aerotech.A3200.Commands.PsoMode.On);
                     myController.Commands.Motion.Linear("X", -MarkLength, 1);
                     myController.Commands.PSO.Control("X", Aerotech.A3200.Commands.PsoMode.Off);
@@ -1439,6 +1402,12 @@ namespace Aerotech_Control
             }
 
             // Inspect Lines and record minimum line thickness
+                        
+
+            ImageProcessing IPForm = new ImageProcessing();
+
+            IPForm.Show();
+            IPForm.Activate();
 
             for (int hold = 0; hold < 4; hold++)
             {
@@ -1464,40 +1433,111 @@ namespace Aerotech_Control
                 }
 
                 myController.Commands.Motion.Linear("Y", Current_Y, 5);
-
+                
                 // Bring microscope into focus
 
                 myController.Commands.Motion.Linear("D", microscope_focus, 1);
 
                 // Bring Z stage to intial ablation focus
 
-                myController.Commands.Motion.Linear("Z", ablation_focus, 1);                
+                myController.Commands.Motion.Linear("Z", ablation_focus, 1);
+                #region Version 2
+
+                LaserFocus_Zaxis_Total = 0;
+                NumberOfLines = 0;                
 
                 for (int i = 0; i < Mark_Number; i++)
                 {
-                    myController.Commands.Motion.Setup.Incremental();
-                    //myController.Commands.Motion.Linear("X", -MarkLength / 2, 1);
-                    DialogResult Focus_Result = MessageBox.Show("Is this result larger than the previous result?", "Important Question", MessageBoxButtons.YesNo);
-                    if (Focus_Result == DialogResult.Yes)
+                    icImagingControl1.OverlayBitmap.Enable = false;
+
+                    Thread.Sleep(1500);
+
+                    icImagingControl1.MemorySnapImage(1000);
+                    Bitmap live_bmp = icImagingControl1.ImageActiveBuffer.Bitmap;
+
+                    IPForm.Detect_Line(40, live_bmp);
+
+                    if (AlignmentFocus_Container.Feature_Visible == true)
                     {
-                        // Recording position of focus point
-                        LaserFocus_Xaxis[pos_count] = Current_X - MarkLength / 2;
-                        LaserFocus_Yaxis[pos_count] = Current_Y - Line_Spacing * (i - 1);
-                        LaserFocus_Zaxis[pos_count] = ablation_focus - Z_Scan_length / 2 + Z_Scan_length / Mark_Number * i;
-                        //MessageBox.Show(LaserFocus_Zaxis[pos_count].ToString());
-                        pos_count = pos_count + 1;
-                        i = Mark_Number; 
+                        LaserFocus_Zaxis_Total = LaserFocus_Zaxis_Total + Machined_Z_Pos[i];
+                        NumberOfLines++;
+
+                        string save_dir = "C:/Users/User/Desktop/Share/Chris/Abatlion Threshold/Trial 17/Focus Lines/" + pos_count;
+                        System.IO.Directory.CreateDirectory(save_dir);
+
+                        string save_image = save_dir + "/" + Machined_Z_Pos[i].ToString() + ".bmp";
+
+                        Thread.Sleep(500);
+
+                        icImagingControl1.MemorySnapImage();
+                        icImagingControl1.MemorySaveImage(save_image);
+                        
                     }
+
+                    icImagingControl1.OverlayBitmap.Enable = true;
+                    AlignmentFocus_Container.Feature_Visible = false;                    
+
+                    #region Original 
+                    //DialogResult Focus_Result = MessageBox.Show("Is line visible?", "Important Question", MessageBoxButtons.YesNo);
+                    //if (Focus_Result == DialogResult.Yes)
+                    //{
+                    //    LaserFocus_Zaxis_Total = LaserFocus_Zaxis_Total + Machined_Z_Pos[i];
+                    //    NumberOfLines++;
+
+                    //    string save_dir = "C:/Users/User/Desktop/Share/Chris/Abatlion Threshold/Trial 9/Focus Lines/" + pos_count;
+                    //    System.IO.Directory.CreateDirectory(save_dir);
+
+                    //    string save_image = save_dir + "/" + Machined_Z_Pos[i].ToString() + ".bmp";
+
+                    //    icImagingControl1.OverlayBitmap.Enable = false;
+                    //    icImagingControl1.MemorySnapImage();
+                    //    icImagingControl1.MemorySaveImage(save_image);
+                    //    icImagingControl1.OverlayBitmap.Enable = true;
+                    //}
+
+                    #endregion
+
+                    myController.Commands.Motion.Setup.Incremental();
                     myController.Commands.Motion.Linear("Y", -(Line_Spacing), 1);
                     myController.Commands.Motion.Setup.Absolute();
                 }
+
+                LaserFocus_Zaxis[pos_count] = LaserFocus_Zaxis_Total / NumberOfLines;
+                
+                pos_count = pos_count + 1;
+
+                #endregion
+
+                #region Original
+
+                //for (int i = 0; i < Mark_Number; i++)
+                //{
+                //    myController.Commands.Motion.Setup.Incremental();
+                //    //myController.Commands.Motion.Linear("X", -MarkLength / 2, 1);
+                //    DialogResult Focus_Result = MessageBox.Show("Is this result larger than the previous result?", "Important Question", MessageBoxButtons.YesNo);
+                //    if (Focus_Result == DialogResult.Yes)
+                //    {
+                //        // Recording position of focus point
+                //        LaserFocus_Xaxis[pos_count] = Current_X - MarkLength / 2;
+                //        LaserFocus_Yaxis[pos_count] = Current_Y - Line_Spacing * (i - 1);
+                //        LaserFocus_Zaxis[pos_count] = ablation_focus - Z_Scan_length / 2 + Z_Scan_length / Mark_Number * i;
+                //        //MessageBox.Show(LaserFocus_Zaxis[pos_count].ToString());
+                //        pos_count = pos_count + 1;
+                //        i = Mark_Number; 
+                //    }
+                //    myController.Commands.Motion.Linear("Y", -(Line_Spacing), 1);
+                //    myController.Commands.Motion.Setup.Absolute();
+                //}
+
+                #endregion
             }
+            IPForm.Close();
             shutter_closed();
         }
 
         // Y axis find focus 
 
-        private void FindFocus_Yaxis()
+        private void FindFocus_Yaxis(double Z_Scan_length, int Mark_Number, double Line_Spacing, double MarkLength)
         {
             double Current_X = 0;
             double Current_Y = 0;
@@ -1795,6 +1835,8 @@ namespace Aerotech_Control
                 myController.Commands.Axes["X", "Y", "Z"].Motion.Linear(new double[] { X, Point_calc_Y, Movement_z }, 5);
 
                 myController.Commands.Motion.Linear("D", microscope_focus, 2);
+
+                //uScope_focus_check(zoom);
             }
             else if (zoom == true)
             {
@@ -1812,6 +1854,8 @@ namespace Aerotech_Control
                 uScope_zoom_SerialPortCommunicator.SerialPort.Write("XG006C48\r");
 
                 Thread.Sleep(7500);
+
+                //uScope_focus_check(zoom);
 
                 lbl_Moving_Zoom.Visible = false;
                 this.Update();
@@ -1868,6 +1912,8 @@ namespace Aerotech_Control
             btn_PosJogD.Enabled = true;
             btn_NegJogD.Enabled = true;
 
+            eLight_Intensity(100);
+
             Movement_3D_uScope(Refined_Xaxis[1], Refined_Yaxis[1], 0, true);
 
             myController.Commands.Motion.Linear("D", microscope_focus + zoom_offset, 2);
@@ -1878,11 +1924,11 @@ namespace Aerotech_Control
         }
         private void btn_Set_Zoom_Click(object sender, EventArgs e)
         {
-            double current_D = myController.Commands.Status.AxisStatus("D", AxisStatusSignal.ProgramPositionFeedback);
+            //double current_D = myController.Commands.Status.AxisStatus("D", AxisStatusSignal.ProgramPositionFeedback);
             double current_X = myController.Commands.Status.AxisStatus("X", AxisStatusSignal.ProgramPositionFeedback);
             double current_Y = myController.Commands.Status.AxisStatus("Y", AxisStatusSignal.ProgramPositionFeedback);
 
-            zoom_offset = current_D - microscope_focus;
+            //zoom_offset = current_D - microscope_focus;
             microscope_zoom_x_correction = current_X - Refined_Xaxis[1];
             microscope_zoom_y_correction = current_Y - Refined_Yaxis[1];
 
@@ -2151,7 +2197,7 @@ namespace Aerotech_Control
 
         private void laser_ablation()
         {
-            string universal_path = "C:/Users/User/Desktop/Share/Chris/Abatlion Threshold/Trial 3";
+            string universal_path = "C:/Users/User/Desktop/Share/Chris/Abatlion Threshold/Trial 18";
 
             System.IO.Directory.CreateDirectory(universal_path);
 
@@ -2160,7 +2206,7 @@ namespace Aerotech_Control
             icImagingControl1.OverlayBitmap.Enable = false;
 
             eLight_Intensity(0);
-            Movement_3D_uScope(Refined_Xaxis[1] + 0.5, Refined_Yaxis[1] + 0.5, 0, true);
+            Movement_3D_uScope(Refined_Xaxis[0] + 0.5, Refined_Yaxis[0] + 0.5, 0, true);
 
             string dark_image_path = universal_path + "/Dark_Image.bmp";
 
@@ -2168,7 +2214,7 @@ namespace Aerotech_Control
 
             icImagingControl1.MemorySaveImage(dark_image_path);
 
-            MessageBox.Show("Captured Dark Field");
+            //MessageBox.Show("Captured Dark Field");
 
             eLight_Intensity(100);
 
@@ -2192,7 +2238,7 @@ namespace Aerotech_Control
 
             }
 
-            MessageBox.Show("Captured Flat Field");
+            //MessageBox.Show("Captured Flat Field");
 
             talisker_attenuation(90);
             watt_pilot_attenuation(0);
@@ -2202,13 +2248,15 @@ namespace Aerotech_Control
             aomgate_high_trigger();
             aommode_0();
             
-            shutter_open();            
+            shutter_open();
+
+            MessageBox.Show("Check Shutter is open");
 
             #region Find Ablation Threshold of Silicon                       
 
             // Drill reference grid along X axis
 
-            for (int iteration = 1; iteration < 11; iteration++)
+            for (int iteration = 0; iteration < 10; iteration++)
             {
                 //watt_pilot_attenuation(0);
                 Movement_3D_ablation(Refined_Xaxis[1] + 0.5 + (0.25 * iteration), Refined_Yaxis[1] + 0.25, 0, 5);
@@ -2222,26 +2270,41 @@ namespace Aerotech_Control
             MessageBox.Show("Remove Beam Dump");
 
             talisker_attenuation(99); // *** Check Requested Power Using AOM Repeatability
-            
-            for (int power_iteration = 0; power_iteration < 11; power_iteration++) // Change Y
+
+            watt_pilot_attenuation(0);
+
+            //Power Sweep 100 to 0 using two loops fixed dwell time = 5 seconds
+
+            int Holes_Total = 100;
+
+            double[] Holes_X = new double[Holes_Total];
+            double[] Holes_Y = new double[Holes_Total];
+            int Holes_Hold = 0;
+
+            int dwell_time = 5;
+
+            #region Change Power
+
+            for (int power_a = 0; power_a < 10; power_a++) // Change Y
             {
                 //Power for loop
-                for (int dwell_time = 1; dwell_time < 11; dwell_time++) // Adjust - Change X
+                for (int power_b = 0; power_b < 10; power_b++) // Adjust - Change X
                 {
-                    int power = 10 * power_iteration;
+                    int power = power_a * 10 + power_b;
 
                     string power_string = power.ToString("0000");
-                    string dwell_time_string = dwell_time.ToString("0000");
-                                        
+                                                            
                     string Save_Dir = universal_path + "/Power = " + power_string + "/Data"; // Adjust 
 
                     lbl_file_dir.Text = Save_Dir;
 
                     System.IO.Directory.CreateDirectory(Save_Dir);
                                      
-                    power_record_file_path = Save_Dir + "/Dwell Time = " + dwell_time_string + ".txt";
+                    power_record_file_path = Save_Dir + "/Power " + power + ".txt";
 
                     lbl_file_path.Text = power_record_file_path;
+
+                    this.Update();
 
                     // Set WATT Pilot ATT
 
@@ -2249,7 +2312,7 @@ namespace Aerotech_Control
 
                     // Hole position
 
-                    Movement_3D_ablation(Refined_Xaxis[1] + 0.5 + (0.25 * (dwell_time - 1)), Refined_Yaxis[1] + 0.5 + (0.25 * power_iteration), 0, 5);
+                    Movement_3D_ablation(Refined_Xaxis[1] + 0.5 + (0.25 * (power_b)), Refined_Yaxis[1] + 0.5 + (0.25 * power_a), 0, 5);
 
                     record_power = 1; // Start recording power
 
@@ -2259,57 +2322,250 @@ namespace Aerotech_Control
                     
                     myController.Commands.PSO.Control("X", Aerotech.A3200.Commands.PsoMode.Off);
 
-                    record_power = 0;
+                    record_power = 0; // End recording power
+
+                    // Store Hole location
+
+                    Holes_X[Holes_Hold] = myController.Commands.Status.AxisStatus("X", AxisStatusSignal.ProgramPositionFeedback) + OffsetAccurate_Xaxis;
+                    Holes_Y[Holes_Hold] = myController.Commands.Status.AxisStatus("Y", AxisStatusSignal.ProgramPositionFeedback) + OffsetAccurate_Yaxis;
+
+                    Holes_Hold++;
                 }
             }
 
+            shutter_closed();
+
+            Holes_Hold = 0;
+
             // Capture Holes using Microscope        
-                    
-            for (int power_iteration = 0; power_iteration < 11; power_iteration++) // Change Y
+
+            for (int power_a = 0; power_a < 10; power_a++) // Change Y
             {
                 //Power for loop
-                for (int dwell_time = 1; dwell_time < 11; dwell_time++) // Adjust - Change X
+                for (int power_b = 0; power_b < 10; power_b++) // Adjust - Change X
                 {
-                    int power = 10 * power_iteration;
+                    int power = power_a * 10 + power_b;
 
                     string power_string = power.ToString("0000");
-                    string dwell_time_string = dwell_time.ToString("0000");
 
-                    string Save_Dir = universal_path + "/Power = " + power_string + "/Images"; 
+                    string Save_Dir = universal_path + "/Power = " + power_string + "/Images";
 
                     lbl_file_dir.Text = Save_Dir;
 
-                    System.IO.Directory.CreateDirectory(Save_Dir);                                   
+                    System.IO.Directory.CreateDirectory(Save_Dir);
 
                     // Hole position
 
-                    Movement_3D_uScope(Refined_Xaxis[1] + 0.5 + (0.25 * (dwell_time - 1)), Refined_Yaxis[1] + 0.5 + (0.25 * power_iteration), 0, true);
+                    Movement_3D_uScope(Holes_X[Holes_Hold], Holes_Y[Holes_Hold], 0, true);
 
-                    for(int a = 0; a <5; a++)
+                    // Take Backup Picture Before Auto Focus
+
+                    icImagingControl1.OverlayBitmap.Enable = false;
+
+                    Thread.Sleep(1 * 1000);
+
+                    icImagingControl1.MemorySnapImage();
+
+                    icImagingControl1.MemorySaveImage(Save_Dir + "/Backup.bmp");
+
+                    // Auto Focus
+
+                    uScope_focus_check(true);
+
+                    if (AlignmentFocus_Container.Feature_Visible == true)
                     {
-                        string image_record_dir = Save_Dir + "/Dwell Time = " + dwell_time;
+                        using (StreamWriter writer = new StreamWriter(Save_Dir + "visible.txt"))
+                        {
+                            writer.Write("Visible");
+                        }
 
-                        System.IO.Directory.CreateDirectory(image_record_dir);
+                        // Correct zoom offset
 
-                        string image_record_file_path = image_record_dir + "/A" + a + ".bmp";
+                        double current_D = myController.Commands.Status.AxisStatus("D", AxisStatusSignal.ProgramPositionFeedback);
+                        double current_X = myController.Commands.Status.AxisStatus("X", AxisStatusSignal.ProgramPositionFeedback);
+                        double current_Y = myController.Commands.Status.AxisStatus("Y", AxisStatusSignal.ProgramPositionFeedback);
+
+                        zoom_offset = current_D - microscope_focus;
+                        microscope_zoom_x_correction = current_X - (Refined_Xaxis[1] + 0.5 + (0.25 * power_b));
+                        microscope_zoom_y_correction = current_Y - (Refined_Yaxis[1] + 0.5 + (0.25 * power_a));
+                    }
+                                                           
+                    AlignmentFocus_Container.Feature_Visible = false;
+
+                    for (int a = 0; a <3; a++)
+                    {
+                        icImagingControl1.OverlayBitmap.Enable = false;
+
+                        Thread.Sleep(3000);                        
+
+                        string image_record_file_path = Save_Dir + "/A" + a + ".bmp";
+
+                        lbl_file_path.Text = image_record_file_path;                        
+
+                        icImagingControl1.MemorySnapImage();
+
+                        icImagingControl1.MemorySaveImage(image_record_file_path);                        
+                    }
+
+                    Holes_Hold++;                 
+                }
+
+            }
+            
+            icImagingControl1.OverlayBitmap.Enable = true;
+
+            #endregion
+
+            #region Change Reprate and Dwell time 
+
+            universal_path = "C:/Users/User/Desktop/Share/Chris/Abatlion Threshold/Trial 19";
+
+            Holes_Total = 100; //***** Check 
+
+            Holes_Hold = 0;
+
+            // Set WATT Pilot ATT
+
+            watt_pilot_attenuation(0);            
+
+            for (int divisor = 1; divisor < 11; divisor++) // Change Y
+            {                               
+                //Power for loop
+                for (dwell_time = 1; dwell_time < 11; dwell_time++) // Adjust - Change X
+                {
+                    string divisor_string = divisor.ToString("00");
+                    string dwell_time_string = dwell_time.ToString("00");
+
+                    string Save_Dir = universal_path + "/Divisor = " + divisor_string + " Dwell TIme = " + dwell_time_string + "/Data"; // Adjust 
+
+                    lbl_file_dir.Text = Save_Dir;
+
+                    System.IO.Directory.CreateDirectory(Save_Dir);
+
+                    power_record_file_path = Save_Dir + "/Power.txt";
+
+                    lbl_file_path.Text = power_record_file_path;
+
+                    this.Update();
+
+                    // Set WATT Pilot ATT
+
+                    watt_pilot_attenuation(0);
+
+                    // Set Rep Rate
+
+                    int rep_rate = 200000 / divisor;
+
+                    talisker_rep_rate(rep_rate);
+
+                    // Hole position
+
+                    Movement_3D_ablation(Refined_Xaxis[1] + 0.5 + (0.25 * (dwell_time - 1)), Refined_Yaxis[1] + 0.5 + (0.25 * (divisor - 1)) + (0.25*12), 0, 5);
+
+                    record_power = 1; // Start recording power
+
+                    myController.Commands.PSO.Control("X", Aerotech.A3200.Commands.PsoMode.On);
+
+                    Thread.Sleep(dwell_time * 1000);
+
+                    myController.Commands.PSO.Control("X", Aerotech.A3200.Commands.PsoMode.Off);
+
+                    record_power = 0; // End recording power
+
+                    // Store Hole location
+
+                    Holes_X[Holes_Hold] = myController.Commands.Status.AxisStatus("X", AxisStatusSignal.ProgramPositionFeedback) + OffsetAccurate_Xaxis;
+                    Holes_Y[Holes_Hold] = myController.Commands.Status.AxisStatus("Y", AxisStatusSignal.ProgramPositionFeedback) + OffsetAccurate_Yaxis;
+
+                    Holes_Hold++;
+                }
+            }
+
+            shutter_closed();
+
+            Holes_Hold = 0;
+
+            // Capture Holes using Microscope        
+
+            for (int divisor = 1; divisor < 11; divisor++) // Change Y
+            {
+                //Power for loop
+                for (dwell_time = 1; dwell_time < 11; dwell_time++) // Adjust - Change X
+                {
+                    string divisor_string = divisor.ToString("00");
+                    string dwell_time_string = dwell_time.ToString("00");
+
+                    string Save_Dir = universal_path + "/Divisor = " + divisor_string + " Dwell TIme = " + dwell_time_string + "/Images"; // Adjust                     
+
+                    lbl_file_dir.Text = Save_Dir;
+
+                    System.IO.Directory.CreateDirectory(Save_Dir);
+
+                    // Hole position
+
+                    Movement_3D_uScope(Holes_X[Holes_Hold], Holes_Y[Holes_Hold], 0, true);
+
+                    // Take Backup Picture Before Auto Focus
+
+                    icImagingControl1.OverlayBitmap.Enable = false;
+
+                    Thread.Sleep(1 * 1000);
+
+                    icImagingControl1.MemorySnapImage();
+
+                    icImagingControl1.MemorySaveImage(Save_Dir + "/Backup.bmp");
+
+                    // Auto Focus
+
+                    uScope_focus_check(true);
+
+                    if (AlignmentFocus_Container.Feature_Visible == true)
+                    {
+                        using (StreamWriter writer = new StreamWriter(Save_Dir + "visible.txt"))
+                        {
+                            writer.Write("Visible");
+                        }
+
+                        // Correct zoom offset
+
+                        double current_D = myController.Commands.Status.AxisStatus("D", AxisStatusSignal.ProgramPositionFeedback);
+                        double current_X = myController.Commands.Status.AxisStatus("X", AxisStatusSignal.ProgramPositionFeedback);
+                        double current_Y = myController.Commands.Status.AxisStatus("Y", AxisStatusSignal.ProgramPositionFeedback);
+
+                        zoom_offset = current_D - microscope_focus;
+                        microscope_zoom_x_correction = current_X - (Refined_Xaxis[1] + 0.5 + (0.25 * (dwell_time - 1)));
+                        microscope_zoom_y_correction = current_Y - (Refined_Yaxis[1] + 0.5 + (0.25 * (divisor - 1)));
+                    }
+
+                    AlignmentFocus_Container.Feature_Visible = false;
+
+                    for (int a = 0; a < 3; a++)
+                    {
+                        icImagingControl1.OverlayBitmap.Enable = false;
+
+                        Thread.Sleep(3000);
+
+                        string image_record_file_path = Save_Dir + "/A" + a + ".bmp";
 
                         lbl_file_path.Text = image_record_file_path;
-
-                        Thread.Sleep(5*1000);
 
                         icImagingControl1.MemorySnapImage();
 
                         icImagingControl1.MemorySaveImage(image_record_file_path);
                     }
-                    
 
+                    Holes_Hold++;
                 }
+                                              
             }
-               
+
+
+
             #endregion
 
-            shutter_closed();
+            #endregion
         }
+
 
 
         #endregion
@@ -3000,37 +3256,53 @@ namespace Aerotech_Control
         }
 
         public void move()
-        {
-            int[] on_time = { 30, 10 };
-            int[] off_time = { 10, 30 };
+        {                        
+            string Save_Dir = "C:/Users/User/Desktop/Share/Chris";
 
-            Random on_time_random = new Random();
-            Random off_time_random = new Random();
-                        
-            for (int WP_att_setting = 0; WP_att_setting < 110; WP_att_setting += 10)
-            {
-                
-                for (int count = 0; count < 10; count++)
-                {
+            lbl_file_dir.Text = Save_Dir;
 
-                    string Save_Dir = "C:/Users/User/Desktop/Share/Chris/AOM Power Repeatability - Drill Hole Replication 2/" + (WP_att_setting).ToString("00");
+            power_record_file_path = Save_Dir + "/Power_Record.txt";
 
-                    lbl_file_dir.Text = Save_Dir;
+            lbl_file_path.Text = power_record_file_path;
 
-                    System.IO.Directory.CreateDirectory(Save_Dir);
+            set_check_laser_power(99, 0, 5, 20);
+         
 
-                    string count_string = (count).ToString("0000");
-
-                    power_record_file_path = Save_Dir + "/Power_Record_" + count_string + ".txt";
-
-                    lbl_file_path.Text = power_record_file_path;
-
-                    set_check_laser_power(99, WP_att_setting, 2, 6);
-                }
-
-            }
 
             #region Previous Tests
+
+            ///////////////////////////////////////////////////////////////////////////////////////////////
+
+            //int[] on_time = { 30, 10 };
+            //int[] off_time = { 10, 30 };
+
+            //Random on_time_random = new Random();
+            //Random off_time_random = new Random();
+
+            //for (int WP_att_setting = 0; WP_att_setting < 110; WP_att_setting += 10)
+            //{
+
+            //    for (int count = 0; count < 10; count++)
+            //    {
+
+            //        string Save_Dir = "C:/Users/User/Desktop/Share/Chris/AOM Power Repeatability - Drill Hole Replication 2/" + (WP_att_setting).ToString("00");
+
+            //        lbl_file_dir.Text = Save_Dir;
+
+            //        System.IO.Directory.CreateDirectory(Save_Dir);
+
+            //        string count_string = (count).ToString("0000");
+
+            //        power_record_file_path = Save_Dir + "/Power_Record_" + count_string + ".txt";
+
+            //        lbl_file_path.Text = power_record_file_path;
+
+            //        set_check_laser_power(99, WP_att_setting, 2, 6);
+            //    }
+
+            //}
+
+            ///////////////////////////////////////////////////////////////////////////////////////////////
 
             //string Save_Dir = "C:/Users/User/Desktop/Share/Chris/AOM Power Repeatability - AOM Rise";
 
@@ -3240,6 +3512,7 @@ namespace Aerotech_Control
         private void Form1_FormClosed(object sender, FormClosedEventArgs e)
         {
             shutter_closed();
+            eLight_Intensity(0);
             Application.Exit();
         }
 
@@ -3323,6 +3596,19 @@ namespace Aerotech_Control
                         
             btn_Max_Zoom.Enabled = false;
 
+            if (use_type == 0)  // button press
+            {
+                min_zoom_focus_d_btn = myController.Commands.Status.AxisStatus("D", AxisStatusSignal.ProgramPositionFeedback);
+                min_zoom_focus_x_btn = myController.Commands.Status.AxisStatus("X", AxisStatusSignal.ProgramPositionFeedback);
+                min_zoom_focus_y_btn = myController.Commands.Status.AxisStatus("Y", AxisStatusSignal.ProgramPositionFeedback);
+
+                myController.Commands.Motion.Setup.Absolute();
+                myController.Commands.Motion.Linear("D", min_zoom_focus_d_btn + zoom_offset, 2);
+                myController.Commands.Motion.Linear("X", min_zoom_focus_x_btn + microscope_zoom_x_correction, 2);
+                myController.Commands.Motion.Linear("Y", min_zoom_focus_y_btn + microscope_zoom_y_correction, 2);
+
+            }
+
             uScope_zoom_SerialPortCommunicator.SerialPort.Write("XH\r");
 
             Thread.Sleep(7500);
@@ -3333,17 +3619,7 @@ namespace Aerotech_Control
 
             btn_Min_Zoom.Enabled = true;
 
-            if (use_type == 0)  // button press
-            {
-                min_zoom_focus_d_btn = myController.Commands.Status.AxisStatus("D", AxisStatusSignal.ProgramPositionFeedback);
-                min_zoom_focus_x_btn = myController.Commands.Status.AxisStatus("X", AxisStatusSignal.ProgramPositionFeedback);
-                min_zoom_focus_y_btn = myController.Commands.Status.AxisStatus("Y", AxisStatusSignal.ProgramPositionFeedback);
-
-                myController.Commands.Motion.Linear("D", min_zoom_focus_d_btn + zoom_offset, 2);
-                myController.Commands.Motion.Linear("X", min_zoom_focus_x_btn + microscope_zoom_x_correction, 2);
-                myController.Commands.Motion.Linear("Y", min_zoom_focus_y_btn + microscope_zoom_y_correction, 2);
-
-            }
+            
 
             lbl_Moving_Zoom.Visible = false;
             this.Update();
@@ -3380,7 +3656,7 @@ namespace Aerotech_Control
 
         private void btn_zoom_test_Click(object sender, EventArgs e)
         {
-            Movement_3D_uScope(Refined_Xaxis[2], Refined_Yaxis[2], 0, true);
+            Movement_3D_uScope(Refined_Xaxis[1], Refined_Yaxis[1], 0, true);
             shutter_closed();
 
         }
@@ -3392,36 +3668,53 @@ namespace Aerotech_Control
             zoom_offset = current_D - microscope_focus;
         }
 
-        private void uScope_img_alignment()
+        //private void uScope_img_alignment(Boolean zoom)
+        //{
+        //    icImagingControl1.OverlayBitmap.Enable = false;
+
+        //    ImageProcessing IPForm = new ImageProcessing();
+        //    IPForm.Show();
+        //    IPForm.Activate();
+
+        //    while (AlignmentFocus_Container.Aligned != true)
+        //    {
+        //        icImagingControl1.MemorySnapImage(1000);
+        //        Bitmap live_bmp = icImagingControl1.ImageActiveBuffer.Bitmap;
+        //        IPForm.DetectHole(15, live_bmp, zoom); //30
+
+        //        myController.Commands.Motion.Setup.Incremental();
+        //        myController.Commands.Motion.Linear("X", -AlignmentFocus_Container.X_Correction_MM, 1); //*** Check which way correction should be applied
+        //        myController.Commands.Motion.Linear("Y", -AlignmentFocus_Container.Y_Correction_MM, 1); //*** Check which way correction should be applied
+        //        myController.Commands.Motion.Setup.Absolute();
+
+        //        if (AlignmentFocus_Container.X_Correction_MM == 0 && AlignmentFocus_Container.Y_Correction_MM == 0)
+        //        {
+        //            AlignmentFocus_Container.Aligned = true;
+        //        }
+        //    }
+
+        //    IPForm.Close();
+        //    icImagingControl1.OverlayBitmap.Enable = true;
+        //    AlignmentFocus_Container.Aligned = false;
+        //}
+
+        private void btn_autoalign_Click(object sender, EventArgs e)
         {
-            ImageProcessing IPForm = new ImageProcessing();
+            Boolean zoom = false;
 
-            IPForm.Show();
-            IPForm.Activate();
-
-            while (AlignmentFocus_Container.Aligned != true)
+            if (btn_Max_Zoom.Enabled == true)
             {
-                //File.Delete(AlignmentFocus_Container.temp_img_path);
-                icImagingControl1.OverlayBitmap.Enable = false;
-                Bitmap live_bmp = icImagingControl1.ImageActiveBuffer.Bitmap;
-                //icImagingControl1.MemorySnapImage();
-                //icImagingControl1.MemorySaveImage(AlignmentFocus_Container.temp_img_path);
-                icImagingControl1.OverlayBitmap.Enable = true;
-
-                IPForm.DetectHole(30, live_bmp);
-
-                myController.Commands.Motion.Setup.Incremental();
-                myController.Commands.Motion.Linear("X", AlignmentFocus_Container.X_Correction_MM, 1); //*** Check which way correction should be applied
-                myController.Commands.Motion.Linear("Y", AlignmentFocus_Container.Y_Correction_MM, 1); //*** Check which way correction should be applied
-                myController.Commands.Motion.Setup.Absolute();
+                zoom = false;
+            }
+            else if (btn_Min_Zoom.Enabled == true)
+            {
+                zoom = true;
             }
 
-            IPForm.Close();
-
-            AlignmentFocus_Container.Aligned = false;
+            //uScope_img_alignment(zoom);
         }
 
-        private void uScope_focus_check()
+        private void uScope_focus_check(Boolean zoom)
         {
             icImagingControl1.OverlayBitmap.Enable = false;
 
@@ -3430,111 +3723,154 @@ namespace Aerotech_Control
             IPForm.Show();
             IPForm.Activate();
 
-            double Laplace_std_hold = 0;
-            int direction = 1;
-            double step_size = 0.05;
-            Boolean[] improving = new Boolean[2];
-
+            double Focus_max_area = 0;
+            double Laplace_max = 0;
+            double scan_length = 0;
+            double scan_length_2 = 0;
+            double scan_length_3 = 0;
+            double scan_steps;
             int iteration = 0;
+            int cycle_count = 0;
+            Boolean Completed_Gross_Pass = false;
 
+            if (zoom == false)
+            {
+                scan_length = 0.5;
+                scan_length_2 = 0.1;
+                scan_length_3 = 0.01;
+                scan_steps = scan_length / 0.01;                
+            }
+            else
+            {
+                scan_length = 0.15;
+                scan_length_2 = 0.02;
+                scan_length_3 = 0.005;
+                scan_steps = scan_length / 0.001;                
+            }
+             
+            double Daxis_intial = myController.Commands.Status.AxisStatus("D", AxisStatusSignal.ProgramPositionFeedback);
+            double Daxis_max = 0;
+            
             while (AlignmentFocus_Container.Focused != true)
             {
-                //File.Delete(AlignmentFocus_Container.temp_img_path);
-                
-                icImagingControl1.MemorySnapImage(1000);
-                Bitmap live_bmp = icImagingControl1.ImageActiveBuffer.Bitmap;
-                //icImagingControl1.MemorySnapImage();
-                //icImagingControl1.MemorySaveImage(AlignmentFocus_Container.temp_img_path);
-                
-
-                IPForm.focus_determination(live_bmp);
-
-                if (AlignmentFocus_Container.Laplace_std - Laplace_std_hold >= 0)
+                for (int i = 0; i < scan_steps; i++)
                 {
-                    Laplace_std_hold = AlignmentFocus_Container.Laplace_std;
+                    myController.Commands.Motion.Setup.Absolute();
+                    myController.Commands.Motion.Linear("D", Daxis_intial + scan_length / 2 - scan_length / scan_steps * i, 1);
 
-                    improving[0] = improving[1];
-                    improving[1] = true;
+                    icImagingControl1.MemorySnapImage(1000);
+                    Bitmap live_bmp = icImagingControl1.ImageActiveBuffer.Bitmap;
+
+                    //string file_directory = "C:/Users/User/Desktop/Share/Chris/Laplace" + scan_length.ToString();
+                    //System.IO.Directory.CreateDirectory(file_directory);
+                    //live_bmp.Save(file_directory + "/" + i + ".bmp");
+
+                    IPForm.DetectHole(15, live_bmp, true);
+                    
+                    if (AlignmentFocus_Container.Max_Area >= Focus_max_area)
+                    {
+                        Focus_max_area = AlignmentFocus_Container.Max_Area;
+                        Daxis_max = myController.Commands.Status.AxisStatus("D", AxisStatusSignal.ProgramPositionFeedback);
+
+                        myController.Commands.Motion.Setup.Incremental();
+                        myController.Commands.Motion.Linear("X", -AlignmentFocus_Container.X_Correction_MM, 1);
+                        myController.Commands.Motion.Linear("Y", -AlignmentFocus_Container.Y_Correction_MM, 1);
+                        myController.Commands.Motion.Setup.Absolute(); ;
+
+                        iteration = i;
+                    }
+
+                    IPForm.StepValue((Daxis_intial + scan_length / 2 - scan_length / scan_steps * i).ToString());
+                    IPForm.IterationValue(i.ToString());
                 }
-                else if (AlignmentFocus_Container.Laplace_std - Laplace_std_hold < 0)
-                {
-                    Laplace_std_hold = AlignmentFocus_Container.Laplace_std;
 
-                    improving[0] = improving[1];
-                    improving[1] = false;
+                Daxis_intial = Daxis_max;
+                scan_length = scan_length_2;
+                scan_steps = scan_length_2 / 0.0001;
+                              
+
+                if (iteration >= (scan_steps / 2 - scan_steps / 10) && iteration <= (scan_steps / 2 + scan_steps / 10) && Completed_Gross_Pass == true)
+                {                
+                    AlignmentFocus_Container.Focused = true;                    
                 }
-
-                if (step_size <= 0.001)
+                
+                if (cycle_count == 2)
                 {
                     AlignmentFocus_Container.Focused = true;
-                    break;
                 }
 
-                if (improving[0] == true && improving[1] == true) // Continue in same direction because result is getting better
-                {
-                    myController.Commands.Motion.Setup.Incremental();
-                    myController.Commands.Motion.Linear("D", step_size * direction, 1); 
-                    myController.Commands.Motion.Setup.Absolute();
-                }
-
-                else if (improving[0] == false && improving[1] == false) // Reverse direction because result is continuing to get worse
-                {
-                    direction = direction * -1;
-
-                    myController.Commands.Motion.Setup.Incremental();
-                    myController.Commands.Motion.Linear("D", step_size * direction, 1);
-                    myController.Commands.Motion.Setup.Absolute();
-                }
-                
-                else if (improving[0] == true && improving[1] == false) // Reverse direction because result has got worse
-                {
-                    direction = direction * -1;
-                    step_size = step_size / 2;
-
-                    myController.Commands.Motion.Setup.Incremental();
-                    myController.Commands.Motion.Linear("D", step_size * direction, 1); 
-                    myController.Commands.Motion.Setup.Absolute();
-                }
-
-                else if (improving[0] == false && improving[1] == true) // Continue in same direction because result has improved
-                {
-                    myController.Commands.Motion.Setup.Incremental();
-                    myController.Commands.Motion.Linear("D", step_size * direction, 1);
-                    myController.Commands.Motion.Setup.Absolute();
-                }
-
-                iteration = iteration + 1;
-
-                IPForm.StepValue((step_size * direction).ToString());
-                IPForm.IterationValue(iteration.ToString());
-                 
+                Completed_Gross_Pass = true;
+                cycle_count = cycle_count + 1;              
             }
+
+            // Laplace Transform Scan
+
+            Daxis_intial = Daxis_max;
+            scan_length = scan_length_3;
+            scan_steps = scan_length_3 / 0.0001;            
+            
+            for (int i = 0; i < scan_steps; i++)
+            {
+                myController.Commands.Motion.Setup.Absolute();
+                myController.Commands.Motion.Linear("D", Daxis_intial + scan_length / 2 - scan_length / scan_steps * i, 1);
+
+                icImagingControl1.MemorySnapImage(1000);
+                Bitmap live_bmp = icImagingControl1.ImageActiveBuffer.Bitmap;
+                                
+                IPForm.focus_determination(live_bmp);
+
+                if (AlignmentFocus_Container.Laplace_std >= Laplace_max)
+                {
+                    Laplace_max = AlignmentFocus_Container.Laplace_std;
+                    Daxis_max = myController.Commands.Status.AxisStatus("D", AxisStatusSignal.ProgramPositionFeedback);
+                    iteration = i;
+                }
+
+                IPForm.StepValue((Daxis_intial + scan_length / 2 - scan_length / scan_steps * i).ToString());
+                IPForm.IterationValue(i.ToString());
+            }
+
+            myController.Commands.Motion.Linear("D", Daxis_max, 1);
 
             icImagingControl1.OverlayBitmap.Enable = true;
             IPForm.Close();
             AlignmentFocus_Container.Focused = false;
+            Completed_Gross_Pass = false;
+            Focus_max_area = 0;
+            Laplace_max = 0;
+        }
+                
+        private void btn_AutoFocus_Click(object sender, EventArgs e)
+        {
+            Boolean zoom = false;
+
+            if (btn_Max_Zoom.Enabled == true)
+            {
+                zoom = false;
+            }
+            else if (btn_Min_Zoom.Enabled == true)
+            {
+                zoom = true;
+            }
+
+            uScope_focus_check(zoom);
         }
 
         #endregion
-
-        private void btn_AutoFocus_Click(object sender, EventArgs e)
-        {
-            uScope_focus_check();
-        }
     }
 
     public static class AlignmentFocus_Container
     {
-        public static string temp_img_path = "C:/Users/User/Documents/GitHub/PrecisionPlatformControl/Reference Values/Capture.bmp"; 
-
         public static Boolean Aligned = false;
         public static Boolean Focused = false;
 
+        public static double Max_Area;
         public static double X_Correction_MM;
         public static double Y_Correction_MM;
 
         public static double Laplace_std;
 
+        public static Boolean Feature_Visible;
 
     }
 

@@ -45,6 +45,7 @@
             this.lbl_laplacestd = new System.Windows.Forms.Label();
             this.lbl_step = new System.Windows.Forms.Label();
             this.lbl_iteration = new System.Windows.Forms.Label();
+            this.lbl_largestblob = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.trackBar1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
@@ -226,11 +227,21 @@
             this.lbl_iteration.TabIndex = 25;
             this.lbl_iteration.Text = "Iteration";
             // 
+            // lbl_largestblob
+            // 
+            this.lbl_largestblob.AutoSize = true;
+            this.lbl_largestblob.Location = new System.Drawing.Point(433, 341);
+            this.lbl_largestblob.Name = "lbl_largestblob";
+            this.lbl_largestblob.Size = new System.Drawing.Size(66, 13);
+            this.lbl_largestblob.TabIndex = 26;
+            this.lbl_largestblob.Text = "Largest Blob";
+            // 
             // ImageProcessing
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1215, 459);
+            this.Controls.Add(this.lbl_largestblob);
             this.Controls.Add(this.lbl_iteration);
             this.Controls.Add(this.lbl_step);
             this.Controls.Add(this.lbl_laplacestd);
@@ -277,6 +288,7 @@
         private System.Windows.Forms.Label lbl_laplacestd;
         private System.Windows.Forms.Label lbl_step;
         private System.Windows.Forms.Label lbl_iteration;
+        private System.Windows.Forms.Label lbl_largestblob;
     }
 }
 
