@@ -1,6 +1,6 @@
 ﻿namespace Aerotech_Control
 {
-    partial class Form1
+    partial class InteractionForm
     {
         /// <summary>
         /// Required designer variable.
@@ -29,10 +29,7 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
-            this.btn_ConnectController = new System.Windows.Forms.Button();
-            this.btn_DisconnectController = new System.Windows.Forms.Button();
-            this.chkbx_ConnectedVal = new System.Windows.Forms.CheckBox();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(InteractionForm));
             this.cmb_AxisNames = new System.Windows.Forms.ComboBox();
             this.lbl_TaskState = new System.Windows.Forms.Label();
             this.grpbx_AxVel = new System.Windows.Forms.GroupBox();
@@ -93,6 +90,7 @@
             this.label1 = new System.Windows.Forms.Label();
             this.btn_jog1 = new System.Windows.Forms.Button();
             this.btn_jog01 = new System.Windows.Forms.Button();
+            this.btn_HomeProcedure = new System.Windows.Forms.Button();
             this.btn_jog001 = new System.Windows.Forms.Button();
             this.btn_jog0001 = new System.Windows.Forms.Button();
             this.btn_jog00001 = new System.Windows.Forms.Button();
@@ -109,12 +107,17 @@
             this.btn_PosJogX = new System.Windows.Forms.Button();
             this.btn_NegJogX = new System.Windows.Forms.Button();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.btn_zoom_D_set = new System.Windows.Forms.Button();
+            this.btn_zoom_test = new System.Windows.Forms.Button();
+            this.btn_Move_Zoom = new System.Windows.Forms.Button();
+            this.btn_Set_Zoom = new System.Windows.Forms.Button();
+            this.btn_SetuScopeFocus_2 = new System.Windows.Forms.Button();
             this.txtbx_AngForAblation = new System.Windows.Forms.TextBox();
-            this.lbl_AngForBoxAblation = new System.Windows.Forms.Label();
-            this.btn_BoxAblation = new System.Windows.Forms.Button();
             this.txtbx_rotangle = new System.Windows.Forms.TextBox();
             this.btn_RotationTest = new System.Windows.Forms.Button();
+            this.lbl_AngForBoxAblation = new System.Windows.Forms.Label();
             this.btn_SetuScopeFocus = new System.Windows.Forms.Button();
+            this.btn_BoxAblation = new System.Windows.Forms.Button();
             this.btn_point1 = new System.Windows.Forms.Button();
             this.btn_RotationalCentre = new System.Windows.Forms.Button();
             this.btn_FindFocus = new System.Windows.Forms.Button();
@@ -132,14 +135,14 @@
             this.TalikserLaser = new System.IO.Ports.SerialPort(this.components);
             this.WattPilot_1064 = new System.IO.Ports.SerialPort(this.components);
             this.backgroundWorker_LaserAlign = new System.ComponentModel.BackgroundWorker();
-            this.btn_HomeProcedure = new System.Windows.Forms.Button();
             this.grpbx_OphirControl = new System.Windows.Forms.GroupBox();
+            this.btn_autoalign = new System.Windows.Forms.Button();
+            this.btn_AutoFocus = new System.Windows.Forms.Button();
             this.btn_AOMrepeatability = new System.Windows.Forms.Button();
             this.btn_StopStream = new System.Windows.Forms.Button();
             this.LabelStatus0 = new System.Windows.Forms.Label();
             this.label20 = new System.Windows.Forms.Label();
             this.LabelMeasurement0 = new System.Windows.Forms.Label();
-            this.label18 = new System.Windows.Forms.Label();
             this.label19 = new System.Windows.Forms.Label();
             this.LabelTime0 = new System.Windows.Forms.Label();
             this.btn_StartStream = new System.Windows.Forms.Button();
@@ -177,6 +180,15 @@
             this.lbl_ShutterStatusText = new System.Windows.Forms.Label();
             this.lbl_file_dir = new System.Windows.Forms.Label();
             this.lbl_file_path = new System.Windows.Forms.Label();
+            this.cmdSaveBitmap = new System.Windows.Forms.Button();
+            this.grpbx_Microscope = new System.Windows.Forms.GroupBox();
+            this.lbl_Moving_Zoom = new System.Windows.Forms.Label();
+            this.lbl_Intensity = new System.Windows.Forms.Label();
+            this.trackbar_intensity = new System.Windows.Forms.TrackBar();
+            this.btn_Max_Intensity = new System.Windows.Forms.Button();
+            this.btn_Min_Intensity = new System.Windows.Forms.Button();
+            this.btn_Max_Zoom = new System.Windows.Forms.Button();
+            this.btn_Min_Zoom = new System.Windows.Forms.Button();
             this.grpbx_AxVel.SuspendLayout();
             this.grpbx_AxPos.SuspendLayout();
             this.grpbx_AxisStatus.SuspendLayout();
@@ -186,50 +198,22 @@
             ((System.ComponentModel.ISupportInitialize)(this.icImagingControl1)).BeginInit();
             this.grpbx_OphirControl.SuspendLayout();
             this.grpbx_TalikserLaser.SuspendLayout();
+            this.grpbx_Microscope.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.trackbar_intensity)).BeginInit();
             this.SuspendLayout();
-            // 
-            // btn_ConnectController
-            // 
-            this.btn_ConnectController.Location = new System.Drawing.Point(12, 23);
-            this.btn_ConnectController.Name = "btn_ConnectController";
-            this.btn_ConnectController.Size = new System.Drawing.Size(95, 23);
-            this.btn_ConnectController.TabIndex = 0;
-            this.btn_ConnectController.Text = "Connect";
-            this.btn_ConnectController.UseVisualStyleBackColor = true;
-            this.btn_ConnectController.Click += new System.EventHandler(this.btn_ConnectController_Click);
-            // 
-            // btn_DisconnectController
-            // 
-            this.btn_DisconnectController.Location = new System.Drawing.Point(113, 23);
-            this.btn_DisconnectController.Name = "btn_DisconnectController";
-            this.btn_DisconnectController.Size = new System.Drawing.Size(95, 23);
-            this.btn_DisconnectController.TabIndex = 1;
-            this.btn_DisconnectController.Text = "Disconnect";
-            this.btn_DisconnectController.UseVisualStyleBackColor = true;
-            this.btn_DisconnectController.Click += new System.EventHandler(this.btn_DisconnectController_Click);
-            // 
-            // chkbx_ConnectedVal
-            // 
-            this.chkbx_ConnectedVal.AutoSize = true;
-            this.chkbx_ConnectedVal.Location = new System.Drawing.Point(12, 52);
-            this.chkbx_ConnectedVal.Name = "chkbx_ConnectedVal";
-            this.chkbx_ConnectedVal.Size = new System.Drawing.Size(84, 17);
-            this.chkbx_ConnectedVal.TabIndex = 2;
-            this.chkbx_ConnectedVal.Text = "Connected?";
-            this.chkbx_ConnectedVal.UseVisualStyleBackColor = true;
             // 
             // cmb_AxisNames
             // 
             this.cmb_AxisNames.FormattingEnabled = true;
-            this.cmb_AxisNames.Location = new System.Drawing.Point(12, 77);
+            this.cmb_AxisNames.Location = new System.Drawing.Point(302, 24);
             this.cmb_AxisNames.Name = "cmb_AxisNames";
-            this.cmb_AxisNames.Size = new System.Drawing.Size(121, 21);
+            this.cmb_AxisNames.Size = new System.Drawing.Size(112, 21);
             this.cmb_AxisNames.TabIndex = 3;
             // 
             // lbl_TaskState
             // 
             this.lbl_TaskState.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.lbl_TaskState.Location = new System.Drawing.Point(12, 111);
+            this.lbl_TaskState.Location = new System.Drawing.Point(110, 25);
             this.lbl_TaskState.Name = "lbl_TaskState";
             this.lbl_TaskState.Size = new System.Drawing.Size(186, 18);
             this.lbl_TaskState.TabIndex = 4;
@@ -248,7 +232,7 @@
             this.grpbx_AxVel.Controls.Add(this.lbl_ZVel);
             this.grpbx_AxVel.Controls.Add(this.lbl_YVel);
             this.grpbx_AxVel.Controls.Add(this.lbl_XVel);
-            this.grpbx_AxVel.Location = new System.Drawing.Point(642, 23);
+            this.grpbx_AxVel.Location = new System.Drawing.Point(436, 23);
             this.grpbx_AxVel.Name = "grpbx_AxVel";
             this.grpbx_AxVel.Size = new System.Drawing.Size(181, 197);
             this.grpbx_AxVel.TabIndex = 45;
@@ -401,7 +385,7 @@
             this.grpbx_AxPos.Controls.Add(this.lbl_ZPos);
             this.grpbx_AxPos.Controls.Add(this.lbl_YPos);
             this.grpbx_AxPos.Controls.Add(this.lbl_XPos);
-            this.grpbx_AxPos.Location = new System.Drawing.Point(476, 23);
+            this.grpbx_AxPos.Location = new System.Drawing.Point(270, 23);
             this.grpbx_AxPos.Name = "grpbx_AxPos";
             this.grpbx_AxPos.Size = new System.Drawing.Size(160, 197);
             this.grpbx_AxPos.TabIndex = 44;
@@ -548,7 +532,7 @@
             this.grpbx_AxisStatus.Controls.Add(this.lbl_ZStatus);
             this.grpbx_AxisStatus.Controls.Add(this.lbl_YStatus);
             this.grpbx_AxisStatus.Controls.Add(this.lbl_XStatus);
-            this.grpbx_AxisStatus.Location = new System.Drawing.Point(360, 23);
+            this.grpbx_AxisStatus.Location = new System.Drawing.Point(154, 23);
             this.grpbx_AxisStatus.Name = "grpbx_AxisStatus";
             this.grpbx_AxisStatus.Size = new System.Drawing.Size(110, 197);
             this.grpbx_AxisStatus.TabIndex = 43;
@@ -635,7 +619,7 @@
             this.grpbx_AxControl.Controls.Add(this.btn_XOnOff);
             this.grpbx_AxControl.Controls.Add(this.lbl_YInfo);
             this.grpbx_AxControl.Controls.Add(this.lbl_XInfo);
-            this.grpbx_AxControl.Location = new System.Drawing.Point(221, 23);
+            this.grpbx_AxControl.Location = new System.Drawing.Point(15, 23);
             this.grpbx_AxControl.Name = "grpbx_AxControl";
             this.grpbx_AxControl.Size = new System.Drawing.Size(133, 197);
             this.grpbx_AxControl.TabIndex = 42;
@@ -847,12 +831,15 @@
             this.grpbx_JogAxes.Controls.Add(this.label1);
             this.grpbx_JogAxes.Controls.Add(this.btn_jog1);
             this.grpbx_JogAxes.Controls.Add(this.btn_jog01);
+            this.grpbx_JogAxes.Controls.Add(this.btn_HomeProcedure);
             this.grpbx_JogAxes.Controls.Add(this.btn_jog001);
             this.grpbx_JogAxes.Controls.Add(this.btn_jog0001);
             this.grpbx_JogAxes.Controls.Add(this.btn_jog00001);
             this.grpbx_JogAxes.Controls.Add(this.btn_PosJogB);
             this.grpbx_JogAxes.Controls.Add(this.btn_NegJogB);
             this.grpbx_JogAxes.Controls.Add(this.btn_PosJogA);
+            this.grpbx_JogAxes.Controls.Add(this.cmb_AxisNames);
+            this.grpbx_JogAxes.Controls.Add(this.lbl_TaskState);
             this.grpbx_JogAxes.Controls.Add(this.btn_NegJogA);
             this.grpbx_JogAxes.Controls.Add(this.btn_PosJogD);
             this.grpbx_JogAxes.Controls.Add(this.btn_NegJogD);
@@ -862,9 +849,9 @@
             this.grpbx_JogAxes.Controls.Add(this.btn_NegJogY);
             this.grpbx_JogAxes.Controls.Add(this.btn_PosJogX);
             this.grpbx_JogAxes.Controls.Add(this.btn_NegJogX);
-            this.grpbx_JogAxes.Location = new System.Drawing.Point(394, 226);
+            this.grpbx_JogAxes.Location = new System.Drawing.Point(12, 235);
             this.grpbx_JogAxes.Name = "grpbx_JogAxes";
-            this.grpbx_JogAxes.Size = new System.Drawing.Size(429, 195);
+            this.grpbx_JogAxes.Size = new System.Drawing.Size(418, 217);
             this.grpbx_JogAxes.TabIndex = 47;
             this.grpbx_JogAxes.TabStop = false;
             this.grpbx_JogAxes.Text = "Jog Axes";
@@ -873,7 +860,7 @@
             // 
             this.lbl_JogValue.BackColor = System.Drawing.Color.White;
             this.lbl_JogValue.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.lbl_JogValue.Location = new System.Drawing.Point(89, 123);
+            this.lbl_JogValue.Location = new System.Drawing.Point(89, 154);
             this.lbl_JogValue.Name = "lbl_JogValue";
             this.lbl_JogValue.Size = new System.Drawing.Size(70, 15);
             this.lbl_JogValue.TabIndex = 63;
@@ -883,7 +870,7 @@
             // 
             this.label3.AutoSize = true;
             this.label3.BackColor = System.Drawing.Color.White;
-            this.label3.Location = new System.Drawing.Point(87, 123);
+            this.label3.Location = new System.Drawing.Point(87, 154);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(0, 13);
             this.label3.TabIndex = 62;
@@ -891,7 +878,7 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(6, 123);
+            this.label1.Location = new System.Drawing.Point(6, 154);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(83, 13);
             this.label1.TabIndex = 61;
@@ -899,9 +886,9 @@
             // 
             // btn_jog1
             // 
-            this.btn_jog1.Location = new System.Drawing.Point(341, 149);
+            this.btn_jog1.Location = new System.Drawing.Point(337, 180);
             this.btn_jog1.Name = "btn_jog1";
-            this.btn_jog1.Size = new System.Drawing.Size(79, 25);
+            this.btn_jog1.Size = new System.Drawing.Size(75, 25);
             this.btn_jog1.TabIndex = 57;
             this.btn_jog1.Text = "1 mm";
             this.btn_jog1.UseVisualStyleBackColor = true;
@@ -909,19 +896,29 @@
             // 
             // btn_jog01
             // 
-            this.btn_jog01.Location = new System.Drawing.Point(258, 149);
+            this.btn_jog01.Location = new System.Drawing.Point(255, 180);
             this.btn_jog01.Name = "btn_jog01";
-            this.btn_jog01.Size = new System.Drawing.Size(79, 25);
+            this.btn_jog01.Size = new System.Drawing.Size(75, 25);
             this.btn_jog01.TabIndex = 58;
             this.btn_jog01.Text = "0.1 mm";
             this.btn_jog01.UseVisualStyleBackColor = true;
             this.btn_jog01.Click += new System.EventHandler(this.btn_jog01_Click);
             // 
+            // btn_HomeProcedure
+            // 
+            this.btn_HomeProcedure.Location = new System.Drawing.Point(9, 23);
+            this.btn_HomeProcedure.Name = "btn_HomeProcedure";
+            this.btn_HomeProcedure.Size = new System.Drawing.Size(95, 23);
+            this.btn_HomeProcedure.TabIndex = 50;
+            this.btn_HomeProcedure.Text = "Home Procedure";
+            this.btn_HomeProcedure.UseVisualStyleBackColor = true;
+            this.btn_HomeProcedure.Click += new System.EventHandler(this.btn_HomeProcedure_Click);
+            // 
             // btn_jog001
             // 
-            this.btn_jog001.Location = new System.Drawing.Point(175, 149);
+            this.btn_jog001.Location = new System.Drawing.Point(173, 180);
             this.btn_jog001.Name = "btn_jog001";
-            this.btn_jog001.Size = new System.Drawing.Size(79, 25);
+            this.btn_jog001.Size = new System.Drawing.Size(75, 25);
             this.btn_jog001.TabIndex = 59;
             this.btn_jog001.Text = "0.01 mm";
             this.btn_jog001.UseVisualStyleBackColor = true;
@@ -929,9 +926,9 @@
             // 
             // btn_jog0001
             // 
-            this.btn_jog0001.Location = new System.Drawing.Point(92, 149);
+            this.btn_jog0001.Location = new System.Drawing.Point(91, 180);
             this.btn_jog0001.Name = "btn_jog0001";
-            this.btn_jog0001.Size = new System.Drawing.Size(79, 25);
+            this.btn_jog0001.Size = new System.Drawing.Size(75, 25);
             this.btn_jog0001.TabIndex = 60;
             this.btn_jog0001.Text = "0.001 mm";
             this.btn_jog0001.UseVisualStyleBackColor = true;
@@ -939,9 +936,9 @@
             // 
             // btn_jog00001
             // 
-            this.btn_jog00001.Location = new System.Drawing.Point(9, 149);
+            this.btn_jog00001.Location = new System.Drawing.Point(9, 180);
             this.btn_jog00001.Name = "btn_jog00001";
-            this.btn_jog00001.Size = new System.Drawing.Size(79, 25);
+            this.btn_jog00001.Size = new System.Drawing.Size(75, 25);
             this.btn_jog00001.TabIndex = 56;
             this.btn_jog00001.Text = "0.0001 mm";
             this.btn_jog00001.UseVisualStyleBackColor = true;
@@ -949,7 +946,7 @@
             // 
             // btn_PosJogB
             // 
-            this.btn_PosJogB.Location = new System.Drawing.Point(367, 33);
+            this.btn_PosJogB.Location = new System.Drawing.Point(360, 60);
             this.btn_PosJogB.Name = "btn_PosJogB";
             this.btn_PosJogB.Size = new System.Drawing.Size(54, 20);
             this.btn_PosJogB.TabIndex = 49;
@@ -958,7 +955,7 @@
             // 
             // btn_NegJogB
             // 
-            this.btn_NegJogB.Location = new System.Drawing.Point(367, 91);
+            this.btn_NegJogB.Location = new System.Drawing.Point(360, 118);
             this.btn_NegJogB.Name = "btn_NegJogB";
             this.btn_NegJogB.Size = new System.Drawing.Size(54, 20);
             this.btn_NegJogB.TabIndex = 48;
@@ -967,7 +964,7 @@
             // 
             // btn_PosJogA
             // 
-            this.btn_PosJogA.Location = new System.Drawing.Point(307, 33);
+            this.btn_PosJogA.Location = new System.Drawing.Point(300, 60);
             this.btn_PosJogA.Name = "btn_PosJogA";
             this.btn_PosJogA.Size = new System.Drawing.Size(54, 20);
             this.btn_PosJogA.TabIndex = 49;
@@ -977,7 +974,7 @@
             // 
             // btn_NegJogA
             // 
-            this.btn_NegJogA.Location = new System.Drawing.Point(307, 91);
+            this.btn_NegJogA.Location = new System.Drawing.Point(300, 118);
             this.btn_NegJogA.Name = "btn_NegJogA";
             this.btn_NegJogA.Size = new System.Drawing.Size(54, 20);
             this.btn_NegJogA.TabIndex = 48;
@@ -986,7 +983,7 @@
             // 
             // btn_PosJogD
             // 
-            this.btn_PosJogD.Location = new System.Drawing.Point(247, 35);
+            this.btn_PosJogD.Location = new System.Drawing.Point(240, 62);
             this.btn_PosJogD.Name = "btn_PosJogD";
             this.btn_PosJogD.Size = new System.Drawing.Size(54, 20);
             this.btn_PosJogD.TabIndex = 51;
@@ -996,7 +993,7 @@
             // 
             // btn_NegJogD
             // 
-            this.btn_NegJogD.Location = new System.Drawing.Point(247, 91);
+            this.btn_NegJogD.Location = new System.Drawing.Point(240, 118);
             this.btn_NegJogD.Name = "btn_NegJogD";
             this.btn_NegJogD.Size = new System.Drawing.Size(54, 20);
             this.btn_NegJogD.TabIndex = 50;
@@ -1006,7 +1003,7 @@
             // 
             // btn_PosJogZ
             // 
-            this.btn_PosJogZ.Location = new System.Drawing.Point(187, 37);
+            this.btn_PosJogZ.Location = new System.Drawing.Point(180, 64);
             this.btn_PosJogZ.Name = "btn_PosJogZ";
             this.btn_PosJogZ.Size = new System.Drawing.Size(54, 20);
             this.btn_PosJogZ.TabIndex = 53;
@@ -1016,7 +1013,7 @@
             // 
             // btn_NegJogZ
             // 
-            this.btn_NegJogZ.Location = new System.Drawing.Point(187, 91);
+            this.btn_NegJogZ.Location = new System.Drawing.Point(180, 118);
             this.btn_NegJogZ.Name = "btn_NegJogZ";
             this.btn_NegJogZ.Size = new System.Drawing.Size(54, 20);
             this.btn_NegJogZ.TabIndex = 52;
@@ -1026,7 +1023,7 @@
             // 
             // btn_PosJogY
             // 
-            this.btn_PosJogY.Location = new System.Drawing.Point(66, 39);
+            this.btn_PosJogY.Location = new System.Drawing.Point(66, 66);
             this.btn_PosJogY.Name = "btn_PosJogY";
             this.btn_PosJogY.Size = new System.Drawing.Size(54, 20);
             this.btn_PosJogY.TabIndex = 55;
@@ -1036,7 +1033,7 @@
             // 
             // btn_NegJogY
             // 
-            this.btn_NegJogY.Location = new System.Drawing.Point(66, 91);
+            this.btn_NegJogY.Location = new System.Drawing.Point(66, 118);
             this.btn_NegJogY.Name = "btn_NegJogY";
             this.btn_NegJogY.Size = new System.Drawing.Size(54, 20);
             this.btn_NegJogY.TabIndex = 54;
@@ -1046,7 +1043,7 @@
             // 
             // btn_PosJogX
             // 
-            this.btn_PosJogX.Location = new System.Drawing.Point(117, 65);
+            this.btn_PosJogX.Location = new System.Drawing.Point(117, 92);
             this.btn_PosJogX.Name = "btn_PosJogX";
             this.btn_PosJogX.Size = new System.Drawing.Size(54, 20);
             this.btn_PosJogX.TabIndex = 1;
@@ -1056,7 +1053,7 @@
             // 
             // btn_NegJogX
             // 
-            this.btn_NegJogX.Location = new System.Drawing.Point(9, 66);
+            this.btn_NegJogX.Location = new System.Drawing.Point(9, 93);
             this.btn_NegJogX.Name = "btn_NegJogX";
             this.btn_NegJogX.Size = new System.Drawing.Size(54, 20);
             this.btn_NegJogX.TabIndex = 0;
@@ -1066,12 +1063,17 @@
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.btn_zoom_D_set);
+            this.groupBox1.Controls.Add(this.btn_zoom_test);
+            this.groupBox1.Controls.Add(this.btn_Move_Zoom);
+            this.groupBox1.Controls.Add(this.btn_Set_Zoom);
+            this.groupBox1.Controls.Add(this.btn_SetuScopeFocus_2);
             this.groupBox1.Controls.Add(this.txtbx_AngForAblation);
-            this.groupBox1.Controls.Add(this.lbl_AngForBoxAblation);
-            this.groupBox1.Controls.Add(this.btn_BoxAblation);
             this.groupBox1.Controls.Add(this.txtbx_rotangle);
             this.groupBox1.Controls.Add(this.btn_RotationTest);
+            this.groupBox1.Controls.Add(this.lbl_AngForBoxAblation);
             this.groupBox1.Controls.Add(this.btn_SetuScopeFocus);
+            this.groupBox1.Controls.Add(this.btn_BoxAblation);
             this.groupBox1.Controls.Add(this.btn_point1);
             this.groupBox1.Controls.Add(this.btn_RotationalCentre);
             this.groupBox1.Controls.Add(this.btn_FindFocus);
@@ -1084,43 +1086,77 @@
             this.groupBox1.Controls.Add(this.btn_cornerC);
             this.groupBox1.Controls.Add(this.btn_cornerB);
             this.groupBox1.Controls.Add(this.btn_cornerA);
-            this.groupBox1.Location = new System.Drawing.Point(12, 226);
+            this.groupBox1.Location = new System.Drawing.Point(12, 458);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(372, 247);
+            this.groupBox1.Size = new System.Drawing.Size(418, 290);
             this.groupBox1.TabIndex = 48;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Sample Alignment";
             // 
+            // btn_zoom_D_set
+            // 
+            this.btn_zoom_D_set.Location = new System.Drawing.Point(278, 221);
+            this.btn_zoom_D_set.Name = "btn_zoom_D_set";
+            this.btn_zoom_D_set.Size = new System.Drawing.Size(50, 22);
+            this.btn_zoom_D_set.TabIndex = 73;
+            this.btn_zoom_D_set.Text = "Set D";
+            this.btn_zoom_D_set.UseVisualStyleBackColor = true;
+            this.btn_zoom_D_set.Click += new System.EventHandler(this.btn_zoom_D_set_Click);
+            // 
+            // btn_zoom_test
+            // 
+            this.btn_zoom_test.Location = new System.Drawing.Point(334, 221);
+            this.btn_zoom_test.Name = "btn_zoom_test";
+            this.btn_zoom_test.Size = new System.Drawing.Size(74, 23);
+            this.btn_zoom_test.TabIndex = 72;
+            this.btn_zoom_test.Text = "Zoom Test";
+            this.btn_zoom_test.UseVisualStyleBackColor = true;
+            this.btn_zoom_test.Click += new System.EventHandler(this.btn_zoom_test_Click);
+            // 
+            // btn_Move_Zoom
+            // 
+            this.btn_Move_Zoom.Enabled = false;
+            this.btn_Move_Zoom.Location = new System.Drawing.Point(9, 220);
+            this.btn_Move_Zoom.Name = "btn_Move_Zoom";
+            this.btn_Move_Zoom.Size = new System.Drawing.Size(130, 23);
+            this.btn_Move_Zoom.TabIndex = 71;
+            this.btn_Move_Zoom.Text = "Move Zoom";
+            this.btn_Move_Zoom.UseVisualStyleBackColor = true;
+            this.btn_Move_Zoom.Click += new System.EventHandler(this.btn_Move_Zoom_Click);
+            // 
+            // btn_Set_Zoom
+            // 
+            this.btn_Set_Zoom.Enabled = false;
+            this.btn_Set_Zoom.Location = new System.Drawing.Point(142, 220);
+            this.btn_Set_Zoom.Name = "btn_Set_Zoom";
+            this.btn_Set_Zoom.Size = new System.Drawing.Size(130, 23);
+            this.btn_Set_Zoom.TabIndex = 70;
+            this.btn_Set_Zoom.Text = "Set X Y";
+            this.btn_Set_Zoom.UseVisualStyleBackColor = true;
+            this.btn_Set_Zoom.Click += new System.EventHandler(this.btn_Set_Zoom_Click);
+            // 
+            // btn_SetuScopeFocus_2
+            // 
+            this.btn_SetuScopeFocus_2.Enabled = false;
+            this.btn_SetuScopeFocus_2.Location = new System.Drawing.Point(11, 162);
+            this.btn_SetuScopeFocus_2.Name = "btn_SetuScopeFocus_2";
+            this.btn_SetuScopeFocus_2.Size = new System.Drawing.Size(130, 23);
+            this.btn_SetuScopeFocus_2.TabIndex = 69;
+            this.btn_SetuScopeFocus_2.Text = "Set uScope Focus";
+            this.btn_SetuScopeFocus_2.UseVisualStyleBackColor = true;
+            this.btn_SetuScopeFocus_2.Click += new System.EventHandler(this.btn_SetuScopeFocus_2_Click);
+            // 
             // txtbx_AngForAblation
             // 
-            this.txtbx_AngForAblation.Location = new System.Drawing.Point(294, 192);
+            this.txtbx_AngForAblation.Location = new System.Drawing.Point(290, 250);
             this.txtbx_AngForAblation.Name = "txtbx_AngForAblation";
             this.txtbx_AngForAblation.Size = new System.Drawing.Size(62, 20);
             this.txtbx_AngForAblation.TabIndex = 68;
             this.txtbx_AngForAblation.Text = "0";
             // 
-            // lbl_AngForBoxAblation
-            // 
-            this.lbl_AngForBoxAblation.Location = new System.Drawing.Point(148, 192);
-            this.lbl_AngForBoxAblation.Name = "lbl_AngForBoxAblation";
-            this.lbl_AngForBoxAblation.Size = new System.Drawing.Size(118, 23);
-            this.lbl_AngForBoxAblation.TabIndex = 67;
-            this.lbl_AngForBoxAblation.Text = "Angle for Box Ablation";
-            this.lbl_AngForBoxAblation.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // btn_BoxAblation
-            // 
-            this.btn_BoxAblation.Location = new System.Drawing.Point(11, 192);
-            this.btn_BoxAblation.Name = "btn_BoxAblation";
-            this.btn_BoxAblation.Size = new System.Drawing.Size(130, 23);
-            this.btn_BoxAblation.TabIndex = 65;
-            this.btn_BoxAblation.Text = "Box Ablation";
-            this.btn_BoxAblation.UseVisualStyleBackColor = true;
-            this.btn_BoxAblation.Click += new System.EventHandler(this.btn_BoxAblation_Click);
-            // 
             // txtbx_rotangle
             // 
-            this.txtbx_rotangle.Location = new System.Drawing.Point(294, 163);
+            this.txtbx_rotangle.Location = new System.Drawing.Point(292, 192);
             this.txtbx_rotangle.Name = "txtbx_rotangle";
             this.txtbx_rotangle.Size = new System.Drawing.Size(62, 20);
             this.txtbx_rotangle.TabIndex = 64;
@@ -1128,16 +1164,26 @@
             // 
             // btn_RotationTest
             // 
-            this.btn_RotationTest.Location = new System.Drawing.Point(201, 162);
+            this.btn_RotationTest.Location = new System.Drawing.Point(201, 191);
             this.btn_RotationTest.Name = "btn_RotationTest";
-            this.btn_RotationTest.Size = new System.Drawing.Size(75, 23);
+            this.btn_RotationTest.Size = new System.Drawing.Size(73, 23);
             this.btn_RotationTest.TabIndex = 63;
             this.btn_RotationTest.Text = "rot test";
             this.btn_RotationTest.UseVisualStyleBackColor = true;
             this.btn_RotationTest.Click += new System.EventHandler(this.btn_RotationTest_Click);
             // 
+            // lbl_AngForBoxAblation
+            // 
+            this.lbl_AngForBoxAblation.Location = new System.Drawing.Point(147, 249);
+            this.lbl_AngForBoxAblation.Name = "lbl_AngForBoxAblation";
+            this.lbl_AngForBoxAblation.Size = new System.Drawing.Size(118, 23);
+            this.lbl_AngForBoxAblation.TabIndex = 67;
+            this.lbl_AngForBoxAblation.Text = "Angle for Box Ablation";
+            this.lbl_AngForBoxAblation.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
             // btn_SetuScopeFocus
             // 
+            this.btn_SetuScopeFocus.Enabled = false;
             this.btn_SetuScopeFocus.Location = new System.Drawing.Point(11, 76);
             this.btn_SetuScopeFocus.Name = "btn_SetuScopeFocus";
             this.btn_SetuScopeFocus.Size = new System.Drawing.Size(130, 23);
@@ -1146,10 +1192,21 @@
             this.btn_SetuScopeFocus.UseVisualStyleBackColor = true;
             this.btn_SetuScopeFocus.Click += new System.EventHandler(this.btn_SetuScopeFocus_Click);
             // 
+            // btn_BoxAblation
+            // 
+            this.btn_BoxAblation.Enabled = false;
+            this.btn_BoxAblation.Location = new System.Drawing.Point(9, 249);
+            this.btn_BoxAblation.Name = "btn_BoxAblation";
+            this.btn_BoxAblation.Size = new System.Drawing.Size(130, 23);
+            this.btn_BoxAblation.TabIndex = 65;
+            this.btn_BoxAblation.Text = "Ablate Test Pattern";
+            this.btn_BoxAblation.UseVisualStyleBackColor = true;
+            this.btn_BoxAblation.Click += new System.EventHandler(this.btn_BoxAblation_Click);
+            // 
             // btn_point1
             // 
             this.btn_point1.Enabled = false;
-            this.btn_point1.Location = new System.Drawing.Point(144, 162);
+            this.btn_point1.Location = new System.Drawing.Point(144, 191);
             this.btn_point1.Name = "btn_point1";
             this.btn_point1.Size = new System.Drawing.Size(50, 23);
             this.btn_point1.TabIndex = 59;
@@ -1159,7 +1216,8 @@
             // 
             // btn_RotationalCentre
             // 
-            this.btn_RotationalCentre.Location = new System.Drawing.Point(11, 162);
+            this.btn_RotationalCentre.Enabled = false;
+            this.btn_RotationalCentre.Location = new System.Drawing.Point(11, 191);
             this.btn_RotationalCentre.Name = "btn_RotationalCentre";
             this.btn_RotationalCentre.Size = new System.Drawing.Size(130, 23);
             this.btn_RotationalCentre.TabIndex = 58;
@@ -1169,6 +1227,7 @@
             // 
             // btn_FindFocus
             // 
+            this.btn_FindFocus.Enabled = false;
             this.btn_FindFocus.Location = new System.Drawing.Point(11, 133);
             this.btn_FindFocus.Name = "btn_FindFocus";
             this.btn_FindFocus.Size = new System.Drawing.Size(130, 23);
@@ -1179,9 +1238,10 @@
             // 
             // btn_MarkerAligned
             // 
+            this.btn_MarkerAligned.Enabled = false;
             this.btn_MarkerAligned.Location = new System.Drawing.Point(144, 105);
             this.btn_MarkerAligned.Name = "btn_MarkerAligned";
-            this.btn_MarkerAligned.Size = new System.Drawing.Size(121, 23);
+            this.btn_MarkerAligned.Size = new System.Drawing.Size(130, 23);
             this.btn_MarkerAligned.TabIndex = 56;
             this.btn_MarkerAligned.Text = "Marker Aligned?";
             this.btn_MarkerAligned.UseVisualStyleBackColor = true;
@@ -1201,7 +1261,7 @@
             // 
             this.btn_UpdateCoords.Location = new System.Drawing.Point(144, 46);
             this.btn_UpdateCoords.Name = "btn_UpdateCoords";
-            this.btn_UpdateCoords.Size = new System.Drawing.Size(122, 23);
+            this.btn_UpdateCoords.Size = new System.Drawing.Size(130, 23);
             this.btn_UpdateCoords.TabIndex = 54;
             this.btn_UpdateCoords.Text = "Update Coords";
             this.btn_UpdateCoords.UseVisualStyleBackColor = true;
@@ -1209,6 +1269,7 @@
             // 
             // btn_AlignLaseruScope
             // 
+            this.btn_AlignLaseruScope.Enabled = false;
             this.btn_AlignLaseruScope.Location = new System.Drawing.Point(11, 105);
             this.btn_AlignLaseruScope.Name = "btn_AlignLaseruScope";
             this.btn_AlignLaseruScope.Size = new System.Drawing.Size(130, 23);
@@ -1219,6 +1280,7 @@
             // 
             // btn_TiltCorrection
             // 
+            this.btn_TiltCorrection.Enabled = false;
             this.btn_TiltCorrection.Location = new System.Drawing.Point(11, 46);
             this.btn_TiltCorrection.Name = "btn_TiltCorrection";
             this.btn_TiltCorrection.Size = new System.Drawing.Size(130, 23);
@@ -1274,12 +1336,13 @@
             // icImagingControl1
             // 
             this.icImagingControl1.BackColor = System.Drawing.Color.White;
+            this.icImagingControl1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.icImagingControl1.DeviceListChangedExecutionMode = TIS.Imaging.EventExecutionMode.Invoke;
             this.icImagingControl1.DeviceLostExecutionMode = TIS.Imaging.EventExecutionMode.AsyncInvoke;
             this.icImagingControl1.DeviceState = resources.GetString("icImagingControl1.DeviceState");
             this.icImagingControl1.ImageAvailableExecutionMode = TIS.Imaging.EventExecutionMode.MultiThreaded;
             this.icImagingControl1.LiveDisplayPosition = new System.Drawing.Point(0, 0);
-            this.icImagingControl1.Location = new System.Drawing.Point(867, 23);
+            this.icImagingControl1.Location = new System.Drawing.Point(869, 31);
             this.icImagingControl1.Name = "icImagingControl1";
             this.icImagingControl1.Size = new System.Drawing.Size(1024, 768);
             this.icImagingControl1.TabIndex = 49;
@@ -1292,24 +1355,15 @@
             // 
             this.backgroundWorker_LaserAlign.DoWork += new System.ComponentModel.DoWorkEventHandler(this.backgroundWorker_LaserAlign_DoWork);
             // 
-            // btn_HomeProcedure
-            // 
-            this.btn_HomeProcedure.Location = new System.Drawing.Point(12, 132);
-            this.btn_HomeProcedure.Name = "btn_HomeProcedure";
-            this.btn_HomeProcedure.Size = new System.Drawing.Size(95, 23);
-            this.btn_HomeProcedure.TabIndex = 50;
-            this.btn_HomeProcedure.Text = "Home Procedure";
-            this.btn_HomeProcedure.UseVisualStyleBackColor = true;
-            this.btn_HomeProcedure.Click += new System.EventHandler(this.btn_HomeProcedure_Click);
-            // 
             // grpbx_OphirControl
             // 
+            this.grpbx_OphirControl.Controls.Add(this.btn_autoalign);
+            this.grpbx_OphirControl.Controls.Add(this.btn_AutoFocus);
             this.grpbx_OphirControl.Controls.Add(this.btn_AOMrepeatability);
             this.grpbx_OphirControl.Controls.Add(this.btn_StopStream);
             this.grpbx_OphirControl.Controls.Add(this.LabelStatus0);
             this.grpbx_OphirControl.Controls.Add(this.label20);
             this.grpbx_OphirControl.Controls.Add(this.LabelMeasurement0);
-            this.grpbx_OphirControl.Controls.Add(this.label18);
             this.grpbx_OphirControl.Controls.Add(this.label19);
             this.grpbx_OphirControl.Controls.Add(this.LabelTime0);
             this.grpbx_OphirControl.Controls.Add(this.btn_StartStream);
@@ -1317,18 +1371,38 @@
             this.grpbx_OphirControl.Controls.Add(this.btn_OpenDevice);
             this.grpbx_OphirControl.Controls.Add(this.DeviceListBox);
             this.grpbx_OphirControl.Controls.Add(this.btn_ScanUSB);
-            this.grpbx_OphirControl.Location = new System.Drawing.Point(12, 488);
+            this.grpbx_OphirControl.Location = new System.Drawing.Point(436, 458);
             this.grpbx_OphirControl.Margin = new System.Windows.Forms.Padding(2);
             this.grpbx_OphirControl.Name = "grpbx_OphirControl";
             this.grpbx_OphirControl.Padding = new System.Windows.Forms.Padding(2);
-            this.grpbx_OphirControl.Size = new System.Drawing.Size(372, 197);
+            this.grpbx_OphirControl.Size = new System.Drawing.Size(429, 290);
             this.grpbx_OphirControl.TabIndex = 51;
             this.grpbx_OphirControl.TabStop = false;
             this.grpbx_OphirControl.Text = "Ophir Control";
             // 
+            // btn_autoalign
+            // 
+            this.btn_autoalign.Location = new System.Drawing.Point(13, 261);
+            this.btn_autoalign.Name = "btn_autoalign";
+            this.btn_autoalign.Size = new System.Drawing.Size(75, 23);
+            this.btn_autoalign.TabIndex = 74;
+            this.btn_autoalign.Text = "Auto Align";
+            this.btn_autoalign.UseVisualStyleBackColor = true;
+            this.btn_autoalign.Click += new System.EventHandler(this.btn_autoalign_Click);
+            // 
+            // btn_AutoFocus
+            // 
+            this.btn_AutoFocus.Location = new System.Drawing.Point(310, 261);
+            this.btn_AutoFocus.Name = "btn_AutoFocus";
+            this.btn_AutoFocus.Size = new System.Drawing.Size(110, 24);
+            this.btn_AutoFocus.TabIndex = 66;
+            this.btn_AutoFocus.Text = "Auto Focus";
+            this.btn_AutoFocus.UseVisualStyleBackColor = true;
+            this.btn_AutoFocus.Click += new System.EventHandler(this.btn_AutoFocus_Click);
+            // 
             // btn_AOMrepeatability
             // 
-            this.btn_AOMrepeatability.Location = new System.Drawing.Point(240, 19);
+            this.btn_AOMrepeatability.Location = new System.Drawing.Point(308, 51);
             this.btn_AOMrepeatability.Name = "btn_AOMrepeatability";
             this.btn_AOMrepeatability.Size = new System.Drawing.Size(116, 23);
             this.btn_AOMrepeatability.TabIndex = 65;
@@ -1338,7 +1412,7 @@
             // 
             // btn_StopStream
             // 
-            this.btn_StopStream.Location = new System.Drawing.Point(123, 159);
+            this.btn_StopStream.Location = new System.Drawing.Point(250, 18);
             this.btn_StopStream.Name = "btn_StopStream";
             this.btn_StopStream.Size = new System.Drawing.Size(75, 23);
             this.btn_StopStream.TabIndex = 64;
@@ -1350,7 +1424,7 @@
             // 
             this.LabelStatus0.AutoSize = true;
             this.LabelStatus0.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(177)));
-            this.LabelStatus0.Location = new System.Drawing.Point(207, 134);
+            this.LabelStatus0.Location = new System.Drawing.Point(69, 76);
             this.LabelStatus0.Name = "LabelStatus0";
             this.LabelStatus0.Size = new System.Drawing.Size(39, 13);
             this.LabelStatus0.TabIndex = 62;
@@ -1360,7 +1434,7 @@
             // 
             this.label20.AutoSize = true;
             this.label20.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(177)));
-            this.label20.Location = new System.Drawing.Point(120, 134);
+            this.label20.Location = new System.Drawing.Point(10, 76);
             this.label20.Name = "label20";
             this.label20.Size = new System.Drawing.Size(43, 13);
             this.label20.TabIndex = 52;
@@ -1368,29 +1442,20 @@
             // 
             // LabelMeasurement0
             // 
-            this.LabelMeasurement0.AutoSize = true;
-            this.LabelMeasurement0.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(177)));
-            this.LabelMeasurement0.Location = new System.Drawing.Point(207, 107);
+            this.LabelMeasurement0.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.LabelMeasurement0.Font = new System.Drawing.Font("Microsoft Sans Serif", 45F, System.Drawing.FontStyle.Bold);
+            this.LabelMeasurement0.Location = new System.Drawing.Point(5, 152);
             this.LabelMeasurement0.Name = "LabelMeasurement0";
-            this.LabelMeasurement0.Size = new System.Drawing.Size(39, 13);
+            this.LabelMeasurement0.Size = new System.Drawing.Size(419, 112);
             this.LabelMeasurement0.TabIndex = 63;
             this.LabelMeasurement0.Text = "Value";
-            // 
-            // label18
-            // 
-            this.label18.AutoSize = true;
-            this.label18.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(177)));
-            this.label18.Location = new System.Drawing.Point(120, 107);
-            this.label18.Name = "label18";
-            this.label18.Size = new System.Drawing.Size(82, 13);
-            this.label18.TabIndex = 62;
-            this.label18.Text = "Measurement";
+            this.LabelMeasurement0.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // label19
             // 
             this.label19.AutoSize = true;
             this.label19.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(177)));
-            this.label19.Location = new System.Drawing.Point(120, 82);
+            this.label19.Location = new System.Drawing.Point(10, 94);
             this.label19.Name = "label19";
             this.label19.Size = new System.Drawing.Size(34, 13);
             this.label19.TabIndex = 61;
@@ -1400,7 +1465,7 @@
             // 
             this.LabelTime0.AutoSize = true;
             this.LabelTime0.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(177)));
-            this.LabelTime0.Location = new System.Drawing.Point(207, 82);
+            this.LabelTime0.Location = new System.Drawing.Point(69, 94);
             this.LabelTime0.Name = "LabelTime0";
             this.LabelTime0.Size = new System.Drawing.Size(39, 13);
             this.LabelTime0.TabIndex = 60;
@@ -1408,10 +1473,10 @@
             // 
             // btn_StartStream
             // 
-            this.btn_StartStream.Location = new System.Drawing.Point(122, 50);
+            this.btn_StartStream.Location = new System.Drawing.Point(172, 18);
             this.btn_StartStream.Margin = new System.Windows.Forms.Padding(2);
             this.btn_StartStream.Name = "btn_StartStream";
-            this.btn_StartStream.Size = new System.Drawing.Size(91, 19);
+            this.btn_StartStream.Size = new System.Drawing.Size(75, 23);
             this.btn_StartStream.TabIndex = 7;
             this.btn_StartStream.Text = "Start Stream";
             this.btn_StartStream.UseVisualStyleBackColor = true;
@@ -1421,7 +1486,7 @@
             // 
             this.HandleComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.HandleComboBox.FormattingEnabled = true;
-            this.HandleComboBox.Location = new System.Drawing.Point(122, 18);
+            this.HandleComboBox.Location = new System.Drawing.Point(328, 19);
             this.HandleComboBox.Margin = new System.Windows.Forms.Padding(2);
             this.HandleComboBox.Name = "HandleComboBox";
             this.HandleComboBox.Size = new System.Drawing.Size(92, 21);
@@ -1429,10 +1494,10 @@
             // 
             // btn_OpenDevice
             // 
-            this.btn_OpenDevice.Location = new System.Drawing.Point(11, 166);
+            this.btn_OpenDevice.Location = new System.Drawing.Point(91, 18);
             this.btn_OpenDevice.Margin = new System.Windows.Forms.Padding(2);
             this.btn_OpenDevice.Name = "btn_OpenDevice";
-            this.btn_OpenDevice.Size = new System.Drawing.Size(95, 23);
+            this.btn_OpenDevice.Size = new System.Drawing.Size(78, 23);
             this.btn_OpenDevice.TabIndex = 5;
             this.btn_OpenDevice.Text = "Open Device";
             this.btn_OpenDevice.UseVisualStyleBackColor = true;
@@ -1443,7 +1508,7 @@
             this.DeviceListBox.FormattingEnabled = true;
             this.DeviceListBox.Location = new System.Drawing.Point(11, 50);
             this.DeviceListBox.Name = "DeviceListBox";
-            this.DeviceListBox.Size = new System.Drawing.Size(97, 108);
+            this.DeviceListBox.Size = new System.Drawing.Size(97, 17);
             this.DeviceListBox.TabIndex = 4;
             // 
             // btn_ScanUSB
@@ -1451,7 +1516,7 @@
             this.btn_ScanUSB.Location = new System.Drawing.Point(11, 18);
             this.btn_ScanUSB.Margin = new System.Windows.Forms.Padding(2);
             this.btn_ScanUSB.Name = "btn_ScanUSB";
-            this.btn_ScanUSB.Size = new System.Drawing.Size(96, 19);
+            this.btn_ScanUSB.Size = new System.Drawing.Size(77, 23);
             this.btn_ScanUSB.TabIndex = 0;
             this.btn_ScanUSB.Text = "Scan USB";
             this.btn_ScanUSB.UseVisualStyleBackColor = true;
@@ -1486,44 +1551,45 @@
             this.grpbx_TalikserLaser.Controls.Add(this.lbl_ShutterStatus);
             this.grpbx_TalikserLaser.Controls.Add(this.btn_Shutter);
             this.grpbx_TalikserLaser.Controls.Add(this.lbl_ShutterStatusText);
-            this.grpbx_TalikserLaser.Location = new System.Drawing.Point(394, 488);
+            this.grpbx_TalikserLaser.Location = new System.Drawing.Point(436, 235);
             this.grpbx_TalikserLaser.Margin = new System.Windows.Forms.Padding(2);
             this.grpbx_TalikserLaser.Name = "grpbx_TalikserLaser";
             this.grpbx_TalikserLaser.Padding = new System.Windows.Forms.Padding(2);
-            this.grpbx_TalikserLaser.Size = new System.Drawing.Size(429, 244);
+            this.grpbx_TalikserLaser.Size = new System.Drawing.Size(429, 217);
             this.grpbx_TalikserLaser.TabIndex = 52;
             this.grpbx_TalikserLaser.TabStop = false;
             this.grpbx_TalikserLaser.Text = "Talisker Laser";
             // 
             // lbl_RepRate
             // 
+            this.lbl_RepRate.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.lbl_RepRate.BackColor = System.Drawing.Color.White;
             this.lbl_RepRate.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbl_RepRate.Location = new System.Drawing.Point(360, 73);
+            this.lbl_RepRate.Location = new System.Drawing.Point(347, 76);
             this.lbl_RepRate.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.lbl_RepRate.Name = "lbl_RepRate";
-            this.lbl_RepRate.Size = new System.Drawing.Size(65, 24);
+            this.lbl_RepRate.Size = new System.Drawing.Size(78, 24);
             this.lbl_RepRate.TabIndex = 60;
             this.lbl_RepRate.Text = "Unknown";
-            this.lbl_RepRate.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.lbl_RepRate.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // lbl_BurstPulses
             // 
             this.lbl_BurstPulses.BackColor = System.Drawing.Color.White;
             this.lbl_BurstPulses.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbl_BurstPulses.Location = new System.Drawing.Point(360, 120);
+            this.lbl_BurstPulses.Location = new System.Drawing.Point(360, 103);
             this.lbl_BurstPulses.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.lbl_BurstPulses.Name = "lbl_BurstPulses";
             this.lbl_BurstPulses.Size = new System.Drawing.Size(65, 24);
             this.lbl_BurstPulses.TabIndex = 56;
             this.lbl_BurstPulses.Text = "Unknown";
-            this.lbl_BurstPulses.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.lbl_BurstPulses.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // lbl_RepRateText
             // 
             this.lbl_RepRateText.AutoSize = true;
             this.lbl_RepRateText.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbl_RepRateText.Location = new System.Drawing.Point(262, 78);
+            this.lbl_RepRateText.Location = new System.Drawing.Point(256, 82);
             this.lbl_RepRateText.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.lbl_RepRateText.Name = "lbl_RepRateText";
             this.lbl_RepRateText.Size = new System.Drawing.Size(72, 13);
@@ -1533,7 +1599,7 @@
             // 
             // txtbx_RequestedWPATT
             // 
-            this.txtbx_RequestedWPATT.Location = new System.Drawing.Point(197, 180);
+            this.txtbx_RequestedWPATT.Location = new System.Drawing.Point(197, 155);
             this.txtbx_RequestedWPATT.Margin = new System.Windows.Forms.Padding(2);
             this.txtbx_RequestedWPATT.Name = "txtbx_RequestedWPATT";
             this.txtbx_RequestedWPATT.Size = new System.Drawing.Size(46, 20);
@@ -1542,7 +1608,7 @@
             // 
             // txtbx_RequestedRepRate
             // 
-            this.txtbx_RequestedRepRate.Location = new System.Drawing.Point(197, 80);
+            this.txtbx_RequestedRepRate.Location = new System.Drawing.Point(197, 78);
             this.txtbx_RequestedRepRate.Margin = new System.Windows.Forms.Padding(2);
             this.txtbx_RequestedRepRate.Name = "txtbx_RequestedRepRate";
             this.txtbx_RequestedRepRate.Size = new System.Drawing.Size(46, 20);
@@ -1553,7 +1619,7 @@
             // 
             this.lbl_BurstPulsesText.AutoSize = true;
             this.lbl_BurstPulsesText.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbl_BurstPulsesText.Location = new System.Drawing.Point(262, 125);
+            this.lbl_BurstPulsesText.Location = new System.Drawing.Point(256, 109);
             this.lbl_BurstPulsesText.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.lbl_BurstPulsesText.Name = "lbl_BurstPulsesText";
             this.lbl_BurstPulsesText.Size = new System.Drawing.Size(88, 13);
@@ -1565,7 +1631,7 @@
             // 
             this.lbl_RequestedRepRateText.AutoSize = true;
             this.lbl_RequestedRepRateText.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbl_RequestedRepRateText.Location = new System.Drawing.Point(26, 82);
+            this.lbl_RequestedRepRateText.Location = new System.Drawing.Point(10, 82);
             this.lbl_RequestedRepRateText.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.lbl_RequestedRepRateText.Name = "lbl_RequestedRepRateText";
             this.lbl_RequestedRepRateText.Size = new System.Drawing.Size(145, 13);
@@ -1577,17 +1643,18 @@
             // 
             this.lbl_AOMGateStatus.BackColor = System.Drawing.Color.White;
             this.lbl_AOMGateStatus.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbl_AOMGateStatus.Location = new System.Drawing.Point(360, 205);
+            this.lbl_AOMGateStatus.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.lbl_AOMGateStatus.Location = new System.Drawing.Point(360, 182);
             this.lbl_AOMGateStatus.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.lbl_AOMGateStatus.Name = "lbl_AOMGateStatus";
             this.lbl_AOMGateStatus.Size = new System.Drawing.Size(65, 24);
             this.lbl_AOMGateStatus.TabIndex = 55;
             this.lbl_AOMGateStatus.Text = "Unknown";
-            this.lbl_AOMGateStatus.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.lbl_AOMGateStatus.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // txtbx_RequestedBurstPulses
             // 
-            this.txtbx_RequestedBurstPulses.Location = new System.Drawing.Point(197, 127);
+            this.txtbx_RequestedBurstPulses.Location = new System.Drawing.Point(197, 105);
             this.txtbx_RequestedBurstPulses.Margin = new System.Windows.Forms.Padding(2);
             this.txtbx_RequestedBurstPulses.Name = "txtbx_RequestedBurstPulses";
             this.txtbx_RequestedBurstPulses.Size = new System.Drawing.Size(46, 20);
@@ -1598,19 +1665,20 @@
             // 
             this.lbl_WPATT.BackColor = System.Drawing.Color.White;
             this.lbl_WPATT.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbl_WPATT.Location = new System.Drawing.Point(360, 178);
+            this.lbl_WPATT.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.lbl_WPATT.Location = new System.Drawing.Point(360, 153);
             this.lbl_WPATT.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.lbl_WPATT.Name = "lbl_WPATT";
             this.lbl_WPATT.Size = new System.Drawing.Size(65, 24);
             this.lbl_WPATT.TabIndex = 56;
             this.lbl_WPATT.Text = "Unknown";
-            this.lbl_WPATT.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.lbl_WPATT.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // lbl_RequestedBurstPulsesText
             // 
             this.lbl_RequestedBurstPulsesText.AutoSize = true;
             this.lbl_RequestedBurstPulsesText.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbl_RequestedBurstPulsesText.Location = new System.Drawing.Point(26, 129);
+            this.lbl_RequestedBurstPulsesText.Location = new System.Drawing.Point(10, 109);
             this.lbl_RequestedBurstPulsesText.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.lbl_RequestedBurstPulsesText.Name = "lbl_RequestedBurstPulsesText";
             this.lbl_RequestedBurstPulsesText.Size = new System.Drawing.Size(161, 13);
@@ -1620,7 +1688,7 @@
             // 
             // btn_AOMGATE
             // 
-            this.btn_AOMGATE.Location = new System.Drawing.Point(10, 205);
+            this.btn_AOMGATE.Location = new System.Drawing.Point(10, 183);
             this.btn_AOMGATE.Margin = new System.Windows.Forms.Padding(2);
             this.btn_AOMGATE.Name = "btn_AOMGATE";
             this.btn_AOMGATE.Size = new System.Drawing.Size(131, 23);
@@ -1633,7 +1701,7 @@
             // 
             this.lbl_AOMGateText.AutoSize = true;
             this.lbl_AOMGateText.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbl_AOMGateText.Location = new System.Drawing.Point(254, 212);
+            this.lbl_AOMGateText.Location = new System.Drawing.Point(256, 188);
             this.lbl_AOMGateText.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.lbl_AOMGateText.Name = "lbl_AOMGateText";
             this.lbl_AOMGateText.Size = new System.Drawing.Size(101, 13);
@@ -1644,30 +1712,31 @@
             // 
             this.lbl_TaliskerATT.BackColor = System.Drawing.Color.White;
             this.lbl_TaliskerATT.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbl_TaliskerATT.Location = new System.Drawing.Point(360, 150);
+            this.lbl_TaliskerATT.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.lbl_TaliskerATT.Location = new System.Drawing.Point(360, 131);
             this.lbl_TaliskerATT.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.lbl_TaliskerATT.Name = "lbl_TaliskerATT";
             this.lbl_TaliskerATT.Size = new System.Drawing.Size(65, 24);
             this.lbl_TaliskerATT.TabIndex = 12;
             this.lbl_TaliskerATT.Text = "Unknown";
-            this.lbl_TaliskerATT.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.lbl_TaliskerATT.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // lbl_WPATTText
             // 
             this.lbl_WPATTText.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbl_WPATTText.Location = new System.Drawing.Point(228, 183);
+            this.lbl_WPATTText.Location = new System.Drawing.Point(256, 158);
             this.lbl_WPATTText.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.lbl_WPATTText.Name = "lbl_WPATTText";
             this.lbl_WPATTText.Size = new System.Drawing.Size(126, 14);
             this.lbl_WPATTText.TabIndex = 55;
             this.lbl_WPATTText.Text = "WattPilot Atten =";
-            this.lbl_WPATTText.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.lbl_WPATTText.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // lbl_TaliskerATTText
             // 
             this.lbl_TaliskerATTText.AutoSize = true;
             this.lbl_TaliskerATTText.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbl_TaliskerATTText.Location = new System.Drawing.Point(262, 155);
+            this.lbl_TaliskerATTText.Location = new System.Drawing.Point(256, 137);
             this.lbl_TaliskerATTText.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.lbl_TaliskerATTText.Name = "lbl_TaliskerATTText";
             this.lbl_TaliskerATTText.Size = new System.Drawing.Size(97, 13);
@@ -1677,7 +1746,7 @@
             // 
             // txtbx_RequestedTaliskerATT
             // 
-            this.txtbx_RequestedTaliskerATT.Location = new System.Drawing.Point(197, 157);
+            this.txtbx_RequestedTaliskerATT.Location = new System.Drawing.Point(197, 133);
             this.txtbx_RequestedTaliskerATT.Margin = new System.Windows.Forms.Padding(2);
             this.txtbx_RequestedTaliskerATT.Name = "txtbx_RequestedTaliskerATT";
             this.txtbx_RequestedTaliskerATT.Size = new System.Drawing.Size(46, 20);
@@ -1687,19 +1756,19 @@
             // lbl_RequestedWPATTText
             // 
             this.lbl_RequestedWPATTText.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbl_RequestedWPATTText.Location = new System.Drawing.Point(7, 177);
+            this.lbl_RequestedWPATTText.Location = new System.Drawing.Point(10, 155);
             this.lbl_RequestedWPATTText.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.lbl_RequestedWPATTText.Name = "lbl_RequestedWPATTText";
             this.lbl_RequestedWPATTText.Size = new System.Drawing.Size(188, 20);
             this.lbl_RequestedWPATTText.TabIndex = 9;
             this.lbl_RequestedWPATTText.Text = "Requested WattPilot Atten =";
-            this.lbl_RequestedWPATTText.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.lbl_RequestedWPATTText.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // lbl_RequestedTaliskerATTText
             // 
             this.lbl_RequestedTaliskerATTText.AutoSize = true;
             this.lbl_RequestedTaliskerATTText.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbl_RequestedTaliskerATTText.Location = new System.Drawing.Point(26, 159);
+            this.lbl_RequestedTaliskerATTText.Location = new System.Drawing.Point(10, 137);
             this.lbl_RequestedTaliskerATTText.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.lbl_RequestedTaliskerATTText.Name = "lbl_RequestedTaliskerATTText";
             this.lbl_RequestedTaliskerATTText.Size = new System.Drawing.Size(170, 13);
@@ -1709,21 +1778,22 @@
             // 
             // lbl_AOMMode
             // 
+            this.lbl_AOMMode.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.lbl_AOMMode.BackColor = System.Drawing.Color.White;
             this.lbl_AOMMode.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbl_AOMMode.Location = new System.Drawing.Point(360, 46);
+            this.lbl_AOMMode.Location = new System.Drawing.Point(340, 45);
             this.lbl_AOMMode.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.lbl_AOMMode.Name = "lbl_AOMMode";
-            this.lbl_AOMMode.Size = new System.Drawing.Size(65, 24);
+            this.lbl_AOMMode.Size = new System.Drawing.Size(85, 24);
             this.lbl_AOMMode.TabIndex = 8;
             this.lbl_AOMMode.Text = "Unknown";
-            this.lbl_AOMMode.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.lbl_AOMMode.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // lbl_aommodetext
             // 
             this.lbl_aommodetext.AutoSize = true;
             this.lbl_aommodetext.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbl_aommodetext.Location = new System.Drawing.Point(279, 50);
+            this.lbl_aommodetext.Location = new System.Drawing.Point(256, 51);
             this.lbl_aommodetext.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.lbl_aommodetext.Name = "lbl_aommodetext";
             this.lbl_aommodetext.Size = new System.Drawing.Size(80, 13);
@@ -1732,7 +1802,7 @@
             // 
             // btn_aommode2
             // 
-            this.btn_aommode2.Location = new System.Drawing.Point(104, 46);
+            this.btn_aommode2.Location = new System.Drawing.Point(91, 46);
             this.btn_aommode2.Margin = new System.Windows.Forms.Padding(2);
             this.btn_aommode2.Name = "btn_aommode2";
             this.btn_aommode2.Size = new System.Drawing.Size(78, 23);
@@ -1743,7 +1813,7 @@
             // 
             // btn_aommode3
             // 
-            this.btn_aommode3.Location = new System.Drawing.Point(197, 46);
+            this.btn_aommode3.Location = new System.Drawing.Point(174, 46);
             this.btn_aommode3.Margin = new System.Windows.Forms.Padding(2);
             this.btn_aommode3.Name = "btn_aommode3";
             this.btn_aommode3.Size = new System.Drawing.Size(78, 23);
@@ -1790,7 +1860,7 @@
             // 
             this.lbl_ShutterStatusText.AutoSize = true;
             this.lbl_ShutterStatusText.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbl_ShutterStatusText.Location = new System.Drawing.Point(270, 23);
+            this.lbl_ShutterStatusText.Location = new System.Drawing.Point(256, 23);
             this.lbl_ShutterStatusText.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.lbl_ShutterStatusText.Name = "lbl_ShutterStatusText";
             this.lbl_ShutterStatusText.Size = new System.Drawing.Size(88, 13);
@@ -1799,30 +1869,131 @@
             // 
             // lbl_file_dir
             // 
-            this.lbl_file_dir.Location = new System.Drawing.Point(20, 768);
+            this.lbl_file_dir.Location = new System.Drawing.Point(15, 751);
             this.lbl_file_dir.Name = "lbl_file_dir";
-            this.lbl_file_dir.Size = new System.Drawing.Size(803, 23);
+            this.lbl_file_dir.Size = new System.Drawing.Size(848, 21);
             this.lbl_file_dir.TabIndex = 53;
             this.lbl_file_dir.Text = "File Dir";
             // 
             // lbl_file_path
             // 
-            this.lbl_file_path.Location = new System.Drawing.Point(23, 798);
+            this.lbl_file_path.Location = new System.Drawing.Point(15, 772);
             this.lbl_file_path.Name = "lbl_file_path";
-            this.lbl_file_path.Size = new System.Drawing.Size(800, 23);
+            this.lbl_file_path.Size = new System.Drawing.Size(848, 23);
             this.lbl_file_path.TabIndex = 54;
             this.lbl_file_path.Text = "File Path";
             // 
-            // Form1
+            // cmdSaveBitmap
+            // 
+            this.cmdSaveBitmap.Location = new System.Drawing.Point(6, 22);
+            this.cmdSaveBitmap.Name = "cmdSaveBitmap";
+            this.cmdSaveBitmap.Size = new System.Drawing.Size(230, 23);
+            this.cmdSaveBitmap.TabIndex = 55;
+            this.cmdSaveBitmap.Text = "Save Bitmap";
+            this.cmdSaveBitmap.UseVisualStyleBackColor = true;
+            this.cmdSaveBitmap.Click += new System.EventHandler(this.cmdSaveBitmap_Click);
+            // 
+            // grpbx_Microscope
+            // 
+            this.grpbx_Microscope.Controls.Add(this.lbl_Moving_Zoom);
+            this.grpbx_Microscope.Controls.Add(this.lbl_Intensity);
+            this.grpbx_Microscope.Controls.Add(this.trackbar_intensity);
+            this.grpbx_Microscope.Controls.Add(this.btn_Max_Intensity);
+            this.grpbx_Microscope.Controls.Add(this.btn_Min_Intensity);
+            this.grpbx_Microscope.Controls.Add(this.btn_Max_Zoom);
+            this.grpbx_Microscope.Controls.Add(this.btn_Min_Zoom);
+            this.grpbx_Microscope.Controls.Add(this.cmdSaveBitmap);
+            this.grpbx_Microscope.Location = new System.Drawing.Point(623, 23);
+            this.grpbx_Microscope.Name = "grpbx_Microscope";
+            this.grpbx_Microscope.Size = new System.Drawing.Size(240, 197);
+            this.grpbx_Microscope.TabIndex = 56;
+            this.grpbx_Microscope.TabStop = false;
+            this.grpbx_Microscope.Text = "Microscope";
+            // 
+            // lbl_Moving_Zoom
+            // 
+            this.lbl_Moving_Zoom.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbl_Moving_Zoom.Location = new System.Drawing.Point(45, 170);
+            this.lbl_Moving_Zoom.Name = "lbl_Moving_Zoom";
+            this.lbl_Moving_Zoom.Size = new System.Drawing.Size(152, 18);
+            this.lbl_Moving_Zoom.TabIndex = 62;
+            this.lbl_Moving_Zoom.Text = "Moving Zoom";
+            this.lbl_Moving_Zoom.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.lbl_Moving_Zoom.Visible = false;
+            // 
+            // lbl_Intensity
+            // 
+            this.lbl_Intensity.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbl_Intensity.Location = new System.Drawing.Point(76, 140);
+            this.lbl_Intensity.Name = "lbl_Intensity";
+            this.lbl_Intensity.Size = new System.Drawing.Size(90, 25);
+            this.lbl_Intensity.TabIndex = 61;
+            this.lbl_Intensity.Text = "Intensity";
+            this.lbl_Intensity.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // trackbar_intensity
+            // 
+            this.trackbar_intensity.Location = new System.Drawing.Point(6, 110);
+            this.trackbar_intensity.Maximum = 100;
+            this.trackbar_intensity.Name = "trackbar_intensity";
+            this.trackbar_intensity.Size = new System.Drawing.Size(230, 45);
+            this.trackbar_intensity.SmallChange = 5;
+            this.trackbar_intensity.TabIndex = 60;
+            this.trackbar_intensity.TickFrequency = 5;
+            this.trackbar_intensity.Scroll += new System.EventHandler(this.trackbar_intensity_Scroll);
+            // 
+            // btn_Max_Intensity
+            // 
+            this.btn_Max_Intensity.Location = new System.Drawing.Point(123, 81);
+            this.btn_Max_Intensity.Name = "btn_Max_Intensity";
+            this.btn_Max_Intensity.Size = new System.Drawing.Size(113, 23);
+            this.btn_Max_Intensity.TabIndex = 59;
+            this.btn_Max_Intensity.Text = "Max Intensity";
+            this.btn_Max_Intensity.UseVisualStyleBackColor = true;
+            this.btn_Max_Intensity.Click += new System.EventHandler(this.btn_Max_Intensity_Click);
+            // 
+            // btn_Min_Intensity
+            // 
+            this.btn_Min_Intensity.Location = new System.Drawing.Point(6, 81);
+            this.btn_Min_Intensity.Name = "btn_Min_Intensity";
+            this.btn_Min_Intensity.Size = new System.Drawing.Size(113, 23);
+            this.btn_Min_Intensity.TabIndex = 58;
+            this.btn_Min_Intensity.Text = "Min Intensity";
+            this.btn_Min_Intensity.UseVisualStyleBackColor = true;
+            this.btn_Min_Intensity.Click += new System.EventHandler(this.btn_Min_Intensity_Click);
+            // 
+            // btn_Max_Zoom
+            // 
+            this.btn_Max_Zoom.Location = new System.Drawing.Point(123, 51);
+            this.btn_Max_Zoom.Name = "btn_Max_Zoom";
+            this.btn_Max_Zoom.Size = new System.Drawing.Size(113, 23);
+            this.btn_Max_Zoom.TabIndex = 57;
+            this.btn_Max_Zoom.Text = "Max Zoom";
+            this.btn_Max_Zoom.UseVisualStyleBackColor = true;
+            this.btn_Max_Zoom.Click += new System.EventHandler(this.btn_Max_Zoom_Click);
+            // 
+            // btn_Min_Zoom
+            // 
+            this.btn_Min_Zoom.Enabled = false;
+            this.btn_Min_Zoom.Location = new System.Drawing.Point(6, 52);
+            this.btn_Min_Zoom.Name = "btn_Min_Zoom";
+            this.btn_Min_Zoom.Size = new System.Drawing.Size(113, 23);
+            this.btn_Min_Zoom.TabIndex = 56;
+            this.btn_Min_Zoom.Text = "Min Zoom";
+            this.btn_Min_Zoom.UseVisualStyleBackColor = true;
+            this.btn_Min_Zoom.Click += new System.EventHandler(this.btn_Min_Zoom_Click);
+            // 
+            // InteractionForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1904, 830);
+            this.BackColor = System.Drawing.Color.White;
+            this.ClientSize = new System.Drawing.Size(1904, 808);
+            this.Controls.Add(this.grpbx_Microscope);
             this.Controls.Add(this.lbl_file_path);
             this.Controls.Add(this.lbl_file_dir);
             this.Controls.Add(this.grpbx_TalikserLaser);
             this.Controls.Add(this.grpbx_OphirControl);
-            this.Controls.Add(this.btn_HomeProcedure);
             this.Controls.Add(this.icImagingControl1);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.grpbx_JogAxes);
@@ -1830,13 +2001,10 @@
             this.Controls.Add(this.grpbx_AxPos);
             this.Controls.Add(this.grpbx_AxisStatus);
             this.Controls.Add(this.grpbx_AxControl);
-            this.Controls.Add(this.lbl_TaskState);
-            this.Controls.Add(this.cmb_AxisNames);
-            this.Controls.Add(this.chkbx_ConnectedVal);
-            this.Controls.Add(this.btn_DisconnectController);
-            this.Controls.Add(this.btn_ConnectController);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
-            this.Name = "Form1";
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.Name = "InteractionForm";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = " Aerotech Control";
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.Form1_FormClosed);
             this.Load += new System.EventHandler(this.Form1_Load);
@@ -1853,16 +2021,14 @@
             this.grpbx_OphirControl.PerformLayout();
             this.grpbx_TalikserLaser.ResumeLayout(false);
             this.grpbx_TalikserLaser.PerformLayout();
+            this.grpbx_Microscope.ResumeLayout(false);
+            this.grpbx_Microscope.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.trackbar_intensity)).EndInit();
             this.ResumeLayout(false);
-            this.PerformLayout();
 
         }
 
         #endregion
-
-        private System.Windows.Forms.Button btn_ConnectController;
-        private System.Windows.Forms.Button btn_DisconnectController;
-        private System.Windows.Forms.CheckBox chkbx_ConnectedVal;
         private System.Windows.Forms.ComboBox cmb_AxisNames;
         private System.Windows.Forms.Label lbl_TaskState;
         private System.Windows.Forms.GroupBox grpbx_AxVel;
@@ -1962,7 +2128,6 @@
         internal System.Windows.Forms.ComboBox HandleComboBox;
         private System.Windows.Forms.Button btn_StartStream;
         private System.Windows.Forms.Label LabelMeasurement0;
-        internal System.Windows.Forms.Label label18;
         private System.Windows.Forms.Label label19;
         private System.Windows.Forms.Label LabelTime0;
         private System.Windows.Forms.Label LabelStatus0;
@@ -2007,6 +2172,22 @@
         private System.Windows.Forms.Button btn_AOMrepeatability;
         private System.Windows.Forms.Label lbl_file_dir;
         private System.Windows.Forms.Label lbl_file_path;
+        private System.Windows.Forms.Button cmdSaveBitmap;
+        private System.Windows.Forms.Button btn_SetuScopeFocus_2;
+        private System.Windows.Forms.GroupBox grpbx_Microscope;
+        private System.Windows.Forms.Button btn_Max_Intensity;
+        private System.Windows.Forms.Button btn_Min_Intensity;
+        private System.Windows.Forms.Button btn_Max_Zoom;
+        private System.Windows.Forms.Button btn_Min_Zoom;
+        private System.Windows.Forms.TrackBar trackbar_intensity;
+        private System.Windows.Forms.Label lbl_Intensity;
+        private System.Windows.Forms.Label lbl_Moving_Zoom;
+        private System.Windows.Forms.Button btn_Set_Zoom;
+        private System.Windows.Forms.Button btn_Move_Zoom;
+        private System.Windows.Forms.Button btn_zoom_test;
+        private System.Windows.Forms.Button btn_zoom_D_set;
+        private System.Windows.Forms.Button btn_AutoFocus;
+        private System.Windows.Forms.Button btn_autoalign;
     }
 }
 
