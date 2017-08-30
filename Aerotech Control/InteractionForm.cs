@@ -2285,134 +2285,136 @@ namespace Aerotech_Control
 
             #region Change Power
 
-            for (int power_a = 0; power_a < 10; power_a++) // Change Y
-            {
-                //Power for loop
-                for (int power_b = 0; power_b < 10; power_b++) // Adjust - Change X
-                {
-                    int power = power_a * 10 + power_b;
+            //for (int power_a = 0; power_a < 10; power_a++) // Change Y
+            //{
+            //    //Power for loop
+            //    for (int power_b = 0; power_b < 10; power_b++) // Adjust - Change X
+            //    {
+            //        int power = power_a * 10 + power_b;
 
-                    string power_string = power.ToString("0000");
+            //        string power_string = power.ToString("0000");
                                                             
-                    string Save_Dir = universal_path + "/Power = " + power_string + "/Data"; // Adjust 
+            //        string Save_Dir = universal_path + "/Power = " + power_string + "/Data"; // Adjust 
 
-                    lbl_file_dir.Text = Save_Dir;
+            //        lbl_file_dir.Text = Save_Dir;
 
-                    System.IO.Directory.CreateDirectory(Save_Dir);
+            //        System.IO.Directory.CreateDirectory(Save_Dir);
                                      
-                    power_record_file_path = Save_Dir + "/Power " + power + ".txt";
+            //        power_record_file_path = Save_Dir + "/Power " + power + ".txt";
 
-                    lbl_file_path.Text = power_record_file_path;
+            //        lbl_file_path.Text = power_record_file_path;
 
-                    this.Update();
+            //        this.Update();
 
-                    // Set WATT Pilot ATT
+            //        // Set WATT Pilot ATT
 
-                    watt_pilot_attenuation(power); 
+            //        watt_pilot_attenuation(power); 
 
-                    // Hole position
-
-                    Movement_3D_ablation(Refined_Xaxis[1] + 0.5 + (0.25 * (power_b)), Refined_Yaxis[1] + 0.5 + (0.25 * power_a), 0, 5);
-
-                    record_power = 1; // Start recording power
-
-                    myController.Commands.PSO.Control("X", Aerotech.A3200.Commands.PsoMode.On);
-
-                    Thread.Sleep(dwell_time * 1000);
                     
-                    myController.Commands.PSO.Control("X", Aerotech.A3200.Commands.PsoMode.Off);
 
-                    record_power = 0; // End recording power
+            //        // Hole position
 
-                    // Store Hole location
+            //        Movement_3D_ablation(Refined_Xaxis[1] + 0.5 + (0.25 * (power_b)), Refined_Yaxis[1] + 0.5 + (0.25 * power_a), 0, 5);
 
-                    Holes_X[Holes_Hold] = myController.Commands.Status.AxisStatus("X", AxisStatusSignal.ProgramPositionFeedback) + OffsetAccurate_Xaxis;
-                    Holes_Y[Holes_Hold] = myController.Commands.Status.AxisStatus("Y", AxisStatusSignal.ProgramPositionFeedback) + OffsetAccurate_Yaxis;
+            //        record_power = 1; // Start recording power
 
-                    Holes_Hold++;
-                }
-            }
+            //        myController.Commands.PSO.Control("X", Aerotech.A3200.Commands.PsoMode.On);
 
-            shutter_closed();
+            //        Thread.Sleep(dwell_time * 1000);
+                    
+            //        myController.Commands.PSO.Control("X", Aerotech.A3200.Commands.PsoMode.Off);
 
-            Holes_Hold = 0;
+            //        record_power = 0; // End recording power
 
-            // Capture Holes using Microscope        
+            //        // Store Hole location
 
-            for (int power_a = 0; power_a < 10; power_a++) // Change Y
-            {
-                //Power for loop
-                for (int power_b = 0; power_b < 10; power_b++) // Adjust - Change X
-                {
-                    int power = power_a * 10 + power_b;
+            //        Holes_X[Holes_Hold] = myController.Commands.Status.AxisStatus("X", AxisStatusSignal.ProgramPositionFeedback) + OffsetAccurate_Xaxis;
+            //        Holes_Y[Holes_Hold] = myController.Commands.Status.AxisStatus("Y", AxisStatusSignal.ProgramPositionFeedback) + OffsetAccurate_Yaxis;
 
-                    string power_string = power.ToString("0000");
+            //        Holes_Hold++;
+            //    }
+            //}
 
-                    string Save_Dir = universal_path + "/Power = " + power_string + "/Images";
+            //shutter_closed();
 
-                    lbl_file_dir.Text = Save_Dir;
+            //Holes_Hold = 0;
 
-                    System.IO.Directory.CreateDirectory(Save_Dir);
+            //// Capture Holes using Microscope        
 
-                    // Hole position
+            //for (int power_a = 0; power_a < 10; power_a++) // Change Y
+            //{
+            //    //Power for loop
+            //    for (int power_b = 0; power_b < 10; power_b++) // Adjust - Change X
+            //    {
+            //        int power = power_a * 10 + power_b;
 
-                    Movement_3D_uScope(Holes_X[Holes_Hold], Holes_Y[Holes_Hold], 0, true);
+            //        string power_string = power.ToString("0000");
 
-                    // Take Backup Picture Before Auto Focus
+            //        string Save_Dir = universal_path + "/Power = " + power_string + "/Images";
 
-                    icImagingControl1.OverlayBitmap.Enable = false;
+            //        lbl_file_dir.Text = Save_Dir;
 
-                    Thread.Sleep(1 * 1000);
+            //        System.IO.Directory.CreateDirectory(Save_Dir);
 
-                    icImagingControl1.MemorySnapImage();
+            //        // Hole position
 
-                    icImagingControl1.MemorySaveImage(Save_Dir + "/Backup.bmp");
+            //        Movement_3D_uScope(Holes_X[Holes_Hold], Holes_Y[Holes_Hold], 0, true);
 
-                    // Auto Focus
+            //        // Take Backup Picture Before Auto Focus
 
-                    uScope_focus_check(true);
+            //        icImagingControl1.OverlayBitmap.Enable = false;
 
-                    if (AlignmentFocus_Container.Feature_Visible == true)
-                    {
-                        using (StreamWriter writer = new StreamWriter(Save_Dir + "visible.txt"))
-                        {
-                            writer.Write("Visible");
-                        }
+            //        Thread.Sleep(1 * 1000);
 
-                        // Correct zoom offset
+            //        icImagingControl1.MemorySnapImage();
 
-                        double current_D = myController.Commands.Status.AxisStatus("D", AxisStatusSignal.ProgramPositionFeedback);
-                        double current_X = myController.Commands.Status.AxisStatus("X", AxisStatusSignal.ProgramPositionFeedback);
-                        double current_Y = myController.Commands.Status.AxisStatus("Y", AxisStatusSignal.ProgramPositionFeedback);
+            //        icImagingControl1.MemorySaveImage(Save_Dir + "/Backup.bmp");
 
-                        zoom_offset = current_D - microscope_focus;
-                        microscope_zoom_x_correction = current_X - (Refined_Xaxis[1] + 0.5 + (0.25 * power_b));
-                        microscope_zoom_y_correction = current_Y - (Refined_Yaxis[1] + 0.5 + (0.25 * power_a));
-                    }
+            //        // Auto Focus
+
+            //        uScope_focus_check(true);
+
+            //        if (AlignmentFocus_Container.Feature_Visible == true)
+            //        {
+            //            using (StreamWriter writer = new StreamWriter(Save_Dir + "visible.txt"))
+            //            {
+            //                writer.Write("Visible");
+            //            }
+
+            //            // Correct zoom offset
+
+            //            double current_D = myController.Commands.Status.AxisStatus("D", AxisStatusSignal.ProgramPositionFeedback);
+            //            double current_X = myController.Commands.Status.AxisStatus("X", AxisStatusSignal.ProgramPositionFeedback);
+            //            double current_Y = myController.Commands.Status.AxisStatus("Y", AxisStatusSignal.ProgramPositionFeedback);
+
+            //            zoom_offset = current_D - microscope_focus;
+            //            microscope_zoom_x_correction = current_X - (Refined_Xaxis[1] + 0.5 + (0.25 * power_b));
+            //            microscope_zoom_y_correction = current_Y - (Refined_Yaxis[1] + 0.5 + (0.25 * power_a));
+            //        }
                                                            
-                    AlignmentFocus_Container.Feature_Visible = false;
+            //        AlignmentFocus_Container.Feature_Visible = false;
 
-                    for (int a = 0; a <3; a++)
-                    {
-                        icImagingControl1.OverlayBitmap.Enable = false;
+            //        for (int a = 0; a <3; a++)
+            //        {
+            //            icImagingControl1.OverlayBitmap.Enable = false;
 
-                        Thread.Sleep(3000);                        
+            //            Thread.Sleep(3000);                        
 
-                        string image_record_file_path = Save_Dir + "/A" + a + ".bmp";
+            //            string image_record_file_path = Save_Dir + "/A" + a + ".bmp";
 
-                        lbl_file_path.Text = image_record_file_path;                        
+            //            lbl_file_path.Text = image_record_file_path;                        
 
-                        icImagingControl1.MemorySnapImage();
+            //            icImagingControl1.MemorySnapImage();
 
-                        icImagingControl1.MemorySaveImage(image_record_file_path);                        
-                    }
+            //            icImagingControl1.MemorySaveImage(image_record_file_path);                        
+            //        }
 
-                    Holes_Hold++;                 
-                }
+            //        Holes_Hold++;                 
+            //    }
 
-            }
+            //}
             
-            icImagingControl1.OverlayBitmap.Enable = true;
+            //icImagingControl1.OverlayBitmap.Enable = true;
 
             #endregion
 
@@ -2426,11 +2428,17 @@ namespace Aerotech_Control
 
             // Set WATT Pilot ATT
 
-            watt_pilot_attenuation(0);            
+            watt_pilot_attenuation(0);                                               
 
             for (int divisor = 1; divisor < 11; divisor++) // Change Y
-            {                               
-                //Power for loop
+            {
+                // Set Rep Rate
+
+                int rep_rate = 200000 / divisor;
+
+                talisker_rep_rate(rep_rate);
+                              
+                //Dwell Time for loop
                 for (dwell_time = 1; dwell_time < 11; dwell_time++) // Adjust - Change X
                 {
                     string divisor_string = divisor.ToString("00");
@@ -2452,15 +2460,9 @@ namespace Aerotech_Control
 
                     watt_pilot_attenuation(0);
 
-                    // Set Rep Rate
-
-                    int rep_rate = 200000 / divisor;
-
-                    talisker_rep_rate(rep_rate);
-
                     // Hole position
 
-                    Movement_3D_ablation(Refined_Xaxis[1] + 0.5 + (0.25 * (dwell_time - 1)), Refined_Yaxis[1] + 0.5 + (0.25 * (divisor - 1)) + (0.25*12), 0, 5);
+                    Movement_3D_ablation(Refined_Xaxis[1] + 0.5 + (0.25 * (dwell_time - 1)), Refined_Yaxis[1] + 0.5 + (0.25 * (divisor - 1)), 0, 5);
 
                     record_power = 1; // Start recording power
 
@@ -2489,7 +2491,7 @@ namespace Aerotech_Control
 
             for (int divisor = 1; divisor < 11; divisor++) // Change Y
             {
-                //Power for loop
+                //Dwell Time for loop
                 for (dwell_time = 1; dwell_time < 11; dwell_time++) // Adjust - Change X
                 {
                     string divisor_string = divisor.ToString("00");
@@ -2559,7 +2561,154 @@ namespace Aerotech_Control
                                               
             }
 
+            // Sub 1 Second Dwell Time
 
+            universal_path = "C:/Users/User/Desktop/Share/Chris/Abatlion Threshold/Trial 20";
+
+            Holes_Total = 100; //***** Check 
+
+            Holes_Hold = 0;
+
+            // Set WATT Pilot ATT
+
+            watt_pilot_attenuation(0);
+
+            for (int divisor = 1; divisor < 11; divisor++) // Change Y
+            {
+                // Set Rep Rate
+
+                int rep_rate = 200000 / divisor;
+
+                talisker_rep_rate(rep_rate);
+
+                //Dwell Time for loop
+                for (dwell_time = 1; dwell_time < 11; dwell_time++) // Adjust - Change X
+                {
+                    string divisor_string = divisor.ToString("00");
+
+                    double dwell_time_real = dwell_time / 10;
+
+                    string dwell_time_string = dwell_time_real.ToString("00.00");
+                    
+                    string Save_Dir = universal_path + "/Divisor = " + divisor_string + " Dwell TIme = " + dwell_time_string + "/Data"; // Adjust 
+
+                    lbl_file_dir.Text = Save_Dir;
+
+                    System.IO.Directory.CreateDirectory(Save_Dir);
+
+                    power_record_file_path = Save_Dir + "/Power.txt";
+
+                    lbl_file_path.Text = power_record_file_path;
+
+                    this.Update();
+
+                    // Set WATT Pilot ATT
+
+                    watt_pilot_attenuation(0);
+
+                    // Hole position
+
+                    Movement_3D_ablation(Refined_Xaxis[1] + 0.5 + (0.25 * (dwell_time - 1)), Refined_Yaxis[1] + 0.5 + (0.25 * (divisor - 1)) + (12*0.25), 0, 5);
+
+                    record_power = 1; // Start recording power
+
+                    myController.Commands.PSO.Control("X", Aerotech.A3200.Commands.PsoMode.On);
+
+                    Thread.Sleep(dwell_time/10 * 1000);
+
+                    myController.Commands.PSO.Control("X", Aerotech.A3200.Commands.PsoMode.Off);
+
+                    record_power = 0; // End recording power
+
+                    // Store Hole location
+
+                    Holes_X[Holes_Hold] = myController.Commands.Status.AxisStatus("X", AxisStatusSignal.ProgramPositionFeedback) + OffsetAccurate_Xaxis;
+                    Holes_Y[Holes_Hold] = myController.Commands.Status.AxisStatus("Y", AxisStatusSignal.ProgramPositionFeedback) + OffsetAccurate_Yaxis;
+
+                    Holes_Hold++;
+                }
+            }
+
+            shutter_closed();
+
+            Holes_Hold = 0;
+
+            // Capture Holes using Microscope        
+
+            for (int divisor = 1; divisor < 11; divisor++) // Change Y
+            {
+                //Power for loop
+                for (dwell_time = 1; dwell_time < 11; dwell_time++) // Adjust - Change X
+                {
+                    string divisor_string = divisor.ToString("00");
+
+                    double dwell_time_real = dwell_time / 10;
+
+                    string dwell_time_string = dwell_time_real.ToString("00.00");
+
+                    string Save_Dir = universal_path + "/Divisor = " + divisor_string + " Dwell TIme = " + dwell_time_string + "/Images"; // Adjust                     
+
+                    lbl_file_dir.Text = Save_Dir;
+
+                    System.IO.Directory.CreateDirectory(Save_Dir);
+
+                    // Hole position
+
+                    Movement_3D_uScope(Holes_X[Holes_Hold], Holes_Y[Holes_Hold], 0, true);
+
+                    // Take Backup Picture Before Auto Focus
+
+                    icImagingControl1.OverlayBitmap.Enable = false;
+
+                    Thread.Sleep(1 * 1000);
+
+                    icImagingControl1.MemorySnapImage();
+
+                    icImagingControl1.MemorySaveImage(Save_Dir + "/Backup.bmp");
+
+                    // Auto Focus
+
+                    uScope_focus_check(true);
+
+                    if (AlignmentFocus_Container.Feature_Visible == true)
+                    {
+                        using (StreamWriter writer = new StreamWriter(Save_Dir + "visible.txt"))
+                        {
+                            writer.Write("Visible");
+                        }
+
+                        // Correct zoom offset
+
+                        double current_D = myController.Commands.Status.AxisStatus("D", AxisStatusSignal.ProgramPositionFeedback);
+                        double current_X = myController.Commands.Status.AxisStatus("X", AxisStatusSignal.ProgramPositionFeedback);
+                        double current_Y = myController.Commands.Status.AxisStatus("Y", AxisStatusSignal.ProgramPositionFeedback);
+
+                        zoom_offset = current_D - microscope_focus;
+                        microscope_zoom_x_correction = current_X - (Refined_Xaxis[1] + 0.5 + (0.25 * (dwell_time - 1)));
+                        microscope_zoom_y_correction = current_Y - (Refined_Yaxis[1] + 0.5 + (0.25 * (divisor - 1)));
+                    }
+
+                    AlignmentFocus_Container.Feature_Visible = false;
+
+                    for (int a = 0; a < 3; a++)
+                    {
+                        icImagingControl1.OverlayBitmap.Enable = false;
+
+                        Thread.Sleep(3000);
+
+                        string image_record_file_path = Save_Dir + "/A" + a + ".bmp";
+
+                        lbl_file_path.Text = image_record_file_path;
+
+                        icImagingControl1.MemorySnapImage();
+
+                        icImagingControl1.MemorySaveImage(image_record_file_path);
+                    }
+
+                    Holes_Hold++;
+                }
+
+            }
 
             #endregion
 
@@ -2669,7 +2818,7 @@ namespace Aerotech_Control
         private void talisker_burst_pulses(int value)
         {
             string burst_pulses = "BURST=" + value + "\r\n";
-            TalikserLaser.Write(burst_pulses);
+            Talisker_SerialPortCommunicator.SerialPort.Write(burst_pulses);
             Thread.Sleep(command_delay);
             lbl_BurstPulses.Text = value.ToString("0");
         }
@@ -2684,7 +2833,7 @@ namespace Aerotech_Control
             else
             {
                 string rep_rate = "AOMD=" + divisor + "\r\n";
-                TalikserLaser.Write(rep_rate);
+                Talisker_SerialPortCommunicator.SerialPort.Write(rep_rate);
                 Thread.Sleep(command_delay);
                 lbl_RepRate.Text = value.ToString("0");
             }
