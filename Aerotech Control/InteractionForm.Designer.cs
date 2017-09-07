@@ -107,6 +107,8 @@
             this.btn_PosJogX = new System.Windows.Forms.Button();
             this.btn_NegJogX = new System.Windows.Forms.Button();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.btn_uScopeFocus = new System.Windows.Forms.Button();
+            this.btn_LaserFocus = new System.Windows.Forms.Button();
             this.btn_zoom_D_set = new System.Windows.Forms.Button();
             this.btn_zoom_test = new System.Windows.Forms.Button();
             this.btn_Move_Zoom = new System.Windows.Forms.Button();
@@ -189,6 +191,8 @@
             this.btn_Min_Intensity = new System.Windows.Forms.Button();
             this.btn_Max_Zoom = new System.Windows.Forms.Button();
             this.btn_Min_Zoom = new System.Windows.Forms.Button();
+            this.folderBrowserDialog1 = new System.Windows.Forms.FolderBrowserDialog();
+            this.lbl_uscopemoving = new System.Windows.Forms.Label();
             this.grpbx_AxVel.SuspendLayout();
             this.grpbx_AxPos.SuspendLayout();
             this.grpbx_AxisStatus.SuspendLayout();
@@ -1063,6 +1067,8 @@
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.btn_uScopeFocus);
+            this.groupBox1.Controls.Add(this.btn_LaserFocus);
             this.groupBox1.Controls.Add(this.btn_zoom_D_set);
             this.groupBox1.Controls.Add(this.btn_zoom_test);
             this.groupBox1.Controls.Add(this.btn_Move_Zoom);
@@ -1092,6 +1098,26 @@
             this.groupBox1.TabIndex = 48;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Sample Alignment";
+            // 
+            // btn_uScopeFocus
+            // 
+            this.btn_uScopeFocus.Location = new System.Drawing.Point(306, 106);
+            this.btn_uScopeFocus.Name = "btn_uScopeFocus";
+            this.btn_uScopeFocus.Size = new System.Drawing.Size(102, 22);
+            this.btn_uScopeFocus.TabIndex = 75;
+            this.btn_uScopeFocus.Text = "uScope Focus";
+            this.btn_uScopeFocus.UseVisualStyleBackColor = true;
+            this.btn_uScopeFocus.Click += new System.EventHandler(this.btn_uScopeFocus_Click);
+            // 
+            // btn_LaserFocus
+            // 
+            this.btn_LaserFocus.Location = new System.Drawing.Point(306, 75);
+            this.btn_LaserFocus.Name = "btn_LaserFocus";
+            this.btn_LaserFocus.Size = new System.Drawing.Size(102, 24);
+            this.btn_LaserFocus.TabIndex = 74;
+            this.btn_LaserFocus.Text = "Laser Focus";
+            this.btn_LaserFocus.UseVisualStyleBackColor = true;
+            this.btn_LaserFocus.Click += new System.EventHandler(this.btn_LaserFocus_Click);
             // 
             // btn_zoom_D_set
             // 
@@ -1983,12 +2009,26 @@
             this.btn_Min_Zoom.UseVisualStyleBackColor = true;
             this.btn_Min_Zoom.Click += new System.EventHandler(this.btn_Min_Zoom_Click);
             // 
+            // lbl_uscopemoving
+            // 
+            this.lbl_uscopemoving.BackColor = System.Drawing.Color.Transparent;
+            this.lbl_uscopemoving.Font = new System.Drawing.Font("Calibri", 36F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbl_uscopemoving.ForeColor = System.Drawing.Color.Red;
+            this.lbl_uscopemoving.Location = new System.Drawing.Point(1282, 353);
+            this.lbl_uscopemoving.Name = "lbl_uscopemoving";
+            this.lbl_uscopemoving.Size = new System.Drawing.Size(199, 124);
+            this.lbl_uscopemoving.TabIndex = 57;
+            this.lbl_uscopemoving.Text = "Moving";
+            this.lbl_uscopemoving.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.lbl_uscopemoving.Visible = false;
+            // 
             // InteractionForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
             this.ClientSize = new System.Drawing.Size(1904, 808);
+            this.Controls.Add(this.lbl_uscopemoving);
             this.Controls.Add(this.grpbx_Microscope);
             this.Controls.Add(this.lbl_file_path);
             this.Controls.Add(this.lbl_file_dir);
@@ -2188,6 +2228,10 @@
         private System.Windows.Forms.Button btn_zoom_D_set;
         private System.Windows.Forms.Button btn_AutoFocus;
         private System.Windows.Forms.Button btn_autoalign;
+        private System.Windows.Forms.Button btn_LaserFocus;
+        private System.Windows.Forms.Button btn_uScopeFocus;
+        private System.Windows.Forms.FolderBrowserDialog folderBrowserDialog1;
+        private System.Windows.Forms.Label lbl_uscopemoving;
     }
 }
 

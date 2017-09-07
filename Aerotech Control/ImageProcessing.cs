@@ -190,10 +190,12 @@ namespace Aerotech_Control
             {
                 AlignmentFocus_Container.Feature_Visible = true;
                 lbl_largestblob.Text = "Line Present";
+                this.Update();
             }
             else
             {
                 lbl_largestblob.Text = "No Line";
+                this.Update();
             }
             
 
