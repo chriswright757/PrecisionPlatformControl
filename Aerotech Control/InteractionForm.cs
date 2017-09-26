@@ -100,6 +100,9 @@ namespace Aerotech_Control
         double[] Refined_Xaxis = new double[4];
         double[] Refined_Yaxis = new double[4];
 
+        double[] Refined_Xaxis_ablation = new double[4];
+        double[] Refined_Yaxis_ablation = new double[4];
+
         double StepIn = 0.25;
         
         double ablation_focus;
@@ -114,10 +117,15 @@ namespace Aerotech_Control
         double microscope_zoom_x_correction = 0;
         double microscope_zoom_y_correction = 0;
         double zoom_offset = 0.123;
-        
 
-        double Offset_Xaxis = Convert.ToDouble(File.ReadAllText("C:/Users/User/Documents/GitHub/PrecisionPlatformControl/Reference Values/OFFSETX.txt", Encoding.UTF8));
-        double Offset_Yaxis = Convert.ToDouble(File.ReadAllText("C:/Users/User/Documents/GitHub/PrecisionPlatformControl/Reference Values/OFFSETY.txt", Encoding.UTF8));
+
+        double Offset_Xaxis = 0; //Convert.ToDouble(File.ReadAllText("C:/Users/User/Documents/GitHub/PrecisionPlatformControl/Reference Values/OFFSETX.txt", Encoding.UTF8));
+        double Offset_Yaxis = 0; // Convert.ToDouble(File.ReadAllText("C:/Users/User/Documents/GitHub/PrecisionPlatformControl/Reference Values/OFFSETY.txt", Encoding.UTF8));
+
+        double Offset_Xaxis_OLD = 0;
+        double Offset_Yaxis_OLD = 0;
+        double OffsetAccurate_Xaxis = 0;
+        double OffsetAccurate_Yaxis = 0;
 
         double[] Correction_Xaxis = new double[4];
         double[] Correction_Yaxis = new double[4];
@@ -1106,7 +1114,7 @@ namespace Aerotech_Control
                     myController.Commands.Motion.Setup.Absolute();
                     myController.Commands.Axes["X", "Y"].Motion.Linear(new double[] { A_coords[0], A_coords[1] }, 1);
                     btn_UpdateCoords.Text = "Realign Corner A";
-
+                    btn_UpdateCoords.Enabled = true;
                     hold = 0;
                 }
                 else if (i == 1)
@@ -1114,6 +1122,7 @@ namespace Aerotech_Control
                     myController.Commands.Motion.Setup.Absolute();
                     myController.Commands.Axes["X", "Y"].Motion.Linear(new double[] { B_coords[0], B_coords[1] }, 1);
                     btn_UpdateCoords.Text = "Realign Corner B";
+                    btn_UpdateCoords.Enabled = true;
                     hold = 1;
                 }
                 else if (i == 2)
@@ -1121,6 +1130,7 @@ namespace Aerotech_Control
                     myController.Commands.Motion.Setup.Absolute();
                     myController.Commands.Axes["X", "Y"].Motion.Linear(new double[] { C_coords[0], C_coords[1] }, 1);
                     btn_UpdateCoords.Text = "Realign Corner C";
+                    btn_UpdateCoords.Enabled = true;
                     hold = 2;
                 }
                 else if (i == 3)
@@ -1128,6 +1138,7 @@ namespace Aerotech_Control
                     myController.Commands.Motion.Setup.Absolute();
                     myController.Commands.Axes["X", "Y"].Motion.Linear(new double[] { D_coords[0], D_coords[1] }, 1);
                     btn_UpdateCoords.Text = "Realign Corner D";
+                    btn_UpdateCoords.Enabled = true;
                     hold = 3;
                 }
                 else if (i == 4)
@@ -1151,6 +1162,8 @@ namespace Aerotech_Control
                 A_coords[1] = myController.Commands.Status.AxisStatus("Y", AxisStatusSignal.ProgramPositionFeedback);
                 A_coords[2] = myController.Commands.Status.AxisStatus("Z", AxisStatusSignal.ProgramPositionFeedback);
 
+                btn_UpdateCoords.Enabled = false;
+
                 //MessageBox.Show("Aquiring Axes Pos A");
                 //A_Xaxis = myController.Commands.Status.AxisStatus("X", AxisStatusSignal.ProgramPositionFeedback);
                 //A_Yaxis = myController.Commands.Status.AxisStatus("Y", AxisStatusSignal.ProgramPositionFeedback);
@@ -1163,6 +1176,8 @@ namespace Aerotech_Control
                 B_coords[1] = myController.Commands.Status.AxisStatus("Y", AxisStatusSignal.ProgramPositionFeedback);
                 B_coords[2] = myController.Commands.Status.AxisStatus("Z", AxisStatusSignal.ProgramPositionFeedback);
 
+                btn_UpdateCoords.Enabled = false;
+
                 //MessageBox.Show("Aquiring Axes Pos B");
                 //    B_Xaxis = myController.Commands.Status.AxisStatus("X", AxisStatusSignal.ProgramPositionFeedback);
                 //    B_Yaxis = myController.Commands.Status.AxisStatus("Y", AxisStatusSignal.ProgramPositionFeedback);
@@ -1174,6 +1189,8 @@ namespace Aerotech_Control
                 C_coords[0] = myController.Commands.Status.AxisStatus("X", AxisStatusSignal.ProgramPositionFeedback);
                 C_coords[1] = myController.Commands.Status.AxisStatus("Y", AxisStatusSignal.ProgramPositionFeedback);
                 C_coords[2] = myController.Commands.Status.AxisStatus("Z", AxisStatusSignal.ProgramPositionFeedback);
+
+                btn_UpdateCoords.Enabled = false;
 
                 //MessageBox.Show("Aquiring Axes Pos C");
                 //C_Xaxis = myController.Commands.Status.AxisStatus("X", AxisStatusSignal.ProgramPositionFeedback);
@@ -1196,7 +1213,74 @@ namespace Aerotech_Control
                 btn_PosJogD.Enabled = true;
                 btn_NegJogD.Enabled = true;
                 Movement_3D_uScope(D_coords[0], D_coords[1], 0, false);
-               // myController.Commands.Motion.Linear("Z", ablation_focus, 1);         *********       
+                // myController.Commands.Motion.Linear("Z", ablation_focus, 1);         *********    
+
+                // Square Sample Area
+
+                // Find X dimensions
+
+                if (A_coords[0] > B_coords[0])
+                {
+                    Refined_Xaxis[0] = A_coords[0] + StepIn;
+                    Refined_Xaxis[1] = A_coords[0] + StepIn;
+                }
+                else
+                {
+                    Refined_Xaxis[0] = B_coords[0] + StepIn;
+                    Refined_Xaxis[1] = B_coords[0] + StepIn;
+                }
+
+                if (D_coords[0] > C_coords[0])
+                {
+                    Refined_Xaxis[2] = C_coords[0] - StepIn;
+                    Refined_Xaxis[3] = C_coords[0] - StepIn;
+                }
+                else
+                {
+                    Refined_Xaxis[2] = D_coords[0] - StepIn;
+                    Refined_Xaxis[3] = D_coords[0] - StepIn;
+                }
+
+                // Find Y dimensions
+
+                if (A_coords[1] > D_coords[1])
+                {
+                    Refined_Yaxis[0] = D_coords[1] - StepIn;
+                    Refined_Yaxis[3] = D_coords[1] - StepIn;
+                }
+                else
+                {
+                    Refined_Yaxis[0] = A_coords[1] - StepIn;
+                    Refined_Yaxis[3] = A_coords[1] - StepIn;
+                }
+
+                if (B_coords[1] > C_coords[1])
+                {
+                    Refined_Yaxis[1] = B_coords[1] + StepIn;
+                    Refined_Yaxis[2] = B_coords[1] + StepIn;
+                }
+                else
+                {
+                    Refined_Yaxis[1] = C_coords[1] + StepIn;
+                    Refined_Yaxis[2] = C_coords[1] + StepIn;
+                }
+
+                System.IO.Directory.CreateDirectory(universal_path + "\\Setup");
+
+                using (StreamWriter writer = new StreamWriter(universal_path + "\\Setup\\Corners_Calculated.txt", true))
+                {
+                    writer.WriteLine("Corner A - X = " + Refined_Xaxis[0].ToString());
+                    writer.WriteLine("Corner A - Y = " + Refined_Yaxis[0].ToString());
+
+                    writer.WriteLine("Corner B - X = " + Refined_Xaxis[1].ToString());
+                    writer.WriteLine("Corner B - Y = " + Refined_Yaxis[1].ToString());
+
+                    writer.WriteLine("Corner C - X = " + Refined_Xaxis[2].ToString());
+                    writer.WriteLine("Corner C - Y = " + Refined_Yaxis[2].ToString());
+
+                    writer.WriteLine("Corner D - X = " + Refined_Xaxis[3].ToString());
+                    writer.WriteLine("Corner D - Y = " + Refined_Yaxis[3].ToString());
+                }
             }
 
             CornerAlignmentEvent.Set();
@@ -1222,70 +1306,89 @@ namespace Aerotech_Control
         {
             btn_AlignLaseruScope.Enabled = false;
             
-            // Find X dimensions
+            //// Find X dimensions
 
-            if (A_coords[0] > B_coords[0])
-            {
-                Refined_Xaxis[0] = A_coords[0] + StepIn;
-                Refined_Xaxis[1] = A_coords[0] + StepIn;
-            }
-            else
-            {
-                Refined_Xaxis[0] = B_coords[0] + StepIn;
-                Refined_Xaxis[1] = B_coords[0] + StepIn;
-            }
+            //if (A_coords[0] > B_coords[0])
+            //{
+            //    Refined_Xaxis[0] = A_coords[0] + StepIn;
+            //    Refined_Xaxis[1] = A_coords[0] + StepIn;
+            //}
+            //else
+            //{
+            //    Refined_Xaxis[0] = B_coords[0] + StepIn;
+            //    Refined_Xaxis[1] = B_coords[0] + StepIn;
+            //}
 
-            if (D_coords[0] > C_coords[0])
-            {
-                Refined_Xaxis[2] = C_coords[0] - StepIn;
-                Refined_Xaxis[3] = C_coords[0] - StepIn;
-            }
-            else
-            {
-                Refined_Xaxis[2] = D_coords[0] - StepIn;
-                Refined_Xaxis[3] = D_coords[0] - StepIn;
-            }
+            //if (D_coords[0] > C_coords[0])
+            //{
+            //    Refined_Xaxis[2] = C_coords[0] - StepIn;
+            //    Refined_Xaxis[3] = C_coords[0] - StepIn;
+            //}
+            //else
+            //{
+            //    Refined_Xaxis[2] = D_coords[0] - StepIn;
+            //    Refined_Xaxis[3] = D_coords[0] - StepIn;
+            //}
 
-            // Find Y dimensions
+            //// Find Y dimensions
 
-            if (A_coords[1] > D_coords[1])
-            {
-                Refined_Yaxis[0] = D_coords[1] - StepIn;
-                Refined_Yaxis[3] = D_coords[1] - StepIn;
-            }
-            else
-            {
-                Refined_Yaxis[0] = A_coords[1] - StepIn;
-                Refined_Yaxis[3] = A_coords[1] - StepIn;
-            }
+            //if (A_coords[1] > D_coords[1])
+            //{
+            //    Refined_Yaxis[0] = D_coords[1] - StepIn;
+            //    Refined_Yaxis[3] = D_coords[1] - StepIn;
+            //}
+            //else
+            //{
+            //    Refined_Yaxis[0] = A_coords[1] - StepIn;
+            //    Refined_Yaxis[3] = A_coords[1] - StepIn;
+            //}
 
-            if (B_coords[1] > C_coords[1])
-            {
-                Refined_Yaxis[1] = B_coords[1] + StepIn;
-                Refined_Yaxis[2] = B_coords[1] + StepIn;
-            }
-            else
-            {
-                Refined_Yaxis[1] = C_coords[1] + StepIn;
-                Refined_Yaxis[2] = C_coords[1] + StepIn;
-            }
+            //if (B_coords[1] > C_coords[1])
+            //{
+            //    Refined_Yaxis[1] = B_coords[1] + StepIn;
+            //    Refined_Yaxis[2] = B_coords[1] + StepIn;
+            //}
+            //else
+            //{
+            //    Refined_Yaxis[1] = C_coords[1] + StepIn;
+            //    Refined_Yaxis[2] = C_coords[1] + StepIn;
+            //}
 
-            // Find previous offset 
+            //System.IO.Directory.CreateDirectory(universal_path + "\\Setup");
 
-            Offset_Xaxis = Convert.ToDouble(File.ReadAllText("C:/Users/User/Documents/GitHub/PrecisionPlatformControl/Reference Values/OFFSETX.txt", Encoding.UTF8));
-            Offset_Yaxis = Convert.ToDouble(File.ReadAllText("C:/Users/User/Documents/GitHub/PrecisionPlatformControl/Reference Values/OFFSETY.txt", Encoding.UTF8));
+            //using (StreamWriter writer = new StreamWriter(universal_path + "\\Setup\\Corners_Calculated.txt", true))
+            //{
+            //    writer.WriteLine("Corner A - X = " + Refined_Xaxis[0].ToString());
+            //    writer.WriteLine("Corner A - Y = " + Refined_Yaxis[0].ToString());
 
-            // Set laser parameters
+            //    writer.WriteLine("Corner B - X = " + Refined_Xaxis[1].ToString());
+            //    writer.WriteLine("Corner B - Y = " + Refined_Yaxis[1].ToString());
 
-            //myController.Commands.Motion.Linear("D", 0, 2); *********
-            //myController.Commands.Motion.Linear("Z", ablation_focus, 1); *********
-                        
-            MessageBox.Show("Insert Beam Dump");
+            //    writer.WriteLine("Corner C - X = " + Refined_Xaxis[2].ToString());
+            //    writer.WriteLine("Corner C - Y = " + Refined_Yaxis[2].ToString());
 
-            shutter_open();
+            //    writer.WriteLine("Corner D - X = " + Refined_Xaxis[3].ToString());
+            //    writer.WriteLine("Corner D - Y = " + Refined_Yaxis[3].ToString());
+            //}
+
+                // Find previous offset 
+
+                //Offset_Xaxis = Convert.ToDouble(File.ReadAllText("C:/Users/User/Documents/GitHub/PrecisionPlatformControl/Reference Values/OFFSETX.txt", Encoding.UTF8));
+                //Offset_Yaxis = Convert.ToDouble(File.ReadAllText("C:/Users/User/Documents/GitHub/PrecisionPlatformControl/Reference Values/OFFSETY.txt", Encoding.UTF8));
+
+                //MessageBox.Show(Offset_Xaxis.ToString());
+
+                // Set laser parameters
+
+                //myController.Commands.Motion.Linear("D", 0, 2); *********
+                //myController.Commands.Motion.Linear("Z", ablation_focus, 1); *********
+
+                //MessageBox.Show("Insert Beam Dump");
+
+                shutter_open();
             aommode_0();
             aomgate_high_trigger();
-            talisker_attenuation(96);  //95 for 20x
+            talisker_attenuation(94);  //95 for 20x
             watt_pilot_attenuation(0);
 
             this.Update();
@@ -1300,22 +1403,90 @@ namespace Aerotech_Control
 
             // Mark Fiducial Markers
 
-            //myController.Commands.Axes["X", "Y"].Motion.Linear(new double[] { Refined_Xaxis[0] - Offset_Xaxis, Refined_Yaxis[0] - Offset_Yaxis }, 5); *****
+            System.IO.Directory.CreateDirectory(universal_path + "\\Setup\\First Mark");
+
             Movement_3D_ablation(Refined_Xaxis[0], Refined_Yaxis[0], 0, 5);
+            Refined_Xaxis_ablation[0] = myController.Commands.Status.AxisStatus("X", AxisStatusSignal.ProgramPositionFeedback);
+            Refined_Yaxis_ablation[0] = myController.Commands.Status.AxisStatus("Y", AxisStatusSignal.ProgramPositionFeedback);
+
+            power_record_file_path = universal_path + "\\Setup\\First Mark\\Power_First_Iteration_A.txt";
+            _bgtest.Logger.SetLogName(ALoggerTypes.RESULTS, universal_path + "\\Setup\\First Mark\\Diameter_First_Iteration_A");
+            record_power = 1;
+            _bgtest.Logger.EnableLogging(ALoggerTypes.RESULTS, true);
             MarkCross(0.25);
-            //myController.Commands.Axes["X", "Y"].Motion.Linear(new double[] { Refined_Xaxis[1] - Offset_Xaxis, Refined_Yaxis[1] - Offset_Yaxis }, 5); *****            
+            _bgtest.Logger.EnableLogging(ALoggerTypes.RESULTS, false);
+            record_power = 0;
+
+            //Movement_3D_uScope(Refined_Xaxis[0], Refined_Yaxis[0], 0, false);
+            //Thread.Sleep(2000);
+
             Movement_3D_ablation(Refined_Xaxis[1], Refined_Yaxis[1], 0, 5);
+            Refined_Xaxis_ablation[1] = myController.Commands.Status.AxisStatus("X", AxisStatusSignal.ProgramPositionFeedback);
+            Refined_Yaxis_ablation[1] = myController.Commands.Status.AxisStatus("Y", AxisStatusSignal.ProgramPositionFeedback);
+            power_record_file_path = universal_path + "\\Setup\\First Mark\\Power_First_Iteration_B.txt";
+            _bgtest.Logger.SetLogName(ALoggerTypes.RESULTS, universal_path + "\\Setup\\First Mark\\Diameter_First_Iteration_B");
+            record_power = 1;
+            _bgtest.Logger.EnableLogging(ALoggerTypes.RESULTS, true);
             MarkCross(0.25);
-            //myController.Commands.Axes["X", "Y"].Motion.Linear(new double[] { Refined_Xaxis[2] - Offset_Xaxis, Refined_Yaxis[2] - Offset_Yaxis }, 5); *****
-            Movement_3D_ablation(Refined_Xaxis[2], Refined_Yaxis[2], 0, 5);            
+            _bgtest.Logger.EnableLogging(ALoggerTypes.RESULTS, false);
+            record_power = 0;
+            //Movement_3D_uScope(Refined_Xaxis[1], Refined_Yaxis[1], 0, false);
+            //Thread.Sleep(2000);
+
+            Movement_3D_ablation(Refined_Xaxis[2], Refined_Yaxis[2], 0, 5);
+            Refined_Xaxis_ablation[2] = myController.Commands.Status.AxisStatus("X", AxisStatusSignal.ProgramPositionFeedback);
+            Refined_Yaxis_ablation[2] = myController.Commands.Status.AxisStatus("Y", AxisStatusSignal.ProgramPositionFeedback);
+            power_record_file_path = universal_path + "\\Setup\\First Mark\\Power_First_Iteration_C.txt";
+            _bgtest.Logger.SetLogName(ALoggerTypes.RESULTS, universal_path + "\\Setup\\First Mark\\Diameter_First_Iteration_C");
+            record_power = 1;
+            _bgtest.Logger.EnableLogging(ALoggerTypes.RESULTS, true);
             MarkCross(0.25);
-            //myController.Commands.Axes["X", "Y"].Motion.Linear(new double[] { Refined_Xaxis[3] - Offset_Xaxis, Refined_Yaxis[3] - Offset_Yaxis }, 5); *****
+            _bgtest.Logger.EnableLogging(ALoggerTypes.RESULTS, false);
+            record_power = 0;
+            //Movement_3D_uScope(Refined_Xaxis[2], Refined_Yaxis[2], 0, false);
+            //Thread.Sleep(2000);
+
             Movement_3D_ablation(Refined_Xaxis[3], Refined_Yaxis[3], 0, 5);
+            Refined_Xaxis_ablation[3] = myController.Commands.Status.AxisStatus("X", AxisStatusSignal.ProgramPositionFeedback);
+            Refined_Yaxis_ablation[3] = myController.Commands.Status.AxisStatus("Y", AxisStatusSignal.ProgramPositionFeedback);
+            power_record_file_path = universal_path + "\\Setup\\First Mark\\Power_First_Iteration_D.txt";
+            _bgtest.Logger.SetLogName(ALoggerTypes.RESULTS, universal_path + "\\Setup\\First Mark\\Diameter_First_Iteration_D");
+            record_power = 1;
+            _bgtest.Logger.EnableLogging(ALoggerTypes.RESULTS, true);
             MarkCross(0.25);
+            _bgtest.Logger.EnableLogging(ALoggerTypes.RESULTS, false);
+            record_power = 0;
+            //Movement_3D_uScope(Refined_Xaxis[3], Refined_Yaxis[3], 0, false);
+            //Thread.Sleep(2000);
+            
+            //Movement_3D_ablation(Refined_Xaxis[0], Refined_Yaxis[0], 0, 5);
+            //Refined_Xaxis_ablation[0] = myController.Commands.Status.AxisStatus("X", AxisStatusSignal.ProgramPositionFeedback);
+            //Refined_Yaxis_ablation[0] = myController.Commands.Status.AxisStatus("Y", AxisStatusSignal.ProgramPositionFeedback);
+            //MarkCross(0.25);
+
+            using (StreamWriter writer = new StreamWriter(universal_path + "\\Setup\\First Mark\\Corners_Ablated_First_Iteration.txt", true))
+            {
+                writer.WriteLine("Corner A - X = " + Refined_Xaxis_ablation[0].ToString());
+                writer.WriteLine("Corner A - Y = " + Refined_Yaxis_ablation[0].ToString());
+
+                writer.WriteLine("Corner B - X = " + Refined_Xaxis_ablation[1].ToString());
+                writer.WriteLine("Corner B - Y = " + Refined_Yaxis_ablation[1].ToString());
+
+                writer.WriteLine("Corner C - X = " + Refined_Xaxis_ablation[2].ToString());
+                writer.WriteLine("Corner C - Y = " + Refined_Yaxis_ablation[2].ToString());
+
+                writer.WriteLine("Corner D - X = " + Refined_Xaxis_ablation[3].ToString());
+                writer.WriteLine("Corner D - Y = " + Refined_Yaxis_ablation[3].ToString());
+            }
+
+
+            Movement_3D_uScope(Refined_Xaxis[0], Refined_Yaxis[0], 0, false);
+            Thread.Sleep(2000);
+
 
             shutter_closed();
 
-            btn_AlignLaseruScope.Enabled = false;
+            btn_AlignLaseruScope.Enabled = false; 
 
             btn_MarkerAligned.Enabled = true;
 
@@ -1340,6 +1511,9 @@ namespace Aerotech_Control
                 myController.Commands.Motion.Setup.Absolute();
 
                 Movement_3D_uScope(Refined_Xaxis[i], Refined_Yaxis[i], 0, false);
+                System.IO.Directory.CreateDirectory(universal_path + "\\Setup\\First Mark");
+                icImagingControl1.MemorySnapImage();
+                icImagingControl1.MemorySaveImage(universal_path + "\\Setup\\First Mark\\" + i + ".bmp");
 
                 //myController.Commands.Axes["X", "Y"].Motion.Linear(new double[] { Refined_Xaxis[i], Refined_Yaxis[i] }, 5); *****
                 //myController.Commands.Axes["D"].Motion.Linear(new double[] { microscope_focus }); *****                
@@ -1348,9 +1522,6 @@ namespace Aerotech_Control
 
         private void btn_MarkerAligned_Click(object sender, EventArgs e)
         {
-            double OffsetAccurate_Xaxis;
-            double OffsetAccurate_Yaxis;
-
             Correction_Xaxis[hold] = (myController.Commands.Status.AxisStatus("X", AxisStatusSignal.ProgramPositionFeedback) - Refined_Xaxis[hold]);
             Refined_Xaxis[hold] = myController.Commands.Status.AxisStatus("X", AxisStatusSignal.ProgramPositionFeedback);
 
@@ -1364,17 +1535,45 @@ namespace Aerotech_Control
             if (hold == 3)
             {
                 MessageBox.Show("Calculating Accurate offset");
-                OffsetAccurate_Xaxis = Offset_Xaxis + Correction_Xaxis.Sum() / 4; 
+
+                Offset_Xaxis_OLD = Offset_Xaxis;
+                Offset_Yaxis_OLD = Offset_Yaxis;
+
+                OffsetAccurate_Xaxis = Offset_Xaxis + (Correction_Xaxis.Sum() / 4); 
                 //MessageBox.Show("Original Offset X axis = " + Offset_Xaxis.ToString() + " New Offset X axis = " + OffsetAccurate_Xaxis.ToString());
-                OffsetAccurate_Yaxis = Offset_Yaxis + Correction_Yaxis.Sum() / 4;
+                OffsetAccurate_Yaxis = Offset_Yaxis + (Correction_Yaxis.Sum() / 4);
                 //MessageBox.Show("Orignial Offset Y axis = " + Offset_Yaxis.ToString() + " New Offset Y axis = " + OffsetAccurate_Yaxis.ToString());
                 btn_MarkerAligned.Enabled = false;
 
-                File.WriteAllText("C:/Users/User/Documents/GitHub/PrecisionPlatformControl/Reference Values/OFFSETX.txt", OffsetAccurate_Xaxis.ToString());
-                File.WriteAllText("C:/Users/User/Documents/GitHub/PrecisionPlatformControl/Reference Values/OFFSETY.txt", OffsetAccurate_Yaxis.ToString());
+                File.WriteAllText(universal_path + "\\Setup\\OFFSETX_OLD.txt", Offset_Xaxis_OLD.ToString());
+                File.WriteAllText(universal_path + "\\Setup\\OFFSETY_OLD.txt", Offset_Yaxis_OLD.ToString());
 
                 Offset_Xaxis = OffsetAccurate_Xaxis;
                 Offset_Yaxis = OffsetAccurate_Yaxis;
+
+                File.WriteAllText("C:/Users/User/Documents/GitHub/PrecisionPlatformControl/Reference Values/OFFSETX.txt", Offset_Xaxis.ToString());
+                File.WriteAllText("C:/Users/User/Documents/GitHub/PrecisionPlatformControl/Reference Values/OFFSETY.txt", Offset_Yaxis.ToString());
+
+                File.WriteAllText(universal_path + "\\Setup\\OFFSETX_UPDATED.txt", Offset_Xaxis.ToString());
+                File.WriteAllText(universal_path + "\\Setup\\OFFSETY_UPDATED.txt", Offset_Yaxis.ToString());
+
+                double X_OFFSET_DIF = Offset_Xaxis - Offset_Xaxis_OLD;
+                double Y_OFFSET_DIF = Offset_Yaxis - Offset_Yaxis_OLD;
+
+                using (StreamWriter writer = new StreamWriter(universal_path + "\\Setup\\Corners_Ablated_Microsope.txt", true))
+                {
+                    writer.WriteLine("Corner A - X = " + Refined_Xaxis[0].ToString());
+                    writer.WriteLine("Corner A - Y = " + Refined_Yaxis[0].ToString());
+
+                    writer.WriteLine("Corner B - X = " + Refined_Xaxis[1].ToString());
+                    writer.WriteLine("Corner B - Y = " + Refined_Yaxis[1].ToString());
+
+                    writer.WriteLine("Corner C - X = " + Refined_Xaxis[2].ToString());
+                    writer.WriteLine("Corner C - Y = " + Refined_Yaxis[2].ToString());
+
+                    writer.WriteLine("Corner D - X = " + Refined_Xaxis[3].ToString());
+                    writer.WriteLine("Corner D - Y = " + Refined_Yaxis[3].ToString());
+                }
 
                 btn_MarkerAligned.Enabled = false;
                 btn_FindFocus.Enabled = true;
@@ -1395,6 +1594,7 @@ namespace Aerotech_Control
             myController.Commands.PSO.Control("X", Aerotech.A3200.Commands.PsoMode.On);
             myController.Commands.Motion.Linear("Y", MarkLength, 1);
             myController.Commands.PSO.Control("X", Aerotech.A3200.Commands.PsoMode.Off);
+            myController.Commands.Motion.Linear("Y", -MarkLength / 2, 1);
             myController.Commands.Motion.Setup.Absolute();
         }
 
@@ -1413,6 +1613,11 @@ namespace Aerotech_Control
             ablation_focus = LaserFocus_Zaxis.Sum() / 4; // Change 4 to number of recorded positions
 
             using (StreamWriter AF = new StreamWriter("C:/Users/User/Documents/GitHub/PrecisionPlatformControl/Reference Values/ABLATION_FOCUS.txt",false))
+            {
+                AF.Write(ablation_focus.ToString());
+            }
+
+            using (StreamWriter AF = new StreamWriter(universal_path + "\\Setup\\ABLATION_FOCUS.txt", false))
             {
                 AF.Write(ablation_focus.ToString());
             }
@@ -1861,11 +2066,11 @@ namespace Aerotech_Control
 
             // Delete previous reference file 
 
-            File.Delete("C:/Users/User/Documents/GitHub/PrecisionPlatformControl/Reference Values/Rotpoints.txt");
+            //File.Delete("C:/Users/User/Documents/GitHub/PrecisionPlatformControl/Reference Values/Rotpoints.txt");
 
             // Write all variables to text file 
 
-            using (StreamWriter writer = new StreamWriter("C:/Users/User/Documents/GitHub/PrecisionPlatformControl/Reference Values/Rotpoints.txt", true))
+            using (StreamWriter writer = new StreamWriter(universal_path + "\\Setup\\Rotpoints.txt", true))
             {
                 writer.WriteLine("Rotation = " + CentreTestRotation.ToString());
 
@@ -1956,9 +2161,7 @@ namespace Aerotech_Control
                 myController.Commands.Motion.Linear("B", B + phi_hold, 1);
             }
 
-            B_hold = B + phi_hold;
-
-            
+            B_hold = B + phi_hold;            
 
             //myController.Commands.Motion.Linear("Z", Movement_z, 1);
 
@@ -1972,7 +2175,13 @@ namespace Aerotech_Control
             {
                 myController.Commands.Axes["X", "Y", "Z"].Motion.Linear(new double[] { X, Point_calc_Y, Movement_z }, 5);
 
+                myController.Commands.Axes["Z"].Motion.Linear(new double[] { Movement_z }, 5);
+
                 myController.Commands.Motion.Linear("D", microscope_focus, 2);
+
+                uScope_zoom_SerialPortCommunicator.SerialPort.Write("XG000000\r");
+
+                Thread.Sleep(7500);
 
                 //uScope_focus_check(zoom);
             }
@@ -2006,6 +2215,13 @@ namespace Aerotech_Control
 
         private void Movement_3D_ablation(double X, double Y, double B, double Speed)
         {
+            Offset_Xaxis = Convert.ToDouble(File.ReadAllText("C:/Users/User/Documents/GitHub/PrecisionPlatformControl/Reference Values/OFFSETX.txt", Encoding.UTF8));
+            Offset_Yaxis = Convert.ToDouble(File.ReadAllText("C:/Users/User/Documents/GitHub/PrecisionPlatformControl/Reference Values/OFFSETY.txt", Encoding.UTF8));
+
+            lbl_uscopemoving.Visible = true;
+
+            this.Update();
+
             // X, Y, B are all the requested coordinates
 
             double theta_rad = B * (Math.PI / 180); // Radians            
@@ -2023,7 +2239,7 @@ namespace Aerotech_Control
             double Correction_Z = Point_calc_Z - ablation_focus;
 
             double Movement_z = ablation_focus - Correction_Z;
-
+            
             // Perform compensated movement 
 
             myController.Commands.Motion.Setup.Absolute();
@@ -2032,20 +2248,26 @@ namespace Aerotech_Control
 
             if (B_hold != B + phi_hold)
             {
-                myController.Commands.Motion.Linear("Z", ablation_focus - 10, 5);
+                myController.Commands.Motion.Linear("Z", 0, 5);
                 myController.Commands.Motion.Linear("B", B + phi_hold, 1);
             }
 
-            B_hold = B + phi_hold;                   
+            B_hold = B + phi_hold;
 
-            myController.Commands.Axes["X", "Y", "Z"].Motion.Linear(new double[] { X - Offset_Xaxis, Point_calc_Y - Offset_Yaxis, Movement_z}, 5);
+           // myController.Commands.Axes["X", "Y", "Z", "A", "B"].Motion.Linear(new double[] { X - Offset_Xaxis, Point_calc_Y - Offset_Yaxis, Movement_z, theta_hold, B_hold }, 5);
 
-            //myController.Commands.Motion.Linear("Z", Movement_z, 1);
+            myController.Commands.Axes["Z"].Motion.Linear(new double[] { Movement_z }, 5);
 
-            //myController.Commands.Motion.Linear("Y", Point_calc_Y - OffsetAccurate_Yaxis, Speed);
+            myController.Commands.Axes["X", "Y"].Motion.Linear(new double[] { X - Offset_Xaxis, Point_calc_Y - Offset_Yaxis}, 5);
 
-            //myController.Commands.Motion.Linear("X", X - OffsetAccurate_Xaxis, Speed);
-            
+            //myController.Commands.Axes["A"].Motion.Linear(new double[] { theta_hold }, 1);
+
+            //myController.Commands.Axes["B"].Motion.Linear(new double[] { B_hold }, 1);
+
+            lbl_uscopemoving.Visible = false;
+
+            this.Update();
+
         }
 
         private void btn_Move_Zoom_Click(object sender, EventArgs e)
@@ -2350,7 +2572,7 @@ namespace Aerotech_Control
             {
                 record_power = 0; // Start recording power
 
-                _bgtest.Logger.EnableLogging(ALoggerTypes.RESULTS, false); // Start logging diameter and position
+                _bgtest.Logger.EnableLogging(ALoggerTypes.RESULTS, false); // Stop logging diameter and position
 
                 myController.Commands.PSO.Control("X", Aerotech.A3200.Commands.PsoMode.Off);
             }
@@ -2424,7 +2646,7 @@ namespace Aerotech_Control
 
             // Drill reference grid along X axis
 
-            for (int iteration = 0; iteration < 10; iteration++)
+            for (int iteration = 0; iteration < 5; iteration++)
             {
                 //watt_pilot_attenuation(0);
                 Movement_3D_ablation(Refined_Xaxis[1] + 0.5 + (0.25 * iteration), Refined_Yaxis[1] + 0.25, 0, 5);
@@ -3566,7 +3788,7 @@ namespace Aerotech_Control
 
         private void cmdSaveBitmap_Click(object sender, EventArgs e)
         {
-            icImagingControl1.OverlayBitmap.Enable = false;
+            //icImagingControl1.OverlayBitmap.Enable = false;
             SaveFileDialog saveFileDialog1;
             icImagingControl1.MemorySnapImage();
             saveFileDialog1 = new SaveFileDialog();
@@ -3702,10 +3924,21 @@ namespace Aerotech_Control
 
         private void btn_zoom_test_Click(object sender, EventArgs e)
         {
-            Movement_3D_ablation(Refined_Xaxis[1], Refined_Yaxis[1], 0, 5);
-            Movement_3D_uScope(Refined_Xaxis[1], Refined_Yaxis[1], 0, true);
-            shutter_closed();
+            shutter_open();
+            double a = Refined_Xaxis[1];
+            double b = (Refined_Yaxis[0] + Refined_Yaxis[1])/2 + 0.25;
 
+            Movement_3D_uScope(a, b, 0, false);
+
+            Movement_3D_ablation(a, b, 0, 5);
+            talisker_attenuation(96);
+            MarkCross(0.25);
+            Movement_3D_uScope(a, b, 0, false);
+
+            MessageBox.Show("Crosshair present?");
+
+            Movement_3D_uScope(a, b, 0, true);
+            shutter_closed();
         }
 
         private void btn_zoom_D_set_Click(object sender, EventArgs e)
@@ -3907,13 +4140,161 @@ namespace Aerotech_Control
 
         private void btn_LaserFocus_Click(object sender, EventArgs e)
         {
+            //microscope_focus = myController.Commands.Status.AxisStatus("D", AxisStatusSignal.ProgramPositionFeedback);
+            //Movement_3D_ablation(myController.Commands.Status.AxisStatus("X", AxisStatusSignal.ProgramPositionFeedback), myController.Commands.Status.AxisStatus("Y", AxisStatusSignal.ProgramPositionFeedback), 0, 5);
+
+            shutter_open();
+            double a = Refined_Xaxis[3]; // + Refined_Xaxis[2])/2 + 0.25;
+            double b = Refined_Yaxis[3];
+            a = myController.Commands.Status.AxisStatus("X", AxisStatusSignal.ProgramPositionFeedback);
+            b = myController.Commands.Status.AxisStatus("Y", AxisStatusSignal.ProgramPositionFeedback);
+
             microscope_focus = myController.Commands.Status.AxisStatus("D", AxisStatusSignal.ProgramPositionFeedback);
-            Movement_3D_ablation(myController.Commands.Status.AxisStatus("X", AxisStatusSignal.ProgramPositionFeedback), myController.Commands.Status.AxisStatus("Y", AxisStatusSignal.ProgramPositionFeedback), 0, 5);
+
+            //Movement_3D_uScope(a, b, 0, false);
+
+            //MessageBox.Show("hold");
+
+            //Offset_Xaxis = 44.3598160330507;
+            //Offset_Yaxis = -0.0842136055794492;
+
+            Movement_3D_ablation(a, b, 0, 5);
+
+            //myController.Commands.Axes["D"].Motion.Linear(new double[] { 0 }, 5);
+
+            //myController.Commands.Axes["Z"].Motion.Linear(new double[] {ablation_focus }, 5);
+
+            //myController.Commands.Axes["X", "Y"].Motion.Linear(new double[] { a - Offset_Xaxis, b - Offset_Yaxis}, 5);
+
+            //myController.Commands.Axes["A"].Motion.Linear(new double[] { theta_hold }, 1);
+
+            //talisker_attenuation(96);
+            //myController.Commands.PSO.Control("X", Aerotech.A3200.Commands.PsoMode.On);
+            //Thread.Sleep(5000);
+            //myController.Commands.PSO.Control("X", Aerotech.A3200.Commands.PsoMode.Off);
+            MarkCross(0.25);
+
+            //a = myController.Commands.Status.AxisStatus("X", AxisStatusSignal.ProgramPositionFeedback) + Offset_Xaxis;
+            //b = myController.Commands.Status.AxisStatus("Y", AxisStatusSignal.ProgramPositionFeedback) + Offset_Yaxis;
+
+            Movement_3D_uScope(a, b, 0, false);
+
+            shutter_closed();
         }
 
         private void btn_uScopeFocus_Click(object sender, EventArgs e)
         {
-            Movement_3D_uScope(myController.Commands.Status.AxisStatus("X", AxisStatusSignal.ProgramPositionFeedback) + Offset_Xaxis, myController.Commands.Status.AxisStatus("Y", AxisStatusSignal.ProgramPositionFeedback) + Offset_Yaxis, 0, false);
+            //Offset_Xaxis = Offset_Xaxis_OLD;
+            //Offset_Yaxis = Offset_Yaxis_OLD;
+
+            shutter_open();
+            aommode_0();
+            aomgate_high_trigger();
+            talisker_attenuation(94);  //95 for 20x
+            watt_pilot_attenuation(0);
+
+            this.Update();
+            
+            for(int i = 0; i < 3; i++)
+            {
+
+                System.IO.Directory.CreateDirectory(universal_path + "\\Setup\\Iteration " + i);
+                               
+                Movement_3D_ablation(Refined_Xaxis[3], Refined_Yaxis[3], 0, 5);
+                Refined_Xaxis_ablation[0] = myController.Commands.Status.AxisStatus("X", AxisStatusSignal.ProgramPositionFeedback);
+                Refined_Yaxis_ablation[0] = myController.Commands.Status.AxisStatus("Y", AxisStatusSignal.ProgramPositionFeedback);
+
+                power_record_file_path = universal_path + "\\Setup\\Iteration " + i + "\\Power_A.txt";
+                _bgtest.Logger.SetLogName(ALoggerTypes.RESULTS, universal_path + "\\Setup\\Iteration " + i + "\\Diameter_A");
+                record_power = 1;
+                _bgtest.Logger.EnableLogging(ALoggerTypes.RESULTS, true);
+                MarkCross(0.25);
+                _bgtest.Logger.EnableLogging(ALoggerTypes.RESULTS, false);
+                record_power = 0;
+
+                //Movement_3D_uScope(Refined_Xaxis[0], Refined_Yaxis[0], 0, false);
+                //Thread.Sleep(2000);
+
+                Movement_3D_ablation(Refined_Xaxis[2], Refined_Yaxis[2], 0, 5);
+                Refined_Xaxis_ablation[1] = myController.Commands.Status.AxisStatus("X", AxisStatusSignal.ProgramPositionFeedback);
+                Refined_Yaxis_ablation[1] = myController.Commands.Status.AxisStatus("Y", AxisStatusSignal.ProgramPositionFeedback);
+
+                power_record_file_path = universal_path + "\\Setup\\Iteration " + i + "\\Power_B.txt";
+                _bgtest.Logger.SetLogName(ALoggerTypes.RESULTS, universal_path + "\\Setup\\Iteration " + i + "\\Diameter_B");
+                record_power = 1;
+                _bgtest.Logger.EnableLogging(ALoggerTypes.RESULTS, true);
+                MarkCross(0.25);
+                _bgtest.Logger.EnableLogging(ALoggerTypes.RESULTS, false);
+                record_power = 0;
+                //Movement_3D_uScope(Refined_Xaxis[1], Refined_Yaxis[1], 0, false);
+                //Thread.Sleep(2000);
+
+                Movement_3D_ablation(Refined_Xaxis[1], Refined_Yaxis[1], 0, 5);
+                Refined_Xaxis_ablation[2] = myController.Commands.Status.AxisStatus("X", AxisStatusSignal.ProgramPositionFeedback);
+                Refined_Yaxis_ablation[2] = myController.Commands.Status.AxisStatus("Y", AxisStatusSignal.ProgramPositionFeedback);
+
+                power_record_file_path = universal_path + "\\Setup\\Iteration " + i + "\\Power_C.txt";
+                _bgtest.Logger.SetLogName(ALoggerTypes.RESULTS, universal_path + "\\Setup\\Iteration " + i + "\\Diameter_C");
+                record_power = 1;
+                _bgtest.Logger.EnableLogging(ALoggerTypes.RESULTS, true);
+                MarkCross(0.25);
+                _bgtest.Logger.EnableLogging(ALoggerTypes.RESULTS, false);
+                record_power = 0;
+                //Movement_3D_uScope(Refined_Xaxis[2], Refined_Yaxis[2], 0, false);
+                //Thread.Sleep(2000);
+
+                Movement_3D_ablation(Refined_Xaxis[0], Refined_Yaxis[0], 0, 5);
+                Refined_Xaxis_ablation[3] = myController.Commands.Status.AxisStatus("X", AxisStatusSignal.ProgramPositionFeedback);
+                Refined_Yaxis_ablation[3] = myController.Commands.Status.AxisStatus("Y", AxisStatusSignal.ProgramPositionFeedback);
+
+                power_record_file_path = universal_path + "\\Setup\\Iteration " + i + "\\Power_D.txt";
+                _bgtest.Logger.SetLogName(ALoggerTypes.RESULTS, universal_path + "\\Setup\\Iteration " + i + "\\Diameter_D");
+                record_power = 1;
+                _bgtest.Logger.EnableLogging(ALoggerTypes.RESULTS, true);
+                MarkCross(0.25);
+                _bgtest.Logger.EnableLogging(ALoggerTypes.RESULTS, false);
+                record_power = 0;
+                //Movement_3D_uScope(Refined_Xaxis[3], Refined_Yaxis[3], 0, false);
+                //Thread.Sleep(2000);
+
+                using (StreamWriter writer = new StreamWriter(universal_path + "\\Setup\\Corners_Ablated - Iteration " + i + ".txt", true))
+                {
+                    writer.WriteLine("Corner A - X = " + Refined_Xaxis_ablation[0].ToString());
+                    writer.WriteLine("Corner A - Y = " + Refined_Yaxis_ablation[0].ToString());
+
+                    writer.WriteLine("Corner B - X = " + Refined_Xaxis_ablation[1].ToString());
+                    writer.WriteLine("Corner B - Y = " + Refined_Yaxis_ablation[1].ToString());
+
+                    writer.WriteLine("Corner C - X = " + Refined_Xaxis_ablation[2].ToString());
+                    writer.WriteLine("Corner C - Y = " + Refined_Yaxis_ablation[2].ToString());
+
+                    writer.WriteLine("Corner D - X = " + Refined_Xaxis_ablation[3].ToString());
+                    writer.WriteLine("Corner D - Y = " + Refined_Yaxis_ablation[3].ToString());
+                }
+                                
+                Movement_3D_uScope(Refined_Xaxis[0], Refined_Yaxis[0], 0, false);
+               // MessageBox.Show("Hold");
+                icImagingControl1.MemorySnapImage();
+                icImagingControl1.MemorySaveImage(universal_path + "\\Setup\\Iteration " + i + "\\0.bmp");
+
+                Movement_3D_uScope(Refined_Xaxis[1], Refined_Yaxis[1], 0, false);
+                //MessageBox.Show("Hold");
+                icImagingControl1.MemorySnapImage();
+                icImagingControl1.MemorySaveImage(universal_path + "\\Setup\\Iteration " + i + "\\1.bmp");
+
+                Movement_3D_uScope(Refined_Xaxis[2], Refined_Yaxis[2], 0, false);
+                //MessageBox.Show("Hold");
+                icImagingControl1.MemorySnapImage();
+                icImagingControl1.MemorySaveImage(universal_path + "\\Setup\\Iteration " + i + "\\2.bmp");
+
+                Movement_3D_uScope(Refined_Xaxis[3], Refined_Yaxis[3], 0, false);
+                //MessageBox.Show("Hold");
+                icImagingControl1.MemorySnapImage();
+                icImagingControl1.MemorySaveImage(universal_path + "\\Setup\\Iteration " + i + "\\3.bmp");
+            }
+
+                                  
+            shutter_closed();
         }
     }
 

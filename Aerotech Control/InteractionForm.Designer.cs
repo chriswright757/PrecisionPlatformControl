@@ -1101,21 +1101,21 @@
             // 
             // btn_uScopeFocus
             // 
-            this.btn_uScopeFocus.Location = new System.Drawing.Point(306, 106);
+            this.btn_uScopeFocus.Location = new System.Drawing.Point(302, 106);
             this.btn_uScopeFocus.Name = "btn_uScopeFocus";
-            this.btn_uScopeFocus.Size = new System.Drawing.Size(102, 22);
+            this.btn_uScopeFocus.Size = new System.Drawing.Size(106, 22);
             this.btn_uScopeFocus.TabIndex = 75;
-            this.btn_uScopeFocus.Text = "uScope Focus";
+            this.btn_uScopeFocus.Text = "Remark Crosshairs";
             this.btn_uScopeFocus.UseVisualStyleBackColor = true;
             this.btn_uScopeFocus.Click += new System.EventHandler(this.btn_uScopeFocus_Click);
             // 
             // btn_LaserFocus
             // 
-            this.btn_LaserFocus.Location = new System.Drawing.Point(306, 75);
+            this.btn_LaserFocus.Location = new System.Drawing.Point(144, 162);
             this.btn_LaserFocus.Name = "btn_LaserFocus";
             this.btn_LaserFocus.Size = new System.Drawing.Size(102, 24);
             this.btn_LaserFocus.TabIndex = 74;
-            this.btn_LaserFocus.Text = "Laser Focus";
+            this.btn_LaserFocus.Text = "Check Alignment";
             this.btn_LaserFocus.UseVisualStyleBackColor = true;
             this.btn_LaserFocus.Click += new System.EventHandler(this.btn_LaserFocus_Click);
             // 
@@ -1135,7 +1135,7 @@
             this.btn_zoom_test.Name = "btn_zoom_test";
             this.btn_zoom_test.Size = new System.Drawing.Size(74, 23);
             this.btn_zoom_test.TabIndex = 72;
-            this.btn_zoom_test.Text = "Zoom Test";
+            this.btn_zoom_test.Text = "Test Zoom Alignment";
             this.btn_zoom_test.UseVisualStyleBackColor = true;
             this.btn_zoom_test.Click += new System.EventHandler(this.btn_zoom_test_Click);
             // 

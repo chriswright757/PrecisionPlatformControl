@@ -67,7 +67,7 @@ namespace Aerotech_Control
                     lbl_Talisker_Connection.Text = "Connected to eLight";
                     this.Update();
 
-                    uScope_zoom_SerialPortCommunicator.SerialPort.PortName = "COM3";
+                    uScope_zoom_SerialPortCommunicator.SerialPort.PortName = "COM24";
                     uScope_zoom_SerialPortCommunicator.SerialPort.BaudRate = 9600;
 
                     uScope_zoom_SerialPortCommunicator.SerialPort.Close();
