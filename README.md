@@ -6,6 +6,19 @@ The thesis that this software was used for can be found at https://doi.org/10.17
 
 This was my first major use of C# and therefore a lot of lessons were learnt along the way and if I had the time and knowledge I have now there would be significant improvements to the structure and methods used. The code is certainly dejointed in certain areas as different experiments were undertaken and limited time meant they couldn't be fully integrated into the main branch of the software. 
 
+## Functions
+
+* Aerotech stage control 
+* Control of laser parameters
+* Microscope control
+* In-process power logging 
+* Autofocus for microscope
+* Laser Alignment 
+* Autofocus of laser
+* Sample tilt correction
+* Microscope-Laser alignment 
+* Machining on an angled plane 
+
 ## Initialisation Window
 
 <p align="center">
@@ -35,5 +48,6 @@ This was my first major use of C# and therefore a lot of lessons were learnt alo
 |Spiricon SP300	|Record Beam Profile	|Beamgauge Software, API (using DLL)|
 |Ophir Power Meters	|Record measured beam power	|Starlab Software, API (using DLL)|
 |Microscope	|Capture Images, Illumination Control, Zoom Control,|	For Camera - ICMeasure Software, API (using DLL) <br /> For Zoom lens – RS232(serial) <br />For Illumination – RS232 (serial)|
+
 
 
