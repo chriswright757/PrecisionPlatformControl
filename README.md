@@ -8,15 +8,21 @@ This was my first major use of C# and therefore a lot of lessons were learnt alo
 
 ## Initialisation Window
 
-<img src="Readme Images\Initialisation_Form.png" alt="Select save directory" width="800"/>
+<p align="center">
+    <img src="Readme Images\Initialisation_Form.png" alt="Select save directory" width="800"/>
+</p>
 
 ## Main Operation Window
 
-<img src="Readme Images\Interaction_Form.png" alt="Select save directory" width="800"/>
+<p align="center">
+    <img src="Readme Images\Interaction_Form.png" alt="Select save directory" width="800"/>
+</p>
 
 ## Image Processing Window 
 
-<img src="Readme Images\Image_Processing_Form.png" alt="Select save directory" width="800"/>
+<p align="center">
+    <img src="Readme Images\Image_Processing_Form.png" alt="Select save directory" width="800"/>
+</p>
 
 ## System Devices & Interfaces
 
