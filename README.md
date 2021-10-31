@@ -4,7 +4,7 @@ This software was developed to run the ultrafast ultra-precision platform at the
 
 The thesis that this software was used for can be found at https://doi.org/10.17863/CAM.70795
 
-This was my first major use of C# and therefore a lot of lessons were learnt along the way and if I had the time and knowledge I have now there would be significant improvements to the structure and methods used. The code is certainly dejointed in certain areas as different experiments were undertaken and limited time meant they couldn't be fully integrated into the main branch of the software. 
+This was my first major use of C# and therefore a lot of lessons were learnt along the way and if I had the time and knowledge I have now there would be significant improvements to the structure and methods used. The code is certainly disjointed in certain areas as different experiments were undertaken and limited time meant they couldn't be fully integrated into the main branch of the software. 
 
 ## Functions
 
